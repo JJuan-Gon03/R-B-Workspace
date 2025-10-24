@@ -1,0 +1,22 @@
+{
+  "name": "r-b-workspace",
+  "version": "1.0.0",
+  "description": "Storybaord Link: https://www.figma.com/design/HHZdmDne6xKOU7ByGOceui/R-and-B-Draft-1-design?node-id=0-1&t=2oEARqJDMFis0EXt-1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JJuan-Gon03/R-B-Workspace.git"
+  },
+  "author": "Atkin, Dylan, Kevin, Isaiah, Juan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JJuan-Gon03/R-B-Workspace/issues"
+  },
+  "homepage": "https://github.com/JJuan-Gon03/R-B-Workspace#readme",
+  "workspaces": [
+    "packages/*"
+  ]
+}
