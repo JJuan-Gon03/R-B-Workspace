@@ -18,5 +18,8 @@
   "homepage": "https://github.com/JJuan-Gon03/R-B-Workspace#readme",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "prettier": "3.6.2"
+  }
 }
