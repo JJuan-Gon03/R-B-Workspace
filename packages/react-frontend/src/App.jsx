@@ -8,7 +8,7 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <div className = "container">
+    <div className = "app">
       <Chat onSend={(msg) => {
         console.log(msg);
       }} />
