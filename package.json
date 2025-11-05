@@ -23,6 +23,7 @@
     "prettier": "3.6.2"
   },
   "dependencies": {
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.3",
+    "react-router-dom": "^7.9.5"
   }
 }

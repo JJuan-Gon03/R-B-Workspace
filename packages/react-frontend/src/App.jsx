@@ -1,17 +1,27 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
-import Chat from "./Chat";
+import Navbar from "./Navbar";
+import GenerateOutfit from "./GenerateOutfit";
+import Saved from "./Saved";
+import Wardrobe from "./Wardrobe";
+import Shared from "./Shared";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <div className = "app">
-      <Chat onSend={(msg) => {
-        console.log(msg);
-      }} />
+    <div>
+      <Navbar />
+      <main classname="page-wrap">
+        <Routes>
+          <Route path="/" element={<GenerateOutfit replace />} />
+          <Route path="/generate" element={<GenerateOutfit />} />
+          <Route path="/saved" element={<Saved />} />
+          <Route path="/wardrobe" element={<Wardrobe />} />
+          <Route path="/shared" element={<Shared />} />
+        </Routes>
+      </main>
     </div>
   );
 }
