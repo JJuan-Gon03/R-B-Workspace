@@ -21,3 +21,5 @@ function deleteCloth(id)
 {
   return clothModel.findByIdAndDelete(id);
 }
+
+export default{addCloth,deleteCloth};

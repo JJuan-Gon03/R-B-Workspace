@@ -16,3 +16,5 @@ function addUser(user)
   const promise = userToAdd.save();
   return promise;
 }
+
+export default{addUser};

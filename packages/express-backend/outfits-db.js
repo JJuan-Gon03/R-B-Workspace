@@ -21,3 +21,5 @@ function deleteOutfit(id)
 {
   return outfitModel.findByIdAndDelete(id);
 }
+
+export default{addOutfit,deleteOutfit};
