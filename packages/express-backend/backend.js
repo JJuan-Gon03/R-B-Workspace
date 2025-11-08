@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import ai_response from "./Chatgpt.js"
+import ai from "./Chatgpt.js"
 
 const app = express();
 const port = 8000;
@@ -8,6 +8,8 @@ const port = 8000;
 app.use(express.json());
 app.use(cors());
 
-app.get("/generate_response", (req, res) => {
-    res.send(ai_response())
+app.post("/parse_upload", (req, res) => {
+    res.send(ai.parse_upload())
 });
+
+app.post("")

@@ -76,3 +76,9 @@ async function generate_outfit(images, descriptions) {
     console.error(error);
   }
 }
+
+export default {
+ build_outfit,
+ generate_outfit,
+ parse_upload,
+};
