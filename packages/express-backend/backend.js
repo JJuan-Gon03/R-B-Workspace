@@ -4,6 +4,19 @@ import ai from "./Chatgpt.js";
 import wardrobe from "./wardrobe-db.js";
 import users from "./users-db.js";
 import outfits from "./outfits-db.js";
+import multer from "multer";
+import {v2 as cloudinary} from "cloudinary";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+const upload = multer({dest:"uploads/"});
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key:    process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 
 const app = express();
 const port = 8000;
@@ -35,14 +48,17 @@ app.delete("/outfits/:outfit_id", async (req, res) => {
 app.post("/wardrobe/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
-    const { name, image } = req.body;
-    const description = await ai.parse_upload(image);
-
+    const { name} = req.body;
+    const { secure_url } = await cloudinary.uploader.upload(req.file.path, {
+      folder: "wardrobe",
+      resource_type: "image",
+    });
+    const description = await ai.parse_upload(secure_url);
     const cloth = await wardrobe.addCloth({
       user_id,
       name,
       description,
-      image,
+      image:secure_url,
     });
     res.status(201).send(cloth);
   } catch (error) {

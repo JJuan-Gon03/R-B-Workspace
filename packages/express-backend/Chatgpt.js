@@ -5,9 +5,9 @@ dotenv.config();
 
 const ai = new GoogleGenAI({});
 
-async function parse_upload(img) {
+async function parse_upload(img_url) {
   const prompt = `
-  From this image of a clothing item, generate the most detailed description, including but not limited to: 
+  From this url of an image of a clothing item: ${img_url}, generate the most detailed description, including but not limited to: 
   
   type of clothing (tshirt, pant, shoes, ...),
   fit (baggy, loose, ...),
@@ -21,7 +21,7 @@ async function parse_upload(img) {
   try {
     const result = await ai.generateContent({
       model: "gemini-2.5-flash",
-      contents: [img, { text: prompt }],
+      contents: [{ text: prompt }],
     });
 
     return result.response.candidates[0].content.parts[0].text;
