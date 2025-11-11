@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-
-function Chat({ handle_submit }) {
-  const [text, setText] = useState("");
-
-  function onSubmit(){
+function Chat({}) {
+  const[text,setText]=useState("");
+  async function onSubmit(event){
+    console.log("chat.js onSubmit")
     event.preventDefault()
-    handle_submit(text)
+    const res=await fetch("http://localhost:8000/response/"+encodeURIComponent(text))
+    const res_text=await res.text();
+    console.log("gemini response: ", res_text)
   }
-
   return(
     <div>
       <form onSubmit={onSubmit}>
@@ -20,5 +20,4 @@ function Chat({ handle_submit }) {
     </div>
   );
 }
-
 export default Chat;
