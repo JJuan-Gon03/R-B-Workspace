@@ -13,9 +13,16 @@ app.listen(port,()=>{
 
 app.get("/",(req,res)=>{res.send("hi")})
 
-app.get("/response/:text",async(req,res)=>{
+app.get("/gemini/response/:text",async(req,res)=>{
     console.log("backend.js get /response/:text")
     const text=req.params.text
     const reply=await gemini.main(text)
+    res.send(reply)
+})
+
+app.get("/gemini/parse_cloth/:img_url",async(req,res)=>{
+    console.log("backend.js get /gemini/parse_cloth/:img_url")
+    const img_url=req.params.img_url
+    const reply=await gemini.parse_cloth(img_url)
     res.send(reply)
 })

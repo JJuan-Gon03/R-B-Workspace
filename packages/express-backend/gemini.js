@@ -14,4 +14,15 @@ async function main(prompt){
     }catch(error){console.log(error)}
 }
 
-export default{main}
+async function parse_cloth(img_url){
+    console.log("gemini.js parse_cloth")
+    try{
+        const response=await ai.models.generateContent({
+            model:"gemini-2.5-flash",
+            contents:`can you give me a detailed description of the clothing item at this url? ${img_url}`
+        })
+        return response.text
+    }catch(error){console.log(error)}
+}
+
+export default{main,parse_cloth}

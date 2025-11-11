@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 function Chat({}) {
   const[text,setText]=useState("");
   const[response,setResponse]=useState("")
@@ -6,11 +7,11 @@ function Chat({}) {
   async function onSubmit(event){
     console.log("chat.js onSubmit")
     event.preventDefault()
-    const res=await fetch("http://localhost:8000/response/"+encodeURIComponent(text))
+    const res=await fetch("http://localhost:8000/gemini/response/"+encodeURIComponent(text))
     const res_text=await res.text();
     setResponse(res_text);
   }
-  
+
   return(
     <div>
       <form onSubmit={onSubmit}>
