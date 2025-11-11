@@ -1,6 +1,8 @@
 import "dotenv/config"
 import{GoogleGenAI}from"@google/genai"
+
 const ai=new GoogleGenAI({apiKey:process.env.GEMINI_API_KEY});
+
 async function main(prompt){
     console.log("gemini.js main")
     try{
@@ -11,4 +13,5 @@ async function main(prompt){
         return response.text
     }catch(error){console.log(error)}
 }
+
 export default{main}
