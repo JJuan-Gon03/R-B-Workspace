@@ -1,4 +1,4 @@
-import Upload from"./Upload.jsx"
+import Upload from "./Upload.jsx";
 
 export default function Wardrobe() {
   return (

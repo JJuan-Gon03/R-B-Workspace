@@ -19,9 +19,10 @@ function Upload({}) {
         <input 
           type="file" 
           accept="image/*"
-          />
+          onChange={(e)=>setImage(e.target.files[0])}/>
         <button type="submit">upload</button>
       </form>
+      {image && (<img src={URL.createObjectURL(image)}/>)}
     </div>
   );
 }
