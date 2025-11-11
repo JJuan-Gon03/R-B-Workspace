@@ -12,6 +12,8 @@
     "nodemon": "^3.1.10"
   },
   "dependencies": {
-    "@letta-ai/letta-client": "^0.0.68665"
+    "@letta-ai/letta-client": "^0.0.68665",
+    "cloudinary": "^2.8.0",
+    "multer": "^2.0.2"
   }
 }
