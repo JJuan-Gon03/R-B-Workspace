@@ -43,10 +43,8 @@ async function build_outfit(wardrobe, user_input) {
     Format your response like this:
     if you are using items from the wardrobe, id: (id of item)
     if you are picking out a clothing item not from the wardrobe, description: (description of item)
-
-    explain your decisions in picking out clothing items.
     
-    ONLY reply like this in your response: (explanation), id: (id of item), ..., description: (description of item), ...
+    ONLY reply like this in your response:  id: (id of item), ..., description: (description of item), ...
     Where every id and description is seperated by commas, ... represents 0 or more ids or descriptions, and all ids come before descriptions.
     `;
   try {
@@ -63,7 +61,9 @@ async function build_outfit(wardrobe, user_input) {
 
 async function generate_outfit(images, descriptions) {
   const prompt = `
-
+    You are given a url list of clothing images: ${images}.
+    Along with these descriptions of clothing items: ${descriptions},
+    generate an image of an outfit combining ALL clothing items.
     `;
   try {
     const result = await ai.generateContent({
