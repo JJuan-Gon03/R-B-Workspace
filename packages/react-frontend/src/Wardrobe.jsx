@@ -1,7 +1,11 @@
 export default function Wardrobe() {
+  
   return (
     <div>
-      <p>Blank for now</p>
+      <form>
+        <input type="file" accept="image/*" />
+        <button type="submit">Upload</button>
+      </form>
     </div>
   );
 }

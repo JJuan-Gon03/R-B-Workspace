@@ -4,7 +4,7 @@ export default function GenerateOutfit() {
   return (
     <div>
       <Chat
-        onSend={(msg) => {
+        handle_submit={(msg) => {
           console.log(msg);
         }}
       />
