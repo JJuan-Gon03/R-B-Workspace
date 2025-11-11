@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
-import ai from "./Chatgpt.js";
-import wardrobe from "./wardrobe-db.js";
-import users from "./users-db.js";
-import outfits from "./outfits-db.js";
+import ai from "./bad/Chatgpt.js";
+import wardrobe from "./bad/wardrobe-db.js";
+import users from "./bad/users-db.js";
+import outfits from "./bad/outfits-db.js";
 import multer from "multer";
 import {v2 as cloudinary} from "cloudinary";
 import * as dotenv from "dotenv";
@@ -24,6 +24,12 @@ const port = 8000;
 app.use(express.json());
 app.use(cors());
 
+app.listen(port, () => {
+  console.log(
+    `hi http://localhost:${port}`
+  );
+});
+
 app.post("/outfits/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
@@ -38,15 +44,17 @@ app.post("/outfits/:user_id", async (req, res) => {
 app.delete("/outfits/:outfit_id", async (req, res) => {
   try {
     const { outfit_id } = req.params;
-    const result = await outfits.deleteCloth(cloth_id);
+    const result = await outfits.deleteOutfit(outfit_id);
     res.status(204).send();
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
 });
 
-app.post("/wardrobe/:user_id", async (req, res) => {
+app.post("/wardrobe/:user_id", upload.single("file"), async (req, res) => {
+  console.log("here");
   try {
+    if(!req.file)return res.status(400).send({error:"NO IMAGE"})
     const { user_id } = req.params;
     const { name} = req.body;
     const { secure_url } = await cloudinary.uploader.upload(req.file.path, {
@@ -65,6 +73,10 @@ app.post("/wardrobe/:user_id", async (req, res) => {
     res.status(500).send({ error: error.message });
   }
 });
+
+app.get("/wardrobe", (req, res)=>{
+  return wardrobe.getClothes();
+})
 
 app.delete("/wardrobe/:cloth_id", async (req, res) => {
   try {
