@@ -4,8 +4,8 @@ import ImageGrid from "./ImageGrid";
 export default function GenerateOutfit() {
   return (
     <div>
-      <ImageGrid /> 
-      <Chat/>
+      <ImageGrid />
+      <Chat />
     </div>
   );
 }

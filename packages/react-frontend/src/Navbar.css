@@ -1,0 +1,31 @@
+.nav-link {
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  background-color: #eaeaea;
+}
+
+.generate.active {
+  background-color: #ffd166;
+  color: #000;
+}
+
+.saved.active {
+  background-color: #118ab2;
+  color: white;
+}
+
+.wardrobe.active {
+  background-color: #06d6a0;
+  color: white;
+}
+
+.shared.active {
+  background-color: #ef476f;
+  color: white;
+}

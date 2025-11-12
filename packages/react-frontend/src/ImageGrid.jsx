@@ -7,7 +7,7 @@ export default function ImageGrid() {
   const [fadeStates, setFadeStates] = useState(Array(NUM_IMAGES).fill(false));
 
   const currentIndex = useRef(0);
-  const lastIndicesRef = useRef([]);
+  const lastIndices = useRef([]);
   const imagesRef = useRef([]);
 
   const imageLibrary = [
@@ -61,17 +61,17 @@ export default function ImageGrid() {
     const interval = setInterval(() => {
       const numToReplace = 2;
       const indices = [];
-      const lastIndices = lastIndicesRef.current;
+      const lastUsedIndices = lastIndices.current;
 
       // pick new indices and not same as last
       while (indices.length < numToReplace) {
         const idx = Math.floor(Math.random() * NUM_IMAGES);
-        if (!indices.includes(idx) && !lastIndices.includes(idx)) {
+        if (!indices.includes(idx) && !lastUsedIndices.includes(idx)) {
           indices.push(idx);
         }
       }
 
-      lastIndicesRef.current = indices; // save this round
+      lastIndices.current = indices; // save this round
 
       const currentImgs = imagesRef.current;
 
