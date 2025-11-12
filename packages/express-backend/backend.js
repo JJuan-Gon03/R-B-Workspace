@@ -30,8 +30,9 @@ app.get("/gemini/parse_cloth/:img_url",async(req,res)=>{
 
 app.post("/gemini/buildOutfit/:user_id",async(req,res)=>{
     console.log("backend.js get /gemini/buildOutfit/:user_id")
+    const {preferences}=req.body
     const wd=await wardrobe.getWardrobe(req.params.user_id)
-    const reply=await gemini.buildOutfit(wd,req.body)
+    const reply=await gemini.buildOutfit(wd,preferences)
     res.status(200).send(reply)
 })
 

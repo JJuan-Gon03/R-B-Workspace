@@ -8,7 +8,8 @@ function Chat({}) {
   async function onSubmit(event){
     console.log("chat.js onSubmit")
     event.preventDefault()
-    const res=await fetch("http://localhost:8000/gemini/buildOutfit/123",{method:"POST",body:text})
+    console.log(text)
+    const res=await fetch("http://localhost:8000/gemini/buildOutfit/123",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({preferences:text})})
     const res_text=await res.text();
     setResponse(res_text);
   }
