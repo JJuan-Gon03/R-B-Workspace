@@ -22,6 +22,16 @@ function Upload({}) {
     const res=await fetch("http://localhost:8000/gemini/parse_cloth/"+encodeURIComponent(data.secure_url))
     const res_text=await res.text()
     console.log(res_text)
+
+    fetch("http://localhost:8000/wardrobe", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({description:res_text,imgurl:data.secure_url,user_id:123}),
+    });
+
+    const wardrobe=await fetch("http://localhost:8000/wardrobe/123")
+    const wardrobe_json = await wardrobe.json()
+    console.log(wardrobe_json)
   }
 
   return(
