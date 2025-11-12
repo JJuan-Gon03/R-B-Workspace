@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import cloudinary from "./cloudinary.js"
 
 function Upload({}) {
   const[image,setImage]=useState(null);
@@ -11,22 +12,17 @@ function Upload({}) {
     formData.append("file", image)
     formData.append("upload_preset", "uploads")
 
-    const upload=await fetch(`https://api.cloudinary.com/v1_1/dviu8ll3d/image/upload`, {
-      method:"POST",
-      body:formData,
-    });
+    const imgurl=await cloudinary.uploadImage(formData)
+    console.log(imgurl)
 
-    const data=await upload.json()
-    console.log("url: ", data.secure_url)
-
-    const res=await fetch("http://localhost:8000/gemini/parse_cloth/"+encodeURIComponent(data.secure_url))
+    const res=await fetch("http://localhost:8000/gemini/parse_cloth/"+encodeURIComponent(imgurl))
     const res_text=await res.text()
     console.log(res_text)
 
     fetch("http://localhost:8000/wardrobe", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({description:res_text,imgurl:data.secure_url,user_id:123}),
+      body:JSON.stringify({description:res_text,imgurl:imgurl,user_id:123}),
     });
 
     const wardrobe=await fetch("http://localhost:8000/wardrobe/123")
