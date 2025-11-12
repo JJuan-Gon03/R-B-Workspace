@@ -19,7 +19,8 @@ async function parse_cloth(img_url){
     try{
         const response=await ai.models.generateContent({
             model:"gemini-2.5-flash",
-            contents:`can you give me a detailed description of the clothing item at this url? ${img_url}`
+            contents:`can you give me a detailed description of the clothing item at this url? ${img_url}`,
+            config:{tools:[{urlContext:{}}]},
         })
         return response.text
     }catch(error){console.log(error)}

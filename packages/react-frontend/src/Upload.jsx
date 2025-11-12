@@ -11,7 +11,7 @@ function Upload({}) {
     formData.append("file", image)
     formData.append("upload_preset", "uploads")
 
-    const upload=await fetch(`https://api.cloudinary.com/v1_1/cloud_name/image/upload`, {
+    const upload=await fetch(`https://api.cloudinary.com/v1_1/dviu8ll3d/image/upload`, {
       method:"POST",
       body:formData,
     });
