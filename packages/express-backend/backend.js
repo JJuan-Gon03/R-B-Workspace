@@ -28,6 +28,14 @@ app.get("/gemini/parse_cloth/:img_url",async(req,res)=>{
     res.status(200).send(reply)
 })
 
+app.post("/gemini/buildOutfit/:user_id",async(req,res)=>{
+    console.log("backend.js get /gemini/buildOutfit/:user_id")
+    const wd=await wardrobe.getWardrobe(req.params.user_id)
+    const reply=await gemini.buildOutfit(wd,req.body)
+    res.status(200).send(reply)
+})
+
+
 app.post("/wardrobe",async(req,res)=>{
     console.log("backend.js post /wardrobe")
     wardrobe.addCloth(req.body)
@@ -39,3 +47,4 @@ app.get("/wardrobe/:user_id",async(req,res)=>{
     const wd=await wardrobe.getWardrobe(req.params.user_id)
     res.status(201).send(wd)
 })
+

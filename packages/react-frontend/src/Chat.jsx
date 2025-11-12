@@ -8,7 +8,7 @@ function Chat({}) {
   async function onSubmit(event){
     console.log("chat.js onSubmit")
     event.preventDefault()
-    const res=await fetch("http://localhost:8000/gemini/response/"+encodeURIComponent(text))
+    const res=await fetch("http://localhost:8000/gemini/buildOutfit/123",{method:"POST",body:text})
     const res_text=await res.text();
     setResponse(res_text);
   }
