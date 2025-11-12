@@ -24,16 +24,14 @@ mongoose
     useNewUrlParser:true,
     useUnifiedTopology:true,
   })
-  .catch((error)=>console.log(error))
+  .catch((error)=>console.log("error connecting to mongodb:\n",error))
 
 function getWardrobe(user_id){
-    console.log("wardrobe.js getWardrobe")
-    return Cloth.find({user_id:user_id})
+    return Cloth.find({user_id:user_id}).catch((error)=>console.log(`error finding user with user_id: ${user_id}. error:\n`,error))
 }
 
 function addCloth(cloth){
-    console.log("wardrobe.js addCloth")
-    return Cloth.create(cloth)
+    return Cloth.create(cloth).catch((error)=>console.log(`error creating cloth: ${cloth}. error:\n`,error))
 }
 
 export default{getWardrobe,addCloth}
