@@ -1,0 +1,12 @@
+.clothImage {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px; 
+}
+.clothesDisplay {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 60px; 
+  padding: 60px;
+}
