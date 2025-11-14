@@ -1,0 +1,37 @@
+.chat-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 2px solid #721f59;
+  background-color: #a52278;
+  color: white;
+  font-size: 16px;
+  outline: none;
+}
+
+.chat-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.chat-button {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 2px solid #000000;
+  background-color: #7f1755;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.chat-button:hover {
+  background-color: #e7500f;
+}

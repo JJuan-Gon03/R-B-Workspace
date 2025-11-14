@@ -118,7 +118,7 @@ export default function ImageGrid() {
             width: "100%",
             aspectRatio: "1 / 1", // make every cell square
             overflow: "hidden",
-            borderRadius: "0px",
+            borderRadius: "6px",
             backgroundColor: "#f4f4f4",
         }}
         >

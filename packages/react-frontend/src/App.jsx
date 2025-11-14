@@ -6,14 +6,16 @@ import Saved from "./Saved";
 import Wardrobe from "./Wardrobe";
 import Shared from "./Shared";
 import { Routes, Route, Navigate } from "react-router-dom";
+import ActiveBackground from "./ActiveBackground";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <div>
+      <ActiveBackground />
       <Navbar />
-      <main classname="page-wrap">
+      <main className="page-wrap">
         <Routes>
           <Route path="/" element={<GenerateOutfit replace />} />
           <Route path="/generate" element={<GenerateOutfit />} />
