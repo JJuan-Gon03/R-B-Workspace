@@ -7,7 +7,14 @@ export default function Wardrobe({
   updateClothesDisplay,
   onShare,
 }) {
-  const [selectedUrl, setSelectedUrl] = useState(null);
+  const [hovered, setHovered] = useState(null);
+  const [shared, setShared] = useState(null);
+
+  const handleShare = (url) => {
+    onShare?.(url);
+    setShared(url);
+    setTimeout(() => setShared(null), 1500);
+  };
 
   return (
     <div>
@@ -20,43 +27,40 @@ export default function Wardrobe({
         {clothImgUrls.map((url, i) => (
           <div
             key={url + i}
-            style={{ position: "relative", display: "inline-block" }}
+            style={{
+              position: "relative",
+              display: "inline-block",
+            }}
+            onMouseEnter={() => setHovered(url)}
+            onMouseLeave={() => setHovered(null)}
           >
             <img
-              className="clothImage"
               src={url}
               alt={`Wardrobe item ${i + 1}`}
               style={{
                 maxWidth: 220,
                 borderRadius: 8,
-                cursor: "pointer",
                 display: "block",
               }}
-              onClick={() =>
-                setSelectedUrl((prev) => (prev === url ? null : url))
-              }
             />
 
-            {selectedUrl === url && (
+            {hovered === url && (
               <button
-                type="button"
-                onClick={() => {
-                  onShare?.(url);
-                  setSelectedUrl(null);
-                }}
+                onClick={() => handleShare(url)}
                 style={{
                   position: "absolute",
-                  right: 8,
                   bottom: 8,
-                  padding: "6px 10px",
-                  borderRadius: 8,
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  background: "rgba(255,255,255,0.9)",
                   border: "none",
-                  boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                  borderRadius: 6,
+                  padding: "4px 8px",
                   cursor: "pointer",
-                  background: "white",
+                  boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
                 }}
               >
-                Share
+                {shared === url ? "Shared!" : "Share"}
               </button>
             )}
           </div>
