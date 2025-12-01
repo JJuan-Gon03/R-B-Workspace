@@ -21,7 +21,7 @@ export default function ImageGrid() {
     "https://shorturl.at/9Tkmx",
     "https://i.redd.it/0xtz5koc3rc51.jpg",
     "https://i.pinimg.com/originals/3b/7a/5e/3b7a5ec6b9466d57c306303e5418797f.jpg",
-    "https://preview.redd.it/your-favorite-rocky-pics-or-fit-v0-u5uz6fvriksc1.jpg?width=640&crop=smart&auto=webp&s=465d2a88a8624e69412e87bacfb5917c7bebc3ab"
+    "https://preview.redd.it/your-favorite-rocky-pics-or-fit-v0-u5uz6fvriksc1.jpg?width=640&crop=smart&auto=webp&s=465d2a88a8624e69412e87bacfb5917c7bebc3ab",
   ];
 
   function nextImage(currentImages) {
@@ -101,57 +101,57 @@ export default function ImageGrid() {
 
   return (
     <div
-    style={{
+      style={{
         display: "grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
         gap: "16px",
         padding: "16px",
         justifyItems: "center",
         alignItems: "center",
-    }}
+      }}
     >
-    {images.map((src, i) => (
+      {images.map((src, i) => (
         <div
-        key={i}
-        style={{
+          key={i}
+          style={{
             position: "relative",
             width: "100%",
             aspectRatio: "1 / 1", // make every cell square
             overflow: "hidden",
             borderRadius: "6px",
             backgroundColor: "#f4f4f4",
-        }}
+          }}
         >
-        <img
+          <img
             src={src}
             alt={`Outfit ${i}`}
             style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            transition: "opacity 1s ease-in-out",
-            opacity: fadeStates[i] ? 0 : 1,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              transition: "opacity 1s ease-in-out",
+              opacity: fadeStates[i] ? 0 : 1,
             }}
-        />
-        <img
+          />
+          <img
             src={nextImages[i]}
             alt={`Next Outfit ${i}`}
             style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            transition: "opacity 1s ease-in-out",
-            opacity: fadeStates[i] ? 1 : 0,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              transition: "opacity 1s ease-in-out",
+              opacity: fadeStates[i] ? 1 : 0,
             }}
-        />
+          />
         </div>
-    ))}
+      ))}
     </div>
   );
 }

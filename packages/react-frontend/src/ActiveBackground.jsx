@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import FOG from "vanta/dist/vanta.fog.min.js";
-import "./ActiveBackground.css"
+import "./ActiveBackground.css";
 
 export default function ActiveBackground() {
   const vantaRef = useRef(null);

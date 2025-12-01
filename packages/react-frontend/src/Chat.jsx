@@ -4,15 +4,25 @@ import "./Chat.css";
 function Chat() {
   const [text, setText] = useState("");
   const [response, setResponse] = useState("");
+  const [imgData, setImgData] = useState(null);
 
   async function onSubmit(event) {
     event.preventDefault();
     if (!text.trim()) return; // prevents empty submits
-    const res = await fetch(
-      "http://localhost:8000/gemini/response/" + encodeURIComponent(text)
-    );
-    const res_text = await res.text();
-    setResponse(res_text);
+
+    console.log("entering chat.js onSubmit");
+
+    const res = await fetch("http://localhost:8000/gemini/buildOutfit/123", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ preferences: text }),
+    });
+
+    const resJson = await res.json();
+    setResponse(resJson.reply);
+    setImgData(resJson.imgdata);
+
+    console.log("exiting chat.js onSubmit");
   }
 
   return (
@@ -38,6 +48,7 @@ function Chat() {
         </button>
       </form>
       <p>{response}</p>
+      {imgData && <img src={imgData} />}
     </div>
   );
 }
