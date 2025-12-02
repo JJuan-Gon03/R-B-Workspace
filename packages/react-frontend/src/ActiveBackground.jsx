@@ -4,11 +4,12 @@ import * as THREE from "three";
 import FOG from "vanta/dist/vanta.fog.min.js";
 import "./ActiveBackground.css";
 
-export default function ActiveBackground() {
+export default function ActiveBackground({ theme }) {
   const vantaRef = useRef(null);
+  const vantaEffectRef = useRef(null);
 
   useEffect(() => {
-    const vantaEffect = FOG({
+    const baseOptions = {
       el: vantaRef.current,
       THREE,
       minHeight: 200.0,
@@ -20,12 +21,28 @@ export default function ActiveBackground() {
       blurFactor: 0.6,
       speed: 2,
       zoom: 1,
-    });
+    };
+
+    if (!vantaEffectRef.current) {
+      // first mount create effect
+      vantaEffectRef.current = FOG({
+        ...baseOptions,
+        ...theme,
+      });
+    } else {
+      // later just update colors when theme changes
+      vantaEffectRef.current.setOptions(theme);
+    }
 
     return () => {
-      if (vantaEffect) vantaEffect.destroy();
+      // if this component ever unmounts clean up
+      if (vantaEffectRef.current) {
+        vantaEffectRef.current.destroy();
+        vantaEffectRef.current = null;
+      }
     };
-  }, []);
+  }, [theme]);
 
-  return <div className="background" ref={vantaRef}></div>;
+  return <div className="background" ref={vantaRef} />;
 }
+
