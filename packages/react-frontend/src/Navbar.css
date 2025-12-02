@@ -1,6 +1,6 @@
 .nav-link {
   padding: 10px 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   text-decoration: none;
   color: black;
   font-weight: 500;
@@ -21,7 +21,7 @@
 }
 
 .wardrobe.active {
-  background-color: #06d6a0;
+  background-color: #0ebe8f;
   color: white;
 }
 

@@ -40,7 +40,7 @@ function Chat() {
           className="chat-button"
           disabled={!text.trim()} // disable when empty
           style={{
-            opacity: text.trim() ? 1 : 0.5,
+            opacity: text.trim() ? 0.8 : 0.5,
             cursor: text.trim() ? "pointer" : "default",
           }}
         >
