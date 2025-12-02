@@ -11,11 +11,6 @@ function App() {
   const [wardrobeImages, setWardrobeImages] = useState([]);
   const [sharedImages, setSharedImages] = useState([]);
 
-  const addWardrobeImage = (url) => {
-    if (!url) return;
-    setWardrobeImages((prev) => [url, ...prev]);
-  };
-
   const shareImage = (url) => {
     setWardrobeImages((prev) => prev.filter((u) => u !== url));
     setSharedImages((prev) => [url, ...prev]);
@@ -34,7 +29,7 @@ function App() {
             element={
               <Wardrobe
                 clothImgUrls={wardrobeImages}
-                updateClothesDisplay={addWardrobeImage}
+                setWardrobeImages={setWardrobeImages}
                 onShare={shareImage}
               />
             }

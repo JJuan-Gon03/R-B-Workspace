@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import cloudinary from "./cloudinary.js"
 
-function Upload({updateClothesDisplay}) {
+function Upload({setWardrobeImages}) {
   const[image,setImage]=useState(null);
+
+  useEffect(()=>{
+    fetch("http://localhost:8000/wardrobe/123")
+    .then(res => res.json())
+    .then(data=>setWardrobeImages(data.map(x=>x.imgurl)))
+  },[])
 
   async function onSubmit(event){
     console.log("entering Upload.jsx handle submit")
@@ -24,7 +30,7 @@ function Upload({updateClothesDisplay}) {
     });
     
     setImage(null)
-    updateClothesDisplay?.(imgurl)
+    setWardrobeImages(prev=>[...prev, imgurl])
     console.log("exiting upload.js handle submit")
   }
 

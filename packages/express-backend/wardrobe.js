@@ -20,10 +20,7 @@ const Cloth = mongoose.model("Cloth", ClothSchema);
 
 mongoose.set("debug",true)
 mongoose
-  .connect("mongodb://localhost:27017/users",{
-    useNewUrlParser:true,
-    useUnifiedTopology:true,
-  })
+  .connect("mongodb://localhost:27017/randb",{})
   .catch((error)=>console.log("error connecting to mongodb:\n",error))
 
 function getWardrobe(user_id){

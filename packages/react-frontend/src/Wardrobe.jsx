@@ -4,7 +4,7 @@ import "./Wardrobe.css";
 
 export default function Wardrobe({
   clothImgUrls = [],
-  updateClothesDisplay,
+  setWardrobeImages,
   onShare,
 }) {
   const [hovered, setHovered] = useState(null);
@@ -18,7 +18,7 @@ export default function Wardrobe({
 
   return (
     <div>
-      <Upload updateClothesDisplay={updateClothesDisplay} />
+      <Upload setWardrobeImages={setWardrobeImages} />
 
       <div
         className="clothesDisplay"

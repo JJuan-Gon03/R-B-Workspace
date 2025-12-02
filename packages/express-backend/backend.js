@@ -14,11 +14,12 @@ app.listen(port,()=>{
 
 app.get("/",(req,res)=>{res.send("hi")})
 
-app.get("/gemini/response/:text",async(req,res)=>{
+app.get("/gemini/response/:user_id/:text",async(req,res)=>{
     console.log("get /response/:text")
 
     const text=req.params.text
-    const reply=await gemini.main(text)
+    const user_id=req.params.user_id
+    const reply=await gemini.main(text, user_id)
 
     console.log(`exiting get /response/:text`)
     res.status(200).send({reply})

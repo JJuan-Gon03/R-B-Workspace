@@ -10,7 +10,7 @@ function Chat({}) {
     event.preventDefault()
     setChat(prev => [...prev, text])
 
-    const res=await fetch("http://localhost:8000/gemini/response/"+text)
+    const res=await fetch("http://localhost:8000/gemini/response/123/"+text)
     const data=await res.json()
 
     setText("")
