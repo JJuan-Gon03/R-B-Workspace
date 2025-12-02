@@ -20,8 +20,8 @@ app.get("/gemini/response/:text",async(req,res)=>{
     const text=req.params.text
     const reply=await gemini.main(text)
 
-    console.log(`exiting get /response/:text with response: ${reply}`)
-    res.status(200).send(reply)
+    console.log(`exiting get /response/:text`)
+    res.status(200).send({reply})
 })
 
 app.get("/gemini/parse_cloth/:img_url",async(req,res)=>{
@@ -34,20 +34,9 @@ app.get("/gemini/parse_cloth/:img_url",async(req,res)=>{
     res.status(200).send(reply)
 })
 
-app.post("/gemini/buildOutfit/:user_id",async(req,res)=>{
-    console.log("get /gemini/buildOutfit/:user_id")
-
-    const {preferences}=req.body
-    const wd=await wardrobe.getWardrobe(req.params.user_id)
-    const reply=await gemini.buildOutfit(wd,preferences)
-
-    console.log(`exiting get /gemini/buildOutfit/:user_id with response`)
-    res.status(200).send(reply)
-})
-
 
 app.post("/wardrobe",async(req,res)=>{
-    console.log("post /wardrobe")
+    console.log(`post /wardrobe with request: ${req.body}`)
 
     wardrobe.addCloth(req.body)
 
@@ -63,4 +52,15 @@ app.get("/wardrobe/:user_id",async(req,res)=>{
     console.log("exiting get/wardrobe/:user_id with wardrobe")
     res.status(201).send(wd)
 })
+
+// app.post("/gemini/buildOutfit/:user_id",async(req,res)=>{
+//     console.log("get /gemini/buildOutfit/:user_id")
+
+//     const {preferences}=req.body
+//     const wd=await wardrobe.getWardrobe(req.params.user_id)
+//     const reply=await gemini.buildOutfit(wd,preferences)
+
+//     console.log(`exiting get /gemini/buildOutfit/:user_id with response`)
+//     res.status(200).send(reply)
+// })
 

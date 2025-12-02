@@ -22,6 +22,7 @@ function Upload({updateClothesDisplay}) {
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({description:res_text,imgurl:imgurl,user_id:123}),
     });
+    
     setImage(null)
     updateClothesDisplay?.(imgurl)
     console.log("exiting upload.js handle submit")
