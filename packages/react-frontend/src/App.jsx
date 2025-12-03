@@ -8,7 +8,13 @@ import Shared from "./Shared";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [wardrobeImages, setWardrobeImages] = useState([]);
+  const [sharedImages, setSharedImages] = useState([]);
+
+  const shareImage = (url) => {
+    setWardrobeImages((prev) => prev.filter((u) => u !== url));
+    setSharedImages((prev) => [url, ...prev]);
+  };
 
   return (
     <div>
@@ -18,8 +24,20 @@ function App() {
           <Route path="/" element={<GenerateOutfit replace />} />
           <Route path="/generate" element={<GenerateOutfit />} />
           <Route path="/saved" element={<Saved />} />
-          <Route path="/wardrobe" element={<Wardrobe />} />
-          <Route path="/shared" element={<Shared />} />
+          <Route
+            path="/wardrobe"
+            element={
+              <Wardrobe
+                clothImgUrls={wardrobeImages}
+                setWardrobeImages={setWardrobeImages}
+                onShare={shareImage}
+              />
+            }
+          />
+          <Route
+            path="/shared"
+            element={<Shared sharedImgUrls={sharedImages} />}
+          />
         </Routes>
       </main>
     </div>
