@@ -1,6 +1,6 @@
 .nav-link {
   padding: 10px 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   text-decoration: none;
   color: black;
   font-weight: 500;
@@ -16,16 +16,29 @@
 }
 
 .saved.active {
-  background-color: #118ab2;
+  background-color: #3849cb;
   color: white;
 }
 
 .wardrobe.active {
-  background-color: #06d6a0;
+  background-color: #08775a;
   color: white;
 }
 
 .shared.active {
-  background-color: #ef476f;
+  background-color: #ca2f75;
   color: white;
+}
+
+/* bar background wrapper */
+.nav-root {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+}
+
+/* inner container */
+.nav-container {
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
 }

@@ -1,19 +1,19 @@
 # R-B-Workspace
-**Storybaord Link:** 
+
+**Storybaord Link:**
 https://www.figma.com/design/HHZdmDne6xKOU7ByGOceui/R-and-B-Draft-1-design?node-id=0-1&t=2oEARqJDMFis0EXt-1
 
 **UML Design**: https://drive.google.com/file/d/1EPChNcvHQsLU-triosukWGCwV4YevZjO/view?usp=sharing
 
-We are using *Prettier* for formatting.
-If using VS Code, go to extensions and type *Prettier*, click install.
+We are using _Prettier_ for formatting.
+If using VS Code, go to extensions and type _Prettier_, click install.
 
-If using something else, you can format with Prettier from the command line. 
+If using something else, you can format with Prettier from the command line.
 
 Type `npm install --save-dev --save-exact prettier` to install.
 
-Type `npx prettier . --write` to run. 
+Type `npx prettier . --write` to run.
 
 `prettier --write`. is great for formatting everything, but for a big project it might take a little while. You may run `prettier --write app/` to format a certain directory, or `prettier --write app/components/Button.js` to format a certain file. Or use a glob like `prettier --write "app/**/*.test.js"` to format all tests in a directory.
 
 For more information about using Prettier go to https://prettier.io/docs/install
-

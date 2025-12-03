@@ -2,30 +2,31 @@ import "dotenv/config";
 import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
-import wardrobe from"./wardrobe.js"
+import wardrobe from "./wardrobe.js";
 import preferences from "./preferences.js";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-let chat=null
+let chat = null;
 
 async function main(prompt, user_id) {
   console.log("entering gemini.js main");
-  if(!chat){
-    const wd=await wardrobe.getWardrobe(user_id)
-    const prefs=await preferences.getPreferences(user_id)  
+  if (!chat) {
+    const wd = await wardrobe.getWardrobe(user_id);
+    const prefs = await preferences.getPreferences(user_id);
     chat = ai.chats.create({
-        model: "gemini-2.5-flash",
-        config: {systemInstruction: `You are an AI assistant that will help the user create outfits.
+      model: "gemini-2.5-flash",
+      config: {
+        systemInstruction: `You are an AI assistant that will help the user create outfits.
                         These are the descriptions of clothing items the user owns: ${wd}.
                         Your job is to come up with an outfit of the user's preference.
                         Here are some of the user's past preferences: ${prefs}.
                         Try to use items in the wardrobe if possible, but if another clothing item
                         would fit better, give the user a detailed description of the item, and explain 
                         the reasoning behind your outfit. If you do use the user's clothing item, be sure to let them know.`,
-                }
-        });
+      },
+    });
   }
-  parse_prefs(prompt, user_id)
+  parse_prefs(prompt, user_id);
   const response = await chat.sendMessage({
     message: prompt,
   });
@@ -33,24 +34,27 @@ async function main(prompt, user_id) {
   return response.text;
 }
 
-async function parse_prefs(text, user_id){
-    console.log("entering gemini.js parse_prefs")
-    const prefs=await preferences.getPreferences(user_id)   
-    console.log(prefs)
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: `Your job is to parse this text for user preferences: ${text}.
+async function parse_prefs(text, user_id) {
+  console.log("entering gemini.js parse_prefs");
+  const prefs = await preferences.getPreferences(user_id);
+  console.log(prefs);
+  const response = await ai.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents: `Your job is to parse this text for user preferences: ${text}.
                  Retrieve information of height, gender, age, skin tone, permanent prefences of outfit types (ex. dark aesthetic, formal, ...).
                  Here are the user's previous preferences ${prefs}. Extend this preference list.
                  Do not duplicate data, but you may rewrite preferences to be more concise or overwrite old information. 
                  Keep a list of temporary outfit types, when an majority appears, 
                  you may add that outfit type preference to the user's permanent preferences.
                  Only respond with the preference information. `,
-    });
+  });
 
-    preferences.updatePreferences({preferences: response.text, user_id: user_id})
-    console.log(response.text)
-    console.log("exiting gemini.js parse_prefs")
+  preferences.updatePreferences({
+    preferences: response.text,
+    user_id: user_id,
+  });
+  console.log(response.text);
+  console.log("exiting gemini.js parse_prefs");
 }
 
 async function parse_cloth(img_url) {
