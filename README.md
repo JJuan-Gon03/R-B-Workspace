@@ -14,6 +14,8 @@ Type `npm install --save-dev --save-exact prettier` to install.
 
 Type `npx prettier . --write` to run.
 
+When editing a file enter ctrl + S to format code.
+
 `prettier --write`. is great for formatting everything, but for a big project it might take a little while. You may run `prettier --write app/` to format a certain directory, or `prettier --write app/components/Button.js` to format a certain file. Or use a glob like `prettier --write "app/**/*.test.js"` to format all tests in a directory.
 
 For more information about using Prettier go to https://prettier.io/docs/install
