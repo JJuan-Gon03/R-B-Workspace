@@ -34,16 +34,39 @@ function Upload({ updateClothesDisplay }) {
   }
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
+    <div className="upload-wrapper">
+      <form onSubmit={onSubmit} className="upload-form">
+        {/* hid real file input */}
         <input
+          id="file-upload"
           type="file"
           accept="image/*"
+          className="file-input-hidden"
           onChange={(e) => setImage(e.target.files[0])}
         />
-        <button type="submit">upload</button>
+
+        {/* choose image button */}
+        <label htmlFor="file-upload" className="custom-upload-btn">
+          Choose Image
+        </label>
+
+        {/* show filename */}
+        <span className="file-name">
+          {image ? image.name : "No file chosen"}
+        </span>
+
+        <button type="submit" className="submit-upload-btn">
+          Upload
+        </button>
       </form>
-      {image && <img src={URL.createObjectURL(image)} />}
+
+      {image && (
+        <img
+          src={URL.createObjectURL(image)}
+          alt="preview"
+          className="preview-img"
+        />
+      )}
     </div>
   );
 }
