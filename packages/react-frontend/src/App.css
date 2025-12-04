@@ -68,6 +68,10 @@ body {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   color: var(--fg);
   background: var(--bg);
+
+  /* added these for active background */
+  background-color: transparent;
+  overflow-x: hidden;
 }
 
 .app {

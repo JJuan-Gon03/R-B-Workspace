@@ -18,17 +18,31 @@ function Chat({}) {
     console.log("exiting chat.js onSubmit")
   }
 
-  return(
+  return (
     <div>
-      <form onSubmit={onSubmit}>
-        <input 
-          type="text" 
+      <form onSubmit={onSubmit} className="chat-form">
+        <input
+          type="text"
+          className="chat-input"
+          placeholder="Ask me something"
           value={text}
-          onChange={(e)=>setText(e.target.value)}/>
-        <button type="submit">Generate Outfit</button>
+          onChange={(e) => setText(e.target.value)}
+        />
+        <button
+          type="submit"
+          className="chat-button"
+          disabled={!text.trim()} // disable when empty
+          style={{
+            opacity: text.trim() ? 0.8 : 0.5,
+            cursor: text.trim() ? "pointer" : "default",
+          }}
+        >
+          Generate Response
+        </button>
       </form>
       {chat.map((t,i)=>(<p key={i}>{t}</p>))}
     </div>
   );
 }
+
 export default Chat;

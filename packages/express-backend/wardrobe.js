@@ -13,7 +13,7 @@ const ClothSchema = new mongoose.Schema(
     },
     user_id: { type: Number, required: true },
   },
-  { collection: "wardrobe" },
+  { collection: "wardrobe" }
 );
 
 const Cloth = mongoose.model("Cloth", ClothSchema);
@@ -25,13 +25,13 @@ mongoose
 
 function getWardrobe(user_id) {
   return Cloth.find({ user_id: user_id }).catch((error) =>
-    console.log(`error finding user with user_id: ${user_id}. error:\n`, error),
+    console.log(`error finding user with user_id: ${user_id}. error:\n`, error)
   );
 }
 
 function addCloth(cloth) {
   return Cloth.create(cloth).catch((error) =>
-    console.log(`error creating cloth: ${cloth}. error:\n`, error),
+    console.log(`error creating cloth: ${cloth}. error:\n`, error)
   );
 }
 

@@ -34,7 +34,7 @@ app.get("/gemini/parse_cloth/:img_url", async (req, res) => {
   const reply = await gemini.parse_cloth(img_url);
 
   console.log(
-    `exiting get /gemini/parse_cloth/:img_url with response: ${reply}`,
+    `exiting get /gemini/parse_cloth/:img_url with response: ${reply}`
   );
   res.status(200).send(reply);
 });
