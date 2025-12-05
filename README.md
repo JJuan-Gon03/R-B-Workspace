@@ -5,6 +5,8 @@ https://www.figma.com/design/HHZdmDne6xKOU7ByGOceui/R-and-B-Draft-1-design?node-
 
 **UML Design**: https://drive.google.com/file/d/1EPChNcvHQsLU-triosukWGCwV4YevZjO/view?usp=sharing
 
+**Tech Spec**: https://docs.google.com/document/d/1KV_gmDjXDH_APVD4Cr4z7WUGW1sjlT35H7f8GYYq-uQ/edit?tab=t.0#heading=h.9b0i6jpuww9w
+
 We are using _Prettier_ for formatting.
 If using VS Code, go to extensions and type _Prettier_, click install.
 
