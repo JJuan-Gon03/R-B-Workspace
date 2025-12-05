@@ -67,3 +67,4 @@ app.get("/wardrobe/:user_id", async (req, res) => {
 //     console.log(`exiting get /gemini/buildOutfit/:user_id with response`)
 //     res.status(200).send(reply)
 // })
+export default app;
