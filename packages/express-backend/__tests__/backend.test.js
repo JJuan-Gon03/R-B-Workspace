@@ -1,34 +1,34 @@
-// __tests__/backend.test.js
 import { jest, describe, beforeEach, test, expect } from "@jest/globals";
 import request from "supertest";
 
-// --- Mocks for gemini and wardrobe -------------------------
+// ---- Mocks for gemini & wardrobe (ESM!) ------------------------
 
-const geminiMock = {
-  main: jest.fn(),
-  parse_cloth: jest.fn(),
-};
+const geminiMain = jest.fn();
+const geminiParseCloth = jest.fn();
 
-const wardrobeMock = {
-  addCloth: jest.fn(),
-  getWardrobe: jest.fn(),
-};
+const wardrobeAddCloth = jest.fn();
+const wardrobeGetWardrobe = jest.fn();
 
-// In ESM mode, we need unstable_mockModule + dynamic import
 jest.unstable_mockModule("../gemini.js", () => ({
   __esModule: true,
-  default: geminiMock,
+  default: {
+    main: geminiMain,
+    parse_cloth: geminiParseCloth,
+  },
 }));
 
 jest.unstable_mockModule("../wardrobe.js", () => ({
   __esModule: true,
-  default: wardrobeMock,
+  default: {
+    getWardrobe: wardrobeGetWardrobe,
+    addCloth: wardrobeAddCloth,
+  },
 }));
 
-// Now import the app AFTER setting up mocks
+// Import app AFTER mocks are set up
 const { default: app } = await import("../backend.js");
 
-// -----------------------------------------------------------
+// ---------------------------------------------------------------
 
 describe("backend.js routes", () => {
   beforeEach(() => {
@@ -43,54 +43,46 @@ describe("backend.js routes", () => {
   });
 
   test("GET /gemini/response/:user_id/:text calls gemini.main and returns reply", async () => {
-    geminiMock.main.mockResolvedValueOnce("mocked reply");
+    geminiMain.mockResolvedValueOnce("mocked reply");
 
-    const res = await request(app).get(
-      "/gemini/response/123/hello-world",
-    );
+    const res = await request(app).get("/gemini/response/123/hello-world");
 
-    expect(geminiMock.main).toHaveBeenCalledWith("hello-world", "123");
+    expect(geminiMain).toHaveBeenCalledWith("hello-world", "123");
     expect(res.statusCode).toBe(200);
     expect(res.body).toEqual({ reply: "mocked reply" });
   });
 
   test("GET /gemini/parse_cloth/:img_url calls gemini.parse_cloth and returns text", async () => {
-    geminiMock.parse_cloth.mockResolvedValueOnce("cloth desc");
+    geminiParseCloth.mockResolvedValueOnce("cloth desc");
 
-    // use a simple URL-safe string to avoid issues with slashes
-    const res = await request(app).get(
-      "/gemini/parse_cloth/some-image-id",
-    );
+    const res = await request(app).get("/gemini/parse_cloth/some-image-id");
 
-    expect(geminiMock.parse_cloth).toHaveBeenCalledWith(
-      "some-image-id",
-    );
+    expect(geminiParseCloth).toHaveBeenCalledWith("some-image-id");
     expect(res.statusCode).toBe(200);
     expect(res.text).toBe("cloth desc");
   });
 
   test("POST /wardrobe calls wardrobe.addCloth and returns 201", async () => {
-    wardrobeMock.addCloth.mockResolvedValueOnce({});
+    wardrobeAddCloth.mockResolvedValueOnce({});
 
     const body = { description: "shirt", imgurl: "url", user_id: 1 };
 
     const res = await request(app).post("/wardrobe").send(body);
 
-    expect(wardrobeMock.addCloth).toHaveBeenCalledWith(body);
+    expect(wardrobeAddCloth).toHaveBeenCalledWith(body);
     expect(res.statusCode).toBe(201);
-    // no body expected
   });
 
   test("GET /wardrobe/:user_id calls wardrobe.getWardrobe and returns wardrobe data", async () => {
     const mockWardrobe = [
-      { description: "shirt", imgurl: "u", user_id: 1 },
+      { description: "jeans", imgurl: "u", user_id: 1 },
     ];
-    wardrobeMock.getWardrobe.mockResolvedValueOnce(mockWardrobe);
+    wardrobeGetWardrobe.mockResolvedValueOnce(mockWardrobe);
 
     const res = await request(app).get("/wardrobe/1");
 
-    expect(wardrobeMock.getWardrobe).toHaveBeenCalledWith("1");
-    expect(res.statusCode).toBe(201); // your code uses 201
+    expect(wardrobeGetWardrobe).toHaveBeenCalledWith("1");
+    expect(res.statusCode).toBe(201); // matches backend.js
     expect(res.body).toEqual(mockWardrobe);
   });
 });
