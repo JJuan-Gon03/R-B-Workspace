@@ -3,43 +3,47 @@ import "./Navbar.css";
 
 export default function Navbar() {
   return (
-    <header className="nav-root">
-      <div className="nav-container">
-        <nav className="nav-links" role="tablist" aria-label="Primary">
+    <header className="topbar">
+      <div className="topbar-inner">
+        <div className="topbar-brand">THRIFTR</div>
+
+        <nav className="topbar-links" aria-label="Primary">
           <NavLink
-            to="/generate"
+            to="/wardrobe"
             className={({ isActive }) =>
-              `nav-link generate${isActive ? " active" : ""}`
+              `topbar-link${isActive ? " active" : ""}`
             }
           >
-            Generate Outfit
+            Closet
           </NavLink>
+
+          <NavLink
+            to="/shared" //delete shared and turn into shop
+            className={({ isActive }) =>
+              `topbar-link${isActive ? " active" : ""}`
+            }
+          >
+            Shop
+          </NavLink>
+
           <NavLink
             to="/saved"
             className={({ isActive }) =>
-              `nav-link saved${isActive ? " active" : ""}`
+              `topbar-link${isActive ? " active" : ""}`
             }
           >
             Saved
           </NavLink>
-          <NavLink
-            to="/wardrobe"
-            className={({ isActive }) =>
-              `nav-link wardrobe${isActive ? " active" : ""}`
-            }
-          >
-            Wardrobe
-          </NavLink>
-          <NavLink
-            to="/shared"
-            className={({ isActive }) =>
-              `nav-link shared${isActive ? " active" : ""}`
-            }
-          >
-            Shared
-          </NavLink>
-
         </nav>
+
+        <div className="topbar-actions">
+          <button className="topbar-btn" type="button">
+            Sign in
+          </button>
+          <button className="topbar-btn" type="button">
+            Register
+          </button>
+        </div>
       </div>
     </header>
   );

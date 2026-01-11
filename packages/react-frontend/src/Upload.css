@@ -1,0 +1,60 @@
+.upload-wrap {
+  display: inline-flex;
+}
+
+.upload-wrap.full {
+  width: 100%;
+}
+
+.upload-input {
+  display: none; /* hide native choose-file UI */
+}
+
+/* Figma-style pill button */
+.upload-btn {
+  width: 100%;
+  height: 56px;
+  padding: 0 22px;
+
+  border: none;
+  border-radius: 20px;
+
+  background: #4c54e5; /* Figma blue */
+  color: #fff;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+
+  font-weight: 800;
+  font-size: 20px;
+  cursor: pointer;
+
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+}
+
+.upload-btn:hover {
+  filter: brightness(1.05);
+}
+
+.upload-btn:active {
+  transform: translateY(1px);
+}
+
+.upload-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* The big + */
+.upload-plus {
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 900;
+  transform: translateY(-1px);
+}
+
+.upload-label {
+  letter-spacing: 0.01em;
+}

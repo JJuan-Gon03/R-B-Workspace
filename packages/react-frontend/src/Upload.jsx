@@ -1,80 +1,63 @@
-import React, { useState, useEffect } from "react";
-import cloudinary from "./cloudinary.js"
+import { useId, useRef, useState } from "react";
+import "./Upload.css";
 
-function Upload({setWardrobeImages}) {
-  const[image,setImage]=useState(null);
+export default function Upload({
+  setWardrobeImages,
+  label = "Upload Item",
+  fullWidth = true,
+}) {
+  const inputId = useId();
+  const inputRef = useRef(null);
+  const [busy, setBusy] = useState(false);
 
-  useEffect(()=>{
-    fetch("http://localhost:8000/wardrobe/123")
-    .then(res => res.json())
-    .then(data=>setWardrobeImages(data.map(x=>x.imgurl)))
-  },[])
+  const openPicker = () => inputRef.current?.click();
 
-  async function onSubmit(event){
-    console.log("entering Upload.jsx handle submit")
-    event.preventDefault()
+  const onPick = async (e) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
 
-    const formData = new FormData();
-    formData.append("file", image);
-    formData.append("upload_preset", "uploads");
+    setBusy(true);
 
-    const imgurl = await cloudinary.uploadImage(formData);
+    try {
+      // Create local preview URLs (works instantly)
+      const urls = files.map((f) => URL.createObjectURL(f));
 
-    const res = await fetch(
-      "http://localhost:8000/gemini/parse_cloth/" + encodeURIComponent(imgurl)
-    );
-    const res_text = await res.text();
+      // Prepend new uploads
+      setWardrobeImages?.((prev) => [...urls, ...(prev || [])]);
+    } finally {
+      setBusy(false);
 
-    fetch("http://localhost:8000/wardrobe", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        description: res_text,
-        imgurl: imgurl,
-        user_id: 123,
-      }),
-    });
-    
-    setImage(null)
-    setWardrobeImages(prev=>[...prev, imgurl])
-    console.log("exiting upload.js handle submit")
-  }
+      // allow selecting same file again
+      e.target.value = "";
+    }
+  };
 
   return (
-    <div className="upload-wrapper">
-      <form onSubmit={onSubmit} className="upload-form">
-        {/* hid real file input */}
-        <input
-          id="file-upload"
-          type="file"
-          accept="image/*"
-          className="file-input-hidden"
-          onChange={(e) => setImage(e.target.files[0])}
-        />
+    <div className={`upload-wrap ${fullWidth ? "full" : ""}`}>
+      {/* hidden file input */}
+      <input
+        id={inputId}
+        ref={inputRef}
+        className="upload-input"
+        type="file"
+        accept="image/*"
+        multiple
+        onChange={onPick}
+      />
 
-        {/* choose image button */}
-        <label htmlFor="file-upload" className="custom-upload-btn">
-          Choose Image
-        </label>
-
-        {/* show filename */}
-        <span className="file-name">
-          {image ? image.name : "No file chosen"}
+      {/* figma-style button */}
+      <button
+        type="button"
+        className="upload-btn"
+        onClick={openPicker}
+        disabled={busy}
+        aria-controls={inputId}
+      >
+        <span className="upload-plus" aria-hidden="true">
+          +
         </span>
-
-        <button type="submit" className="submit-upload-btn">
-          Upload
-        </button>
-      </form>
-
-      {image && (
-        <img
-          src={URL.createObjectURL(image)}
-          alt="preview"
-          className="preview-img"
-        />
-      )}
+        <span className="upload-label">{busy ? "Uploading..." : label}</span>
+      </button>
     </div>
   );
 }
-export default Upload;

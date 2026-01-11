@@ -1,60 +1,8 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-:root {
-  --bg: #f7f8fa;
-  --fg: #000000;
-  --muted: #64748b;
-  --panel: #ffffff;
-  --border: #e5e7eb;
-  --nav-bg: #ffffffcc;
-  --nav-fg: #000000;
-  --nav-active-bg: #a1a1a1;
-  --nav-active-fg: #000000;
-}
-
-* {
-  box-sizing: border-box;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }
 
 html,
@@ -65,12 +13,8 @@ body,
 
 body {
   margin: 0;
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  color: var(--fg);
-  background: var(--bg);
-
-  /* added these for active background */
-  background-color: transparent;
+  background: #f4f5f7;
+  color: #111;
   overflow-x: hidden;
 }
 
@@ -80,52 +24,8 @@ body {
   flex-direction: column;
 }
 
-.nav-root {
-  position: sticky;
-  top: 0;
-  backdrop-filter: blur(6px);
-  background: var(--nav-bg);
-  border-bottom: 1px solid var(--border);
-  z-index: 10;
-}
-
-.nav-container {
-  max-width: 720px;
+.page-wrap {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 12px 16px;
-}
-
-.nav-brand {
-  text-align: center;
-  font-weight: 800;
-  margin-bottom: 8px;
-}
-
-.nav-links {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  align-items: center;
-}
-
-.nav-link {
-  display: block;
-  text-align: center;
-  padding: 10px 12px;
-  height: 40px;
-  line-height: 20px;
-  border-radius: 8px;
-  text-decoration: none;
-  user-select: none;
-  font-weight: 600;
-  color: var(--nav-fg);
-  transition:
-    background 0.2s,
-    color 0.2s;
-  white-space: nowrap;
-}
-
-.nav-link.active {
-  background: var(--nav-active-bg);
-  color: var(--nav-active-fg);
+  padding: 28px 24px;
 }
