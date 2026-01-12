@@ -2,16 +2,13 @@ import mongoose from "mongoose";
 
 const ClothSchema = new mongoose.Schema(
   {
-    description: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    imgurl: {
-      type: String,
-      required: true,
-    },
-    user_id: { type: Number, required: true },
+    user_id:{type:Number,required:true},
+    name:{type:String,required:true},
+    color:{type:String,required:true},
+    type:{type:String,required:true},
+    tags:{type:[String],required:true},
+    description: {type: String,required: true},
+    imgurl: {type: String,required: true},
   },
   { collection: "wardrobe" }
 );
@@ -35,4 +32,11 @@ function addCloth(cloth) {
   );
 }
 
-export default { getWardrobe, addCloth };
+function removeClothById(clothId) {
+  return Cloth.findByIdAndDelete(clothId).catch(error =>
+    console.log("error removing cloth:", error)
+  );
+}
+
+
+export default { getWardrobe, addCloth, removeClothById };
