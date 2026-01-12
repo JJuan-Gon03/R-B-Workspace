@@ -17,25 +17,20 @@ app.get("/", (req, res) => {
 });
 
 app.get("/gemini/response/:user_id/:text", async (req, res) => {
-  console.log("get /response/:text");
 
   const text = req.params.text;
   const user_id = req.params.user_id;
   const reply = await gemini.main(text, user_id);
 
-  console.log(`exiting get /response/:text`);
-  res.status(200).send({ reply });
+  res.status(200).json(reply);
 });
 
 app.get("/gemini/parse_cloth/:img_url", async (req, res) => {
-  console.log("get /gemini/parse_cloth/:img_url");
+
 
   const img_url = req.params.img_url;
   const reply = await gemini.parse_cloth(img_url);
 
-  console.log(
-    `exiting get /gemini/parse_cloth/:img_url with response: ${reply}`
-  );
   res.status(200).send(reply);
 });
 
@@ -57,13 +52,3 @@ app.get("/wardrobe/:user_id", async (req, res) => {
   res.status(201).send(wd);
 });
 
-// app.post("/gemini/buildOutfit/:user_id",async(req,res)=>{
-//     console.log("get /gemini/buildOutfit/:user_id")
-
-//     const {preferences}=req.body
-//     const wd=await wardrobe.getWardrobe(req.params.user_id)
-//     const reply=await gemini.buildOutfit(wd,preferences)
-
-//     console.log(`exiting get /gemini/buildOutfit/:user_id with response`)
-//     res.status(200).send(reply)
-// })

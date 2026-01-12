@@ -105,5 +105,6 @@ export default function Wardrobe({ clothImgUrls = [], setWardrobeImages }) {
         Sell
       </button>
     </div>
+    
   );
 }

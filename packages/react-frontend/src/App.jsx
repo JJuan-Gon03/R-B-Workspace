@@ -5,6 +5,7 @@ import GenerateOutfit from "./GenerateOutfit";
 import Saved from "./Saved";
 import Wardrobe from "./Wardrobe";
 import Shared from "./Shared";
+import Assistant from "./Assistant";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
   return (
     <div className="app">
       <Navbar />
+      <Assistant />
       <main className="page-wrap">
         <Routes>
           <Route path="/" element={<GenerateOutfit />} />
