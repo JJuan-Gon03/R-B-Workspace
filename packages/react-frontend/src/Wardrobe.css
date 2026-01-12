@@ -58,7 +58,8 @@
 .sidebar-panel-header {
   background: #3a3a3a;
   padding: 14px 14px;
-  font-weight: 800;
+  font-size: 18px;
+  font-weight: 700;
   letter-spacing: 0.02em;
   opacity: 0.95;
 }
@@ -76,15 +77,15 @@
   padding: 12px 14px 12px 18px;
   cursor: pointer;
   position: relative;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .sidebar-item:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: #3a3a3a;
 }
 
 .sidebar-item.active {
-  background: rgba(255, 255, 255, 0.1);
+  background: #343434;
 }
 
 .sidebar-item.active::before {
