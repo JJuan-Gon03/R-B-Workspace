@@ -33,79 +33,95 @@ export default function Upload(){
         setName("")
         setBusy(false) 
     }
-    
-    if(!open){
-        return(<button onClick={()=>setOpen(true)}>Upload</button>)
-    }
     const fileSelected=(e)=>{
         const file=e.target.files?.[0]??null
         if(!file)return
         setImg(file)
         setPreview(URL.createObjectURL(file))
     }
+    
+    if (!open) {
     return (
-        <div className="upload-overlay">
-            <div className="upload-card">
-            <button className="upload-close" onClick={() => setOpen(false)}>✕</button>
+        <button className="upload-pill" onClick={() => setOpen(true)}>
+        <span className="upload-plus">＋</span>
+        Upload Item
+        </button>
+    );
+    }
 
-            <form className="upload-form" onSubmit={onSubmit}>
-                <h2 className="upload-title">Upload Item</h2>
+    return (
+    <div className="upload-overlay">
+        <div className="upload-card">
 
-                <div className="upload-field">
-                <label className="upload-label">Item Name</label>
-                <input
-                    className="upload-name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Name"
-                />
-                </div>
-
-                <div className="upload-field">
-                <label className="upload-label">Color</label>
-                <select
-                    className="upload-select"
-                    value={color}
-                    onChange={(e) => setColor(e.target.value)}
-                >
-                    <option value="" disabled>Select color</option>
-                    {["Red","Orange","Yellow","Green","Blue","Purple","Brown","Gray","Black","White","Multi"].map(c =>
-                    <option key={c} value={c}>{c}</option>
-                    )}
-                </select>
-                </div>
-
-                <div className="upload-field">
-                <label className="upload-label">Type</label>
-                <select
-                    className="upload-select"
-                    value={type}
-                    onChange={(e) => setType(e.target.value)}
-                >
-                    <option value="" disabled>Select type</option>
-                    {["Shirts","Pants","Jackets","Shoes","Accessories"].map(t =>
-                    <option key={t} value={t}>{t}</option>
-                    )}
-                </select>
-                </div>
-
-                <div className="upload-field">
-                <label className="upload-label">Item Image</label>
-                <input
-                    className="upload-file"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => fileSelected(e)}
-                />
-                {preview && <img className="upload-preview" src={preview} alt="preview" />}
-                </div>
-
-                <button className="upload-btn" type="submit">
-                Upload
-                </button>
-            </form>
+        {/* 🔽 LOADING OVERLAY */}
+        {busy && (
+            <div className="upload-loading-overlay">
+            <div className="upload-loading-box">
+                <div className="upload-spinner" />
+                <div className="upload-loading-text">Uploading…</div>
             </div>
-        </div>
-        );
+            </div>
+        )}
 
+        <button className="upload-close" onClick={() => setOpen(false)}>✕</button>
+
+        <form className="upload-form" onSubmit={onSubmit}>
+            <h2 className="upload-title">Upload Item</h2>
+
+            <div className="upload-field">
+            <label className="upload-label">Item Name</label>
+            <input
+                className="upload-name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Name"
+            />
+            </div>
+
+            <div className="upload-field">
+            <label className="upload-label">Color</label>
+            <select
+                className="upload-select"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+            >
+                <option value="" disabled>Select color</option>
+                {["Red","Orange","Yellow","Green","Blue","Purple","Brown","Gray","Black","White","Multi"].map(c =>
+                <option key={c} value={c}>{c}</option>
+                )}
+            </select>
+            </div>
+
+            <div className="upload-field">
+            <label className="upload-label">Type</label>
+            <select
+                className="upload-select"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+            >
+                <option value="" disabled>Select type</option>
+                {["Shirts","Pants","Jackets","Shoes","Accessories"].map(t =>
+                <option key={t} value={t}>{t}</option>
+                )}
+            </select>
+            </div>
+
+            <div className="upload-field">
+            <label className="upload-label">Item Image</label>
+            <input
+                className="upload-file"
+                type="file"
+                accept="image/*"
+                onChange={(e) => fileSelected(e)}
+            />
+            {preview && <img className="upload-preview" src={preview} alt="preview" />}
+            </div>
+
+            <button className="upload-btn" type="submit" disabled={busy}>
+            Upload
+            </button>
+        </form>
+        </div>
+    </div>
+    );
 }
