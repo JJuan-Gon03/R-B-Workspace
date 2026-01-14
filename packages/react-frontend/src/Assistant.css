@@ -71,6 +71,7 @@ body{
 
 /* close button */
 .chat-close{
+  color:black;
   border: none;
   background: transparent;
   font-size: 18px;

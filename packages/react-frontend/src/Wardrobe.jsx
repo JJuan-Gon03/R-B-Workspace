@@ -1,4 +1,4 @@
-import Upload from "./Upload.jsx";
+import Upload2 from "./Upload2.jsx";
 import { useEffect, useMemo, useState } from "react";
 import "./Wardrobe.css";
 
@@ -62,7 +62,7 @@ export default function Wardrobe({ clothImgUrls = [], setWardrobeImages }) {
         </div>
 
         <div className="sidebar-upload">
-          <Upload setWardrobeImages={setWardrobeImages} />
+          <Upload2/>
         </div>
       </aside>
 

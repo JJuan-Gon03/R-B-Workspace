@@ -8,7 +8,7 @@ const ClothSchema = new mongoose.Schema(
     type:{type:String,required:true},
     tags:{type:[String],required:true},
     description: {type: String,required: true},
-    imgurl: {type: String,required: true},
+    img_url: {type: String,required: true},
   },
   { collection: "wardrobe" }
 );

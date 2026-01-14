@@ -20,13 +20,9 @@ app.get("/gemini/response/:user_id/:text", async (req, res) => {
   res.status(200).json(reply);
 });
 
-app.get("/gemini/parse_cloth/:img_url", async (req, res) => {
-  const img_url = req.params.img_url;
-  const reply = await gemini.parse_cloth(img_url);
-  res.status(200).send(reply);
-});
-
 app.post("/wardrobe", async (req, res) => {
+  const description = await gemini.parse_cloth(req.body.img_url);
+  req.body.description=description
   wardrobe.addCloth(req.body);
   res.status(201).send();
 });
