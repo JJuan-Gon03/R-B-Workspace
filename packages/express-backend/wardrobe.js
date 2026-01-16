@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 
 const ClothSchema = new mongoose.Schema(
   {
-    user_id:{type:Number,required:true},
-    name:{type:String,required:true},
-    color:{type:String,required:true},
-    type:{type:String,required:true},
-    tags:{type:[String],required:true},
-    description: {type: String,required: true},
-    img_url: {type: String,required: true},
+    user_id: { type: Number, required: true },
+    name: { type: String, required: true },
+    color: { type: String, required: true },
+    type: { type: String, required: true },
+    tags: { type: [String], required: true },
+    description: { type: String, required: true },
+    img_url: { type: String, required: true },
   },
   { collection: "wardrobe" }
 );
@@ -21,22 +21,15 @@ mongoose
   .catch((error) => console.log("error connecting to mongodb:\n", error));
 
 function getWardrobe(user_id) {
-  return Cloth.find({ user_id: user_id }).catch((error) =>
-    console.log(`error finding user with user_id: ${user_id}. error:\n`, error)
-  );
+  return Cloth.find({ user_id: user_id });
 }
 
 function addCloth(cloth) {
-  return Cloth.create(cloth).catch((error) =>
-    console.log(`error creating cloth: ${cloth}. error:\n`, error)
-  );
+  return Cloth.create(cloth);
 }
 
 function removeClothById(clothId) {
-  return Cloth.findByIdAndDelete(clothId).catch(error =>
-    console.log("error removing cloth:", error)
-  );
+  return Cloth.findByIdAndDelete(clothId);
 }
-
 
 export default { getWardrobe, addCloth, removeClothById };

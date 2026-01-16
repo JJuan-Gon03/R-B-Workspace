@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const TagSchema = new mongoose.Schema(
   {
-    user_id:{type:Number,required:true},
-    name:{type:String,required:true},
+    user_id: { type: Number, required: true },
+    name: { type: String, required: true },
   },
   { collection: "tags" }
 );
@@ -16,22 +16,15 @@ mongoose
   .catch((error) => console.log("error connecting to mongodb:\n", error));
 
 function getTags(user_id) {
-  return Tag.find({ user_id: user_id }).catch((error) =>
-    console.log(`error finding user with user_id: ${user_id}. error:\n`, error)
-  );
+  return Tag.find({ user_id: user_id });
 }
 
 function addTag(tag) {
-  return Tag.create(tag).catch((error) =>
-    console.log(`error creating cloth: ${cloth}. error:\n`, error)
-  );
+  return Tag.create(tag);
 }
 
 function removeTagById(tagId) {
-  return Tag.findByIdAndDelete(tagId).catch(error =>
-    console.log("error removing tag:", error)
-  );
+  return Tag.findByIdAndDelete(tagId);
 }
-
 
 export default { getTags, addTag, removeTagById };

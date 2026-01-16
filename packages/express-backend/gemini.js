@@ -29,25 +29,28 @@ async function main(prompt, user_id) {
       },
     });
   }
-  const response = await chat.sendMessage({
-    message: prompt,
-  });
-  const reply=replySchema.parse(JSON.parse(response.text))
+
+  const response = await chat.sendMessage({ message: prompt });
+  const reply = replySchema.parse(JSON.parse(response.text));
   return reply;
 }
 
 async function parse_cloth(img_url) {
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: `Generate a description of the clothing item at this url ${img_url}.
-                      Only respond with the description of the clothing item.`,
-      config: { tools: [{ urlContext: {} }] },
-    });
-    return response.text;
-  } catch (error) {
-    console.log("error in gemini.js parse_cloth:\n", error);
+  const response = await ai.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents: `Generate a description of the clothing item at this url ${img_url}.
+               Only respond with the description of the clothing item.
+               IMPORTANT: If there is no url or there is anything else except a SINGLE CLOTHING item, return this text EXACTLY: INVALID`,
+    config: { tools: [{ urlContext: {} }] },
+  });
+  if (response.text === "INVALID") {
+    throw new Error("Invalid image or image url");
   }
+  return response.text;
 }
 
-export default { main, parse_cloth };
+function resetChat(){
+  chat=null;
+}
+
+export default { main, parse_cloth, resetChat };
