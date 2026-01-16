@@ -1,10 +1,8 @@
 import { useState } from "react";
 import "./App.css";
 import Navbar from "./Navbar";
-import GenerateOutfit from "./GenerateOutfit";
 import Saved from "./Saved";
 import Wardrobe from "./Wardrobe";
-import Shared from "./Shared";
 import Assistant from "./Assistant";
 import { Routes, Route } from "react-router-dom";
 
@@ -17,8 +15,7 @@ function App() {
       <Assistant />
       <main className="page-wrap">
         <Routes>
-          <Route path="/" element={<GenerateOutfit />} />
-          <Route path="/generate" element={<GenerateOutfit />} />
+          <Route path="/" element={<Wardrobe clothImgUrls={wardrobeImages} setWardrobeImages={setWardrobeImages}/>}/>
           <Route path="/saved" element={<Saved />} />
           <Route
             path="/wardrobe"
