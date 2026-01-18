@@ -22,7 +22,7 @@ When editing a file enter ctrl + S to format code.
 
 For more information about using Prettier go to https://prettier.io/docs/install
 
-# How to Callaborate
+# How to Collaborate
 **Installing Packages**
 Run npm install in the root directory
 This will install @google/genai, Express, CORS, Mongoose, and set up the React dependencies. 
