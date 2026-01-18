@@ -81,6 +81,7 @@ export default function Upload(){
             <div className="upload-field">
             <label className="upload-label">Color</label>
             <select
+                aria-label="color-select"
                 className="upload-select"
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
@@ -95,6 +96,7 @@ export default function Upload(){
             <div className="upload-field">
             <label className="upload-label">Type</label>
             <select
+                aria-label="type-select"
                 className="upload-select"
                 value={type}
                 onChange={(e) => setType(e.target.value)}
@@ -109,6 +111,7 @@ export default function Upload(){
             <div className="upload-field">
             <label className="upload-label">Item Image</label>
             <input
+                aria-label="file-select"
                 className="upload-file"
                 type="file"
                 accept="image/*"

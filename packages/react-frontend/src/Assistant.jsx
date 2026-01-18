@@ -13,7 +13,7 @@ export default function Assistant() {
         setChat(prev => [...prev, [text]])
         setText("")
 
-        fetch("http://localhost:8000/gemini/response/123/"+text)
+        fetch("http://localhost:8000/gemini/response/123/"+encodeURIComponent(text))
             .then(res=>res.json())
             .then(reply=>{
                 if(reply.imgs){
