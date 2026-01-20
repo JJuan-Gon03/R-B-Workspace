@@ -12,15 +12,30 @@ export default function Upload() {
   const [img, setImg] = useState(null);
   const [preview, setPreview] = useState("");
   const [error, setError] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  function resetData() {
+    setImg(null);
+    setPreview("");
+    setTags([]);
+    setType("");
+    setColor("");
+    setName("");
+  }
 
   async function onSubmit(event) {
     event.preventDefault();
+
     if (busy || !name || !color || !type || !img) return;
+
     setBusy(true);
+    setShowSuccess(false);
+
     const formData = new FormData();
     formData.append("file", img);
     formData.append("upload_preset", "uploads");
     const img_url = await cloudinary.uploadImage(formData);
+
     try {
       const res = await fetch("http://localhost:8000/wardrobe", {
         method: "POST",
@@ -40,16 +55,13 @@ export default function Upload() {
         throw new Error(err.message);
       }
 
-      setImg(null);
-      setPreview("");
-      setTags([]);
-      setType("");
-      setColor("");
-      setName("");
+      resetData();
+      setShowSuccess(true);
     } catch (err) {
       setError(true);
       console.log(err?.message || err);
     }
+
     setBusy(false);
   }
 
@@ -113,9 +125,27 @@ export default function Upload() {
           </div>
         )}
 
-        <button className="upload-close" onClick={() => setOpen(false)}>
+        <button
+          className="upload-close"
+          onClick={() => {
+            setOpen(false);
+            resetData();
+            setShowSuccess(false);
+          }}
+        >
           ✕
         </button>
+
+        {showSuccess && (
+          <div className="success-modal">
+            <button className="close" onClick={() => setShowSuccess(false)}>
+              ×
+            </button>
+            <div className="content">
+              <p>Upload successful</p>
+            </div>
+          </div>
+        )}
 
         <form className="upload-form" onSubmit={onSubmit}>
           <h2 className="upload-title">Upload Item</h2>
