@@ -1,17 +1,25 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import Upload2 from "../Upload2";
 import { vi } from "vitest";
 
+vi.mock("../cloudinary.js", () => ({
+  default: {
+    getImgURL: vi.fn(async () => "exampleurl.com"),
+  },
+}));
+
+import Upload2 from "../Upload2";
+
 test("basic functionality", async () => {
-  vi.spyOn(global, "fetch").mockResolvedValueOnce({ ok: true });
-  vi.mock("../cloudinary.js", () => ({
-    default: {
-      uploadImage: vi.fn(),
-    },
-  }));
+  vi.spyOn(global, "fetch").mockResolvedValueOnce({
+    ok: true,
+    json: async () => ({
+      ok: false,
+    }),
+  });
+
   global.URL.createObjectURL = vi.fn(() => "blob:preview-url");
 
-  render(<Upload2 />);
+  render(<Upload2 setClothes={vi.fn()} />);
 
   fireEvent.click(screen.getByText("Upload Item"));
 
@@ -47,6 +55,7 @@ test("basic functionality", async () => {
   fireEvent.click(screen.getByRole("button", { name: /upload/i }));
 
   await waitFor(() => {
+    expect(screen.getByText("Upload successful")).toBeInTheDocument();
     expect(select_name).toHaveValue("");
     expect(select_color).toHaveValue("");
     expect(select_type).toHaveValue("");
@@ -54,15 +63,15 @@ test("basic functionality", async () => {
 });
 
 test("error", async () => {
-  vi.spyOn(global, "fetch").mockResolvedValueOnce({ ok: false });
-  vi.mock("../cloudinary.js", () => ({
-    default: {
-      uploadImage: vi.fn(),
-    },
-  }));
+  vi.spyOn(global, "fetch").mockResolvedValueOnce({
+    ok: false,
+    json: async () => ({
+      ok: false,
+    }),
+  });
   global.URL.createObjectURL = vi.fn(() => "blob:preview-url");
 
-  render(<Upload2 />);
+  render(<Upload2 setClothes={vi.fn()} />);
 
   fireEvent.click(screen.getByText("Upload Item"));
   fireEvent.change(screen.getByPlaceholderText("Name"), {

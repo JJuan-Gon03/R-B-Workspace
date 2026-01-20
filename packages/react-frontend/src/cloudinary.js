@@ -11,4 +11,11 @@ async function uploadImage(formData) {
   return data.secure_url;
 }
 
-export default { uploadImage };
+async function getImgURL(img_file) {
+  const formData = new FormData();
+  formData.append("file", img_file);
+  formData.append("upload_preset", "uploads");
+  return uploadImage(formData);
+}
+
+export default { getImgURL };

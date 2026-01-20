@@ -2,7 +2,7 @@ import cloudinary from "./cloudinary.js";
 import { useState } from "react";
 import "./Upload2.css";
 
-export default function Upload({setClothes}) {
+export default function Upload({ setClothes }) {
   const [busy, setBusy] = useState(false);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -12,7 +12,7 @@ export default function Upload({setClothes}) {
   const [img, setImg] = useState(null);
   const [preview, setPreview] = useState("");
   const [error, setError] = useState(false);
-  const [errMsg,setErrMsg]=useState("");
+  const [errMsg, setErrMsg] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
 
   function resetData() {
@@ -24,6 +24,12 @@ export default function Upload({setClothes}) {
     setName("");
   }
 
+  function onClose() {
+    setOpen(false);
+    setShowSuccess(false);
+    resetData();
+  }
+
   async function onSubmit(event) {
     event.preventDefault();
 
@@ -32,12 +38,8 @@ export default function Upload({setClothes}) {
     setBusy(true);
     setShowSuccess(false);
 
-    const formData = new FormData();
-    formData.append("file", img);
-    formData.append("upload_preset", "uploads");
-    const img_url = await cloudinary.uploadImage(formData);
-
     try {
+      const img_url = await cloudinary.getImgURL(img);
       const res = await fetch("http://localhost:8000/wardrobe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -56,14 +58,15 @@ export default function Upload({setClothes}) {
         throw new Error(err?.message);
       }
 
-      const new_cloth=await res.json()
-      setClothes((prev) => [...prev, new_cloth])
+      const new_cloth = await res.json();
+
+      setClothes((prev) => [...prev, new_cloth]);
 
       resetData();
       setShowSuccess(true);
     } catch (err) {
       setError(true);
-      setErrMsg(err?.message)
+      setErrMsg(err?.message);
       console.log(err?.message || err);
     }
 
@@ -131,14 +134,7 @@ export default function Upload({setClothes}) {
           </div>
         )}
 
-        <button
-          className="upload-close"
-          onClick={() => {
-            setOpen(false);
-            resetData();
-            setShowSuccess(false);
-          }}
-        >
+        <button className="upload-close" onClick={() => onClose()}>
           ✕
         </button>
 
