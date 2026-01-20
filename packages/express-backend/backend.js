@@ -41,12 +41,15 @@ app.get("/gemini/response/:user_id/:text", async (req, res) => {
 app.post("/wardrobe", async (req, res) => {
   try {
     const description = await gemini.parse_cloth(req.body.img_url);
+    if (description === "INVALID") {
+      return res.status(400).json({ message: "invalid image for upload" });
+    }
     req.body.description = description;
   } catch (err) {
     console.log(err);
     return res
       .status(500)
-      .json({ message: "error parsing image to upload to wardrobe" });
+      .json({ message: "server error" });
   }
 
   try {
@@ -66,7 +69,7 @@ app.post("/wardrobe", async (req, res) => {
       .json({ message: "error sending uploaded image to gemini chat" });
   }
 
-  return res.status(201).send();
+  return res.status(201).send(req.body);
 });
 
 app.get("/wardrobe/:user_id", async (req, res) => {

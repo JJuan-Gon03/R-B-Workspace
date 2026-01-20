@@ -2,7 +2,7 @@ import cloudinary from "./cloudinary.js";
 import { useState } from "react";
 import "./Upload2.css";
 
-export default function Upload() {
+export default function Upload({setClothes}) {
   const [busy, setBusy] = useState(false);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -12,6 +12,7 @@ export default function Upload() {
   const [img, setImg] = useState(null);
   const [preview, setPreview] = useState("");
   const [error, setError] = useState(false);
+  const [errMsg,setErrMsg]=useState("");
   const [showSuccess, setShowSuccess] = useState(false);
 
   function resetData() {
@@ -52,13 +53,17 @@ export default function Upload() {
 
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.message);
+        throw new Error(err?.message);
       }
+
+      const new_cloth=await res.json()
+      setClothes((prev) => [...prev, new_cloth])
 
       resetData();
       setShowSuccess(true);
     } catch (err) {
       setError(true);
+      setErrMsg(err?.message)
       console.log(err?.message || err);
     }
 
@@ -96,6 +101,7 @@ export default function Upload() {
 
           <div className="upload-error-body">
             <h2 className="upload-title">Upload failed</h2>
+            <p>{errMsg}</p>
 
             <button
               className="upload-btn"

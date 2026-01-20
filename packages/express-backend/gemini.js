@@ -40,12 +40,9 @@ async function parse_cloth(img_url) {
     model: "gemini-2.5-flash",
     contents: `Generate a description of the clothing item at this url ${img_url}.
                Only respond with the description of the clothing item.
-               IMPORTANT: If there is no url or there is anything else except a SINGLE CLOTHING item, return this text EXACTLY: INVALID`,
+               IMPORTANT: If there is no url or there is anything else except a SINGLE CLOTHING/CLOTHING ACCESSORY item, return this text EXACTLY: INVALID`,
     config: { tools: [{ urlContext: {} }] },
   });
-  if (response.text === "INVALID") {
-    throw new Error("Invalid image or image url");
-  }
   return response.text;
 }
 

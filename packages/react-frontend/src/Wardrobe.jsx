@@ -14,6 +14,7 @@ const CATEGORIES = [
 export default function Wardrobe({ clothImgUrls = [], setWardrobeImages }) {
   const [selected, setSelected] = useState(null);
   const [activeCategory, setActiveCategory] = useState("All");
+  const [clothes, setClothes] = useState([]);
 
   useEffect(() => {
     const prevOverflow = document.body.style.overflow;
@@ -21,6 +22,22 @@ export default function Wardrobe({ clothImgUrls = [], setWardrobeImages }) {
 
     document.body.style.overflow = "hidden";
     document.body.style.overscrollBehavior = "none";
+
+    fetch("http://localhost:8000/wardrobe/123")
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((err) => {
+            throw new Error(err.message);
+          });
+        }
+        return res.json();
+      })
+      .then((clothes) => {
+        setClothes(clothes);
+      })
+      .catch((err) => {
+        console.log(err?.message || err);
+      });
 
     return () => {
       document.body.style.overflow = prevOverflow;
@@ -62,7 +79,7 @@ export default function Wardrobe({ clothImgUrls = [], setWardrobeImages }) {
         </div>
 
         <div className="sidebar-upload">
-          <Upload2/>
+          <Upload2 setClothes={setClothes}/>
         </div>
       </aside>
 
@@ -86,13 +103,13 @@ export default function Wardrobe({ clothImgUrls = [], setWardrobeImages }) {
         </div>
 
         <div className="wardrobe-grid">
-          {filteredUrls.map((url, i) => (
+          {clothes.map((cloth, i) => (
             <div
-              key={url + i}
-              className={`wardrobe-card ${selected === url ? "selected" : ""}`}
-              onClick={() => toggleSelect(url)}
+              key={cloth.img_url + i}
+              className={`wardrobe-card ${selected === cloth.img_url ? "selected" : ""}`}
+              onClick={() => toggleSelect(cloth.img_url)}
             >
-              <img src={url} alt={`Wardrobe item ${i + 1}`} />
+              <img src={cloth.img_url} alt={`Wardrobe item ${i + 1}`} />
             </div>
           ))}
         </div>
@@ -105,6 +122,5 @@ export default function Wardrobe({ clothImgUrls = [], setWardrobeImages }) {
         Sell
       </button>
     </div>
-    
   );
 }
