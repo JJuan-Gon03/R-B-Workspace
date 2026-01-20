@@ -11,6 +11,7 @@ export default function Upload() {
   const [tags, setTags] = useState([]);
   const [img, setImg] = useState(null);
   const [preview, setPreview] = useState("");
+  const [error, setError] = useState(false);
 
   async function onSubmit(event) {
     event.preventDefault();
@@ -20,27 +21,38 @@ export default function Upload() {
     formData.append("file", img);
     formData.append("upload_preset", "uploads");
     const img_url = await cloudinary.uploadImage(formData);
-    await fetch("http://localhost:8000/wardrobe", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        user_id: 123,
-        name: name,
-        color: color,
-        type: type,
-        tags: tags,
-        img_url: img_url,
-      }),
-    });
-    setImg(null);
-    setPreview("");
-    setTags([]);
-    setType("");
-    setColor("");
-    setName("");
+    try {
+      const res = await fetch("http://localhost:8000/wardrobe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: 123,
+          name: name,
+          color: color,
+          type: type,
+          tags: tags,
+          img_url: img_url,
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message);
+      }
+
+      setImg(null);
+      setPreview("");
+      setTags([]);
+      setType("");
+      setColor("");
+      setName("");
+    } catch (err) {
+      setError(true);
+      console.log(err?.message || err);
+    }
     setBusy(false);
   }
-  
+
   const fileSelected = (e) => {
     const file = e.target.files?.[0] ?? null;
     if (!file) return;
@@ -54,6 +66,37 @@ export default function Upload() {
         <span className="upload-plus">＋</span>
         Upload Item
       </button>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="upload-overlay">
+        <div className="upload-card upload-error-card">
+          <button
+            className="upload-close"
+            onClick={() => {
+              setError(false);
+            }}
+          >
+            ✕
+          </button>
+
+          <div className="upload-error-body">
+            <h2 className="upload-title">Upload failed</h2>
+
+            <button
+              className="upload-btn"
+              onClick={() => {
+                setError(false);
+                // keep modal open + keep form data so they can hit Upload again
+              }}
+            >
+              Try again
+            </button>
+          </div>
+        </div>
+      </div>
     );
   }
 
@@ -84,6 +127,7 @@ export default function Upload() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Name"
+              aria-label="name-select"
             />
           </div>
 

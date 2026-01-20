@@ -13,22 +13,29 @@ export default function Assistant() {
     setChat((prev) => [...prev, [text]]);
     setText("");
 
-    fetch(
-      "http://localhost:8000/gemini/response/123/" + encodeURIComponent(text)
-    )
-      .then((res) => res.json())
-      .then((reply) => {
-        if (reply.imgs) {
-          setChat((prev) => [...prev, [reply.text, reply.imgs]]);
-        } else {
-          setChat((prev) => [...prev, [reply.text]]);
-        }
+    try {
+      const res = await fetch(
+        "http://localhost:8000/gemini/response/123/" + encodeURIComponent(text)
+      );
 
-        setReady(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message);
+      }
+
+      const reply = await res.json();
+
+      if (reply.imgs) {
+        setChat((prev) => [...prev, [reply.text, reply.imgs]]);
+      } else {
+        setChat((prev) => [...prev, [reply.text]]);
+      }
+
+      setReady(true);
+    } catch (err) {
+      setChat((prev) => [...prev, ["servers down"]]);
+      console.log(err?.message || err);
+    }
   }
 
   if (!open) {

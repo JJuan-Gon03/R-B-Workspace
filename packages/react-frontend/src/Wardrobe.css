@@ -1,5 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&display=swap");
 
+.upload-error-card {
+  position: relative;
+}
+
+.upload-error-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.upload-error-text {
+  margin: 0;
+  color: #4b5563; /* gray text */
+  font-size: 14px;
+  line-height: 1.4;
+}
+
 .wardrobe-layout {
   width: 100vw;
   margin-top: -28px;

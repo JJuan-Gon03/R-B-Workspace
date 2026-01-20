@@ -39,8 +39,6 @@ app.get("/gemini/response/:user_id/:text", async (req, res) => {
 });
 
 app.post("/wardrobe", async (req, res) => {
-  const { user_id, name, color, type, tags, img_url } = req.body;
-
   try {
     const description = await gemini.parse_cloth(req.body.img_url);
     req.body.description = description;
@@ -55,6 +53,17 @@ app.post("/wardrobe", async (req, res) => {
     await wardrobe.addCloth(req.body);
   } catch (err) {
     return handleMongoDBError(res, err);
+  }
+
+  try {
+    gemini.main(
+      `The user has just uploaded a new item to their wardrobe: ${JSON.stringify(req.body)}. Take note of this. There is no need to respond.`,
+      req.body.user_id
+    );
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "error sending uploaded image to gemini chat" });
   }
 
   return res.status(201).send();
