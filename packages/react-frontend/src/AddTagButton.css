@@ -1,0 +1,26 @@
+.addTag {
+  width: 75px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: black;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #b3b3b3;
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+

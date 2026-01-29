@@ -92,8 +92,8 @@ app.delete("/wardrobe/:clothId", async (req, res) => {
 
 app.post("/tags", async (req, res) => {
   try {
-    await tags.addTag(req.body);
-    res.status(201).send();
+    const tag=await tags.addTag(req.body);
+    res.status(201).send(tag);
   } catch (err) {
     return handleMongoDBError(res, err);
   }

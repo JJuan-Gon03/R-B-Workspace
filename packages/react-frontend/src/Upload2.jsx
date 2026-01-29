@@ -1,6 +1,7 @@
 import cloudinary from "./cloudinary.js";
 import { useState } from "react";
 import "./Upload2.css";
+import TagsBox from "./TagsBox.jsx";
 
 export default function Upload({ setClothes }) {
   const [busy, setBusy] = useState(false);
@@ -8,7 +9,7 @@ export default function Upload({ setClothes }) {
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const [type, setType] = useState("");
-  const [tags, setTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [img, setImg] = useState(null);
   const [preview, setPreview] = useState("");
   const [error, setError] = useState(false);
@@ -18,7 +19,7 @@ export default function Upload({ setClothes }) {
   function resetData() {
     setImg(null);
     setPreview("");
-    setTags([]);
+    setSelectedTags([]);
     setType("");
     setColor("");
     setName("");
@@ -48,7 +49,7 @@ export default function Upload({ setClothes }) {
           name: name,
           color: color,
           type: type,
-          tags: tags,
+          tags: selectedTags,
           img_url: img_url,
         }),
       });
