@@ -141,6 +141,7 @@
   font-size: 15px;
 
   cursor: pointer;
+  line-height: 1;
 }
 
 .upload-pill:hover{

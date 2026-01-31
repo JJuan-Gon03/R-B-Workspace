@@ -7,6 +7,10 @@ vi.mock("../cloudinary.js", () => ({
   },
 }));
 
+vi.mock('../TagsBox', () => ({
+  default: () => <div data-testid="child-mock" />
+}));
+
 import Upload2 from "../Upload2";
 
 test("basic functionality", async () => {
@@ -22,6 +26,8 @@ test("basic functionality", async () => {
   render(<Upload2 setClothes={vi.fn()} />);
 
   fireEvent.click(screen.getByText("Upload Item"));
+
+  expect(screen.getByTestId('child-mock')).toBeInTheDocument();
 
   const select_name = screen.getByPlaceholderText("Name");
 
@@ -74,6 +80,8 @@ test("error", async () => {
   render(<Upload2 setClothes={vi.fn()} />);
 
   fireEvent.click(screen.getByText("Upload Item"));
+  expect(screen.getByTestId('child-mock')).toBeInTheDocument();
+  
   fireEvent.change(screen.getByPlaceholderText("Name"), {
     target: { value: "example name" },
   });

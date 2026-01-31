@@ -15,6 +15,7 @@ export default function Upload({ setClothes }) {
   const [error, setError] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
+  const [refreshTrigger,setRefreshTrigger]=useState(0);
 
   function resetData() {
     setImg(null);
@@ -23,6 +24,7 @@ export default function Upload({ setClothes }) {
     setType("");
     setColor("");
     setName("");
+    setRefreshTrigger(x=>x+1);
   }
 
   function onClose() {
@@ -215,6 +217,8 @@ export default function Upload({ setClothes }) {
               )}
             </select>
           </div>
+
+          <TagsBox selectedTags={selectedTags} setSelectedTags={setSelectedTags} refreshTrigger={refreshTrigger}/>
 
           <div className="upload-field">
             <label className="upload-label">Item Image</label>

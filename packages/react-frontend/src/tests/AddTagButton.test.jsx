@@ -16,7 +16,8 @@ test("basic functionality",async()=>{
     fireEvent.change(textbox,{
         target: {value: "test tag"}
     })
-    fireEvent.submit(textbox.closest("form"));
+    fireEvent.keyDown(textbox, { key: 'Enter', code: 'Enter', charCode: 13 });
+
 
     await waitFor(() => {
         expect(screen.getByRole("button")).toBeInTheDocument();
@@ -37,7 +38,7 @@ test("basic error",async()=>{
     fireEvent.change(textbox,{
         target: {value: "test tag"}
     })
-    fireEvent.submit(textbox.closest("form"));
+    fireEvent.keyDown(textbox, { key: 'Enter', code: 'Enter', charCode: 13 });
 
     await waitFor(() => {
         expect(screen.getByRole("textbox")).toBeInTheDocument();

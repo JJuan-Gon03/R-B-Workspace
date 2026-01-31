@@ -111,6 +111,7 @@ app.get("/tags/:user_id", async (req, res) => {
 app.delete("/tags/:tagId", async (req, res) => {
   try {
     await tags.removeTagById(req.params.tagId);
+    await wardrobe.removeTagFromClothes(req.params.tagId);
     res.status(200).send();
   } catch (err) {
     return handleMongoDBError(res, err);

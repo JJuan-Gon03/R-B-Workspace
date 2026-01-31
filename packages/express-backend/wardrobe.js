@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import {mongoose, Schema} from "mongoose";
 
 const ClothSchema = new mongoose.Schema(
   {
@@ -6,7 +6,7 @@ const ClothSchema = new mongoose.Schema(
     name: { type: String, required: true },
     color: { type: String, required: true },
     type: { type: String, required: true },
-    tags: { type: [String], required: true },
+    tags: { type: [Schema.Types.ObjectId], required: true },
     description: { type: String, required: true },
     img_url: { type: String, required: true },
   },
@@ -32,4 +32,8 @@ function removeClothById(clothId) {
   return Cloth.findByIdAndDelete(clothId);
 }
 
-export default { getWardrobe, addCloth, removeClothById };
+function removeTagFromClothes(tag_id) {
+  return Cloth.updateMany({ tags: tag_id }, { $pull: { tags: tag_id } });
+}
+
+export default { getWardrobe, addCloth, removeClothById, removeTagFromClothes };

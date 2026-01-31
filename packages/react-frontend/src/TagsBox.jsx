@@ -2,7 +2,7 @@ import {useState,useEffect} from "react"
 import UnselectedTagsBox from "./UnselectedTagsBox"
 import SelectedTagsBox from "./SelectedTagsBox"
 
-export default function TagsBox({selectedTags,setSelectedTags}){
+export default function TagsBox({selectedTags,setSelectedTags,refreshTrigger}){
     const [unselectedTags,setUnselectedTags]=useState([])
 
     useEffect(()=>{
@@ -18,7 +18,7 @@ export default function TagsBox({selectedTags,setSelectedTags}){
             }
         }
         fetchData()
-    },[])
+    },[refreshTrigger])
 
     return(
         <div>

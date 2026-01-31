@@ -1,0 +1,144 @@
+/* ---- Tags area (matches your modal theme) ---- */
+.tags{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: 6px;
+  padding: 10px 0;
+}
+
+/* wrapper around each tag chip + x */
+.tags > div{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* chip */
+.tagName{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 34px;
+  padding: 0 12px;
+
+  border: 1px solid #d6d6d6;
+  border-radius: 10px;
+
+  background: #fff;
+  color: #111;
+
+  font-weight: 700;
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+/* x button */
+.tagRemove{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  border: 1px solid #d6d6d6;
+  border-radius: 10px;
+
+  background: #fff;
+  color: #111;
+
+  font-weight: 800;
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+/* search input (first child in second .tags) */
+.tags > input[type="text"]{
+  width: 100%;
+  height: 38px;
+  padding: 0 12px;
+
+  border-radius: 10px;
+  border: 1px solid #cfcfcf;
+  outline: none;
+
+  font-size: 14px;
+}
+
+/* hover/focus to match the purple accent */
+.tagName:hover,
+.tagRemove:hover{
+  border-color: #4f46e5;
+}
+
+.tags > input[type="text"]:focus{
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
+}
+
+/* optional: make the chips not stretch weirdly */
+.tagName,
+.tagRemove{
+  white-space: nowrap;
+}
+
+/* the pill wrapper (button + x together) */
+.tags > div{
+  display: inline-flex;
+  align-items: center;
+
+  height: 34px;
+  padding: 0 6px 0 12px;
+
+  border: 1px solid #d6d6d6;
+  border-radius: 999px;
+
+  background: #fff;
+}
+
+/* tag text */
+.tagName{
+  background: transparent;
+  border: none;
+  padding: 0;
+
+  font-weight: 700;
+  font-size: 14px;
+  color: #111;
+
+  cursor: pointer;
+}
+
+/* x button inside pill */
+.tagRemove{
+  margin-left: 8px;
+
+  width: 22px;
+  height: 22px;
+
+  border: none;
+  border-radius: 999px;
+
+  background: #f1f1f1;
+  color: #111;
+
+  font-weight: 800;
+  font-size: 13px;
+
+  cursor: pointer;
+}
+
+/* hover / focus accents */
+.tags > div:hover{
+  border-color: #4f46e5;
+}
+
+.tagRemove:hover{
+  background: #e5e5e5;
+}
