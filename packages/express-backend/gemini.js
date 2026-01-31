@@ -3,6 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import wardrobe from "./wardrobe.js";
+import tags from "./tags.js"
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 let chat = null;
@@ -20,10 +21,11 @@ const replySchema = z.object({
 async function main(prompt, user_id) {
   if (!chat) {
     const wd = await wardrobe.getWardrobe(user_id);
+    const tgs=await tags.getTags(user_id);
     chat = ai.chats.create({
       model: "gemini-2.5-flash",
       config: {
-        systemInstruction: `You are an AI assistant with access to a user's wardrobe: ${wd}.`,
+        systemInstruction: `You are an AI assistant with access to a user's wardrobe: ${wd}. Wardrobe items have tag ids that are associated with tag objects: ${tgs}`,
         responseMimeType: "application/json",
         responseJsonSchema: zodToJsonSchema(replySchema),
       },
@@ -40,7 +42,7 @@ async function parse_cloth(img_url) {
     model: "gemini-2.5-flash",
     contents: `Generate a description of the clothing item at this url ${img_url}.
                Only respond with the description of the clothing item.
-               IMPORTANT: If there is no url or there is anything else except a SINGLE CLOTHING/CLOTHING ACCESSORY item, return this text EXACTLY: INVALID`,
+               IMPORTANT: If there is no url or there is anything else except a SINGLE CLOTHING/CLOTHING ACCESSORY item (NO HUMANS ALLOWED), return this text EXACTLY: INVALID`,
     config: { tools: [{ urlContext: {} }] },
   });
   return response.text;

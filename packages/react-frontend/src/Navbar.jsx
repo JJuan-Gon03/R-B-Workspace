@@ -18,15 +18,6 @@ export default function Navbar() {
           </NavLink>
 
           <NavLink
-            to="/shared" //delete shared and turn into shop
-            className={({ isActive }) =>
-              `topbar-link${isActive ? " active" : ""}`
-            }
-          >
-            Shop
-          </NavLink>
-
-          <NavLink
             to="/saved"
             className={({ isActive }) =>
               `topbar-link${isActive ? " active" : ""}`

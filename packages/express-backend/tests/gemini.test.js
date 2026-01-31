@@ -5,6 +5,11 @@ jest.unstable_mockModule("../wardrobe.js", () => ({
   default: { getWardrobe: mockGetWardrobe },
 }));
 
+const mockGetTags = jest.fn();
+jest.unstable_mockModule("../tags.js", () => ({
+  default: { getTags: mockGetTags },
+}));
+
 const mockSendMessage = jest.fn();
 const mockChatsCreate = jest.fn(() => ({
   sendMessage: mockSendMessage,
@@ -52,6 +57,7 @@ test("parse_cloth()", async()=>{
 
 test("main(): first call; create chat, send prompt, return reply", async () => {
   mockGetWardrobe.mockResolvedValue([{ name: "hoodie", img_url: hoodie_url }]);
+  mockGetTags.mockResolvedValue([{}]);
   mockSendMessage.mockResolvedValue({
     text: JSON.stringify({
       text: "this hoodie would be fire for you",
