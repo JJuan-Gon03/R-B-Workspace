@@ -1,0 +1,103 @@
+import { useEffect } from "react";
+import "./AuthModal.css";
+
+export default function AuthModal({ variant = "signin", onClose }) {
+  const isRegister = variant === "register";
+
+  // Close on ESC
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") onClose?.();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [onClose]);
+
+  // Optional: lock background scroll while open
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, []);
+
+  return (
+    <div
+      className="modal-overlay"
+      role="presentation"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose?.();
+      }}
+    >
+      <div className="modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+        <button className="modal-close" type="button" aria-label="Close" onClick={onClose}>
+          ×
+        </button>
+
+        <div className="modal-header">
+          <h2 className="modal-title" id="auth-modal-title">
+            {isRegister ? "Register" : "Sign in"}
+          </h2>
+          <p className="modal-subtitle">
+            {isRegister
+              ? "Create an account to start thrifting smarter"
+              : "Welcome back — sign in to your account"}
+          </p>
+        </div>
+
+        <div className="modal-body">
+          <div className="modal-left">
+            <div className="modal-left-box">
+              <div className="modal-left-icon">👕</div>
+              <div className="modal-left-text">{isRegister ? "Join THRIFTR" : "Welcome back"}</div>
+              <div className="modal-left-hint">
+                {isRegister ? "Save & shop your style" : "Pick up where you left off"}
+              </div>
+            </div>
+          </div>
+
+          <form className="modal-form" onSubmit={(e) => e.preventDefault()}>
+            {isRegister && (
+              <label className="field">
+                <span className="field-label">Name*</span>
+                <input className="field-input" type="text" placeholder="Your name" required />
+              </label>
+            )}
+
+            <label className="field">
+              <span className="field-label">Email*</span>
+              <input className="field-input" type="email" placeholder="you@example.com" required />
+            </label>
+
+            <label className="field">
+              <span className="field-label">Password*</span>
+              <input className="field-input" type="password" placeholder="••••••••" required />
+            </label>
+
+            {isRegister && (
+              <label className="field">
+                <span className="field-label">Confirm Password*</span>
+                <input className="field-input" type="password" placeholder="••••••••" required />
+              </label>
+            )}
+
+            <label className="field">
+              <span className="field-label">Username (optional)</span>
+              <input className="field-input" type="text" placeholder="@handle" />
+            </label>
+
+            <div className="modal-footer">
+              <button className="modal-btn ghost" type="button" onClick={onClose}>
+                Cancel
+              </button>
+              <button className="modal-btn primary" type="submit">
+                {isRegister ? "Create account" : "Sign in"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}
