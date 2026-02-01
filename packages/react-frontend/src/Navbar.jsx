@@ -7,6 +7,13 @@ export default function Navbar() {
   const [authOpen, setAuthOpen] = useState(false);
   const [authVariant, setAuthVariant] = useState("signin");
   
+  const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000";
+
+  const handleGoogle = async (variant) => {
+  window.location.href = `${API_BASE}/auth/google?mode=${encodeURIComponent(variant)}`;
+    console.log("Google auth clicked for:", variant);
+  };
+
   return (
     <>
     <header className="topbar">
