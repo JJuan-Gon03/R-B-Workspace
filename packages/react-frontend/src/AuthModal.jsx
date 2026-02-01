@@ -31,10 +31,6 @@ export default function AuthModal({ variant = "signin", onClose }) {
       }}
     >
       <div className="modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
-        <button className="modal-close" type="button" aria-label="Close" onClick={onClose}>
-          ×
-        </button>
-
         <div className="modal-header">
           <h2 className="modal-title" id="auth-modal-title">
             {isRegister ? "Register" : "Sign in"}
@@ -88,7 +84,7 @@ export default function AuthModal({ variant = "signin", onClose }) {
             </label>
 
             <div className="modal-footer">
-              <button className="modal-btn ghost" type="button" onClick={onClose}>
+              <button className="modal-btn secondary" type="button" onClick={onClose}>
                 Cancel
               </button>
               <button className="modal-btn primary" type="submit">

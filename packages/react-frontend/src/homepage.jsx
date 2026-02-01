@@ -1,5 +1,7 @@
 import React from 'react';
 import './homepage.css';
+import { useState } from "react";
+import AuthModal from "./AuthModal";
 
 const homepage = () => {
   const images = [
@@ -9,8 +11,11 @@ const homepage = () => {
     "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=300",
     "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300"
   ];
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authVariant, setAuthVariant] = useState("signin");
 
   return (
+    <>
     <div className="thriftr-container">
       {/* Hero Section */}
       <section className="hero-section">
@@ -74,7 +79,16 @@ const homepage = () => {
       <section className="cta-section">
         <h2>Ready To Start on THRIFTR?</h2>
         <p>Sign up to swipe, save, sell and simplify your closet.</p>
-        <button className="get-started-btn">Get Started</button>
+        <button
+              className="get-started-btn"
+              type="button"
+              onClick={() => {
+                setAuthVariant("register");
+                setAuthOpen(true);
+              }}
+            >
+              Get Started
+            </button>
       </section>
 
       {/* Footer */}
@@ -85,6 +99,13 @@ const homepage = () => {
         </div>
       </footer>
     </div>
+          {authOpen && (
+        <AuthModal
+          variant={authVariant}
+          onClose={() => setAuthOpen(false)}
+        />
+      )}
+    </>
   );
 };
 
