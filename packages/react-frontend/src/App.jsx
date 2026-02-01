@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import Saved from "./Saved";
 import Wardrobe from "./Wardrobe";
 import Assistant from "./Assistant";
+import Homepage from "./homepage"
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -13,6 +14,9 @@ function App() {
     <div className="app">
       <Navbar />
       <Assistant />
+      <Routes>
+        <Route path="/homepage" element={<Homepage />}/>
+      </Routes>
       <main className="page-wrap">
         <Routes>
           <Route path="/" element={<Wardrobe clothImgUrls={wardrobeImages} setWardrobeImages={setWardrobeImages}/>}/>

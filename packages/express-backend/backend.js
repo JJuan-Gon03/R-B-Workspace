@@ -1,8 +1,17 @@
+import "dotenv/config";
+
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import passport from "passport";
+
 import gemini from "./gemini.js";
 import wardrobe from "./wardrobe.js";
 import tags from "./tags.js";
+
+import OauthRouter from "./Oauth.js";
+import { initPassport } from "./passport.js";
 
 function handleMongoDBError(res, err) {
   console.log(err);
@@ -18,11 +27,40 @@ function handleMongoDBError(res, err) {
 const app = express();
 const port = 8000;
 
+// --- middleware first ---
 app.use(express.json());
-app.use(cors());
-app.listen(port, () => {
-  console.log(`http://localhost:${port}`);
-});
+
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    credentials: true,
+  })
+);
+
+app.use(cookieParser());
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET, // no fallback; fail fast if missing
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    },
+  })
+);
+
+initPassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
+// --- routes ---
+app.use("/auth", OauthRouter);
+
+// (Optional) quick sanity check route
+app.get("/health", (req, res) => res.json({ ok: true }));
 
 app.get("/gemini/response/:user_id/:text", async (req, res) => {
   try {
@@ -116,4 +154,9 @@ app.delete("/tags/:tagId", async (req, res) => {
   } catch (err) {
     return handleMongoDBError(res, err);
   }
+});
+
+// --- listen once, at the end ---
+app.listen(port, () => {
+  console.log(`http://localhost:${port}`);
 });
