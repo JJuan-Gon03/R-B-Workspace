@@ -10,38 +10,48 @@ export default function Navbar() {
   const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000";
 
   const handleGoogle = async (variant) => {
-  window.location.href = `${API_BASE}/auth/google?mode=${encodeURIComponent(variant)}`;
+    window.location.href = `${API_BASE}/auth/google?mode=${encodeURIComponent(variant)}`;
     console.log("Google auth clicked for:", variant);
   };
 
   return (
     <>
-    <header className="topbar">
-      <div className="topbar-inner">
-        <a href="/homepage">
-        <div className="topbar-brand">THRIFTR</div>
-        </a>
-        <nav className="topbar-links" aria-label="Primary">
-          <NavLink
-            to="/wardrobe"
-            className={({ isActive }) =>
-              `topbar-link${isActive ? " active" : ""}`
-            }
-          >
-            Closet
-          </NavLink>
+      <header className="topbar">
+        <div className="topbar-inner">
+          <a href="/homepage">
+            <div className="topbar-brand">THRIFTR</div>
+          </a>
 
-          <NavLink
-            to="/saved"
-            className={({ isActive }) =>
-              `topbar-link${isActive ? " active" : ""}`
-            }
-          >
-            Saved
-          </NavLink>
-        </nav>
+          <nav className="topbar-links" aria-label="Primary">
+            <NavLink
+              to="/wardrobe"
+              className={({ isActive }) =>
+                `topbar-link${isActive ? " active" : ""}`
+              }
+            >
+              Closet
+            </NavLink>
 
-        <div className="topbar-actions">
+            <NavLink
+              to="/shop"
+              className={({ isActive }) =>
+                `topbar-link${isActive ? " active" : ""}`
+              }
+            >
+              Shop
+            </NavLink>
+
+            <NavLink
+              to="/saved"
+              className={({ isActive }) =>
+                `topbar-link${isActive ? " active" : ""}`
+              }
+            >
+              Saved
+            </NavLink>
+          </nav>
+
+          <div className="topbar-actions">
             <button
               className="topbar-btn"
               type="button"
@@ -63,9 +73,10 @@ export default function Navbar() {
             >
               Register
             </button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
       {authOpen && (
         <AuthModal
           variant={authVariant}

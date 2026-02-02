@@ -9,6 +9,8 @@ import passport from "passport";
 import gemini from "./gemini.js";
 import wardrobe from "./wardrobe.js";
 import tags from "./tags.js";
+import listings from "./listings.js";
+
 
 import OauthRouter from "./Oauth.js";
 import { initPassport } from "./passport.js";
@@ -59,7 +61,6 @@ app.use(passport.session());
 // --- routes ---
 app.use("/auth", OauthRouter);
 
-// (Optional) quick sanity check route
 app.get("/health", (req, res) => res.json({ ok: true }));
 
 app.get("/gemini/response/:user_id/:text", async (req, res) => {
@@ -156,7 +157,29 @@ app.delete("/tags/:tagId", async (req, res) => {
   }
 });
 
-// --- listen once, at the end ---
+
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
+});
+
+// ---- LISTINGS (SHOP) ----
+
+// Get all listings (public)
+app.get("/listings", async (req, res) => {
+  try {
+    const all = await listings.getListings();
+    return res.status(200).send(all);
+  } catch (err) {
+    return handleMongoDBError(res, err);
+  }
+});
+
+// Create a listing
+app.post("/listings", async (req, res) => {
+  try {
+    const created = await listings.addListing(req.body);
+    return res.status(201).send(created);
+  } catch (err) {
+    return handleMongoDBError(res, err);
+  }
 });
