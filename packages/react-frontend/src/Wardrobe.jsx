@@ -49,10 +49,22 @@ export default function Wardrobe({ clothImgUrls = [], setWardrobeImages }) {
     setSelected((prev) => (prev === url ? null : url));
   };
 
-  const filteredUrls = useMemo(() => {
-    // do filtering next sprint or some
-    return clothImgUrls;
-  }, [clothImgUrls, activeCategory]);
+  const normalizeCategory = (v) =>
+    String(v || "")
+      .trim()
+      .toLowerCase();
+
+  const filteredClothes = useMemo(() => {
+    if (activeCategory === "All") return clothes;
+    const target = normalizeCategory(activeCategory);
+    return clothes.filter((c) => normalizeCategory(c.type) === target);
+  }, [clothes, activeCategory]);
+
+  useEffect(() => {
+    if (!selected) return;
+    const stillVisible = filteredClothes.some((c) => c.img_url === selected);
+    if (!stillVisible) setSelected(null);
+  }, [activeCategory, filteredClothes, selected]);
 
   return (
     <div className="wardrobe-layout">
@@ -69,7 +81,9 @@ export default function Wardrobe({ clothImgUrls = [], setWardrobeImages }) {
               <button
                 key={cat}
                 type="button"
-                className={`sidebar-item ${activeCategory === cat ? "active" : ""}`}
+                className={`sidebar-item ${
+                  activeCategory === cat ? "active" : ""
+                }`}
                 onClick={() => setActiveCategory(cat)}
               >
                 <span className="sidebar-item-text">{cat}</span>
@@ -79,14 +93,14 @@ export default function Wardrobe({ clothImgUrls = [], setWardrobeImages }) {
         </div>
 
         <div className="sidebar-upload">
-          <Upload2 setClothes={setClothes}/>
+          <Upload2 setClothes={setClothes} />
         </div>
       </aside>
 
       <main className="wardrobe-main">
-        <div class="wardrobe-header">
-          <h1 class="wardrobe-title">My Closet</h1>
-          <span class="wardrobe-count">{filteredUrls.length} items</span>
+        <div className="wardrobe-header">
+          <h1 className="wardrobe-title">My Closet</h1>
+          <span className="wardrobe-count">{filteredClothes.length} items</span>
         </div>
 
         <div className="category-tabs">
@@ -103,10 +117,12 @@ export default function Wardrobe({ clothImgUrls = [], setWardrobeImages }) {
         </div>
 
         <div className="wardrobe-grid">
-          {clothes.map((cloth, i) => (
+          {filteredClothes.map((cloth, i) => (
             <div
               key={cloth.img_url + i}
-              className={`wardrobe-card ${selected === cloth.img_url ? "selected" : ""}`}
+              className={`wardrobe-card ${
+                selected === cloth.img_url ? "selected" : ""
+              }`}
               onClick={() => toggleSelect(cloth.img_url)}
             >
               <img src={cloth.img_url} alt={`Wardrobe item ${i + 1}`} />
@@ -114,6 +130,7 @@ export default function Wardrobe({ clothImgUrls = [], setWardrobeImages }) {
           ))}
         </div>
       </main>
+
       <button
         className={`sell-button ${selected ? "active" : ""}`}
         type="button"
