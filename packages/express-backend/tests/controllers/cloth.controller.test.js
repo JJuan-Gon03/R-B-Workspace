@@ -103,6 +103,8 @@ test("postCloth -> parseCloth success -> addCloth success -> gemini main error",
 });
 
 test("postCloth -> parseCloth success -> addCloth success -> gemini main success -> return success", async () => {
+  mockParseCloth.mockResolvedValueOnce("description")
+
   const req = { body: { img_url: "imgurl", user_id: 123 } };
   const res = makeRes();
 
@@ -116,6 +118,7 @@ test("postCloth -> parseCloth success -> addCloth success -> gemini main success
   );
   expect(res.status).toHaveBeenCalledWith(201);
   expect(res.send).toHaveBeenCalledWith(req.body);
+  expect(req.body).toEqual({ img_url: "imgurl", user_id: 123, description: "description" })
 });
 
 test("getClothes -> getClothesByUserId error",async()=>{

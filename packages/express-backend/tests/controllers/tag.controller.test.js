@@ -1,7 +1,5 @@
 import { jest } from "@jest/globals";
 
-const test_tag = { _id: 123, name: "test_tag", user_id: 123 };
-
 const mockAddTag = jest.fn();
 const mockGetTags = jest.fn();
 const mockRemoveTagById = jest.fn();
@@ -37,6 +35,8 @@ function makeRes() {
 beforeEach(() => {
   jest.clearAllMocks();
 });
+
+const test_tag = { _id: 123, name: "test_tag", user_id: 123 };
 
 test("posting a tag", async () => {
   mockAddTag.mockResolvedValueOnce(test_tag);
