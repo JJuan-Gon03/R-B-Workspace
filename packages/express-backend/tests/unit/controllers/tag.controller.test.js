@@ -5,23 +5,23 @@ const mockGetTags = jest.fn();
 const mockRemoveTagById = jest.fn();
 const mockRemoveTagFromClothes = jest.fn();
 
-jest.unstable_mockModule("../../src/services/tag.service.js", () => ({
+jest.unstable_mockModule("../../../src/services/tag.service.js", () => ({
   addTag: mockAddTag,
   getTags: mockGetTags,
   removeTagById: mockRemoveTagById,
 }));
 
-jest.unstable_mockModule("../../src/services/cloth.service.js",()=>({
+jest.unstable_mockModule("../../../src/services/cloth.service.js",()=>({
     removeTagFromClothes: mockRemoveTagFromClothes,
 }))
 
 const mockHandleMongoDBError=jest.fn();
-jest.unstable_mockModule("../../src/db.js", () => ({
+jest.unstable_mockModule("../../../src/db.js", () => ({
   handleMongoDBError: mockHandleMongoDBError
 }));
 
 const { postTag, getTagsForUser, deleteTag } = await import(
-  "../../src/controllers/tag.controller.js"
+  "../../../src/controllers/tag.controller.js"
 );
 
 function makeRes() {

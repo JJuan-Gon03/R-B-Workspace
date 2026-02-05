@@ -2,12 +2,12 @@ import { jest } from "@jest/globals";
 
 const mockMain = jest.fn();
 
-jest.unstable_mockModule("../../src/services/gemini.service.js", () => ({
+jest.unstable_mockModule("../../../src/services/gemini.service.js", () => ({
   main: mockMain,
 }));
 
 const { getGeminiResponse } = await import(
-  "../../src/controllers/gemini.controller.js"
+  "../../../src/controllers/gemini.controller.js"
 );
 
 function makeRes() {
@@ -34,8 +34,8 @@ test("getGeminiResponse -> main error", async () => {
 });
 
 test("getGeminiResponse -> main success -> return success", async () => {
-  const reply="reply"
-  mockMain.mockReturnValueOnce(reply)
+  const reply = "reply";
+  mockMain.mockReturnValueOnce(reply);
 
   const req = { params: { text: "text", user_id: 123 } };
   const res = makeRes();

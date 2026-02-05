@@ -4,26 +4,26 @@ const mockGetClothesByUserId = jest.fn().mockResolvedValue();
 const mockAddCloth = jest.fn();
 const mockRemoveClothById = jest.fn();
 
-jest.unstable_mockModule("../../src/services/cloth.service.js", () => ({
+jest.unstable_mockModule("../../../src/services/cloth.service.js", () => ({
   getClothesByUserId: mockGetClothesByUserId,
   addCloth: mockAddCloth,
   removeClothById: mockRemoveClothById,
 }));
 
 const mockHandleMongoDBError = jest.fn();
-jest.unstable_mockModule("../../src/db.js", () => ({
+jest.unstable_mockModule("../../../src/db.js", () => ({
   handleMongoDBError: mockHandleMongoDBError,
 }));
 
 const mockParseCloth = jest.fn();
 const mockMain = jest.fn();
-jest.unstable_mockModule("../../src/services/gemini.service.js", () => ({
+jest.unstable_mockModule("../../../src/services/gemini.service.js", () => ({
   parse_cloth: mockParseCloth,
   main: mockMain,
 }));
 
 const { postCloth, getClothes, deleteCloth } = await import(
-  "../../src/controllers/cloth.controller.js"
+  "../../../src/controllers/cloth.controller.js"
 );
 
 function makeRes() {
@@ -103,7 +103,7 @@ test("postCloth -> parseCloth success -> addCloth success -> gemini main error",
 });
 
 test("postCloth -> parseCloth success -> addCloth success -> gemini main success -> return success", async () => {
-  mockParseCloth.mockResolvedValueOnce("description")
+  mockParseCloth.mockResolvedValueOnce("description");
 
   const req = { body: { img_url: "imgurl", user_id: 123 } };
   const res = makeRes();
@@ -118,56 +118,60 @@ test("postCloth -> parseCloth success -> addCloth success -> gemini main success
   );
   expect(res.status).toHaveBeenCalledWith(201);
   expect(res.send).toHaveBeenCalledWith(req.body);
-  expect(req.body).toEqual({ img_url: "imgurl", user_id: 123, description: "description" })
+  expect(req.body).toEqual({
+    img_url: "imgurl",
+    user_id: 123,
+    description: "description",
+  });
 });
 
-test("getClothes -> getClothesByUserId error",async()=>{
-  const error=new Error('error')
-  mockGetClothesByUserId.mockRejectedValueOnce(error)
+test("getClothes -> getClothesByUserId error", async () => {
+  const error = new Error("error");
+  mockGetClothesByUserId.mockRejectedValueOnce(error);
 
   const req = { params: { user_id: 123 } };
   const res = makeRes();
 
-  await getClothes(req,res)
+  await getClothes(req, res);
 
-  expect(mockGetClothesByUserId).toHaveBeenCalledWith(req.params.user_id)
-  expect(mockHandleMongoDBError).toHaveBeenCalledWith(res,error)
-})
+  expect(mockGetClothesByUserId).toHaveBeenCalledWith(req.params.user_id);
+  expect(mockHandleMongoDBError).toHaveBeenCalledWith(res, error);
+});
 
-test("getClothes -> getClothesByUserId success -> return success",async()=>{
-  const wd={}
-  mockGetClothesByUserId.mockResolvedValueOnce(wd)
+test("getClothes -> getClothesByUserId success -> return success", async () => {
+  const wd = {};
+  mockGetClothesByUserId.mockResolvedValueOnce(wd);
 
   const req = { params: { user_id: 123 } };
   const res = makeRes();
 
-  await getClothes(req,res)
+  await getClothes(req, res);
 
-  expect(mockGetClothesByUserId).toHaveBeenCalledWith(req.params.user_id)
-  expect(res.status).toHaveBeenCalledWith(200)
-  expect(res.send).toHaveBeenCalledWith(wd)
-})
+  expect(mockGetClothesByUserId).toHaveBeenCalledWith(req.params.user_id);
+  expect(res.status).toHaveBeenCalledWith(200);
+  expect(res.send).toHaveBeenCalledWith(wd);
+});
 
-test("deleteCloth -> removeClothById error",async()=>{
-  const error=new Error('error')
-  mockRemoveClothById.mockRejectedValueOnce(error)
+test("deleteCloth -> removeClothById error", async () => {
+  const error = new Error("error");
+  mockRemoveClothById.mockRejectedValueOnce(error);
 
   const req = { params: { clothId: 123 } };
   const res = makeRes();
 
-  await deleteCloth(req,res)
+  await deleteCloth(req, res);
 
-  expect(mockRemoveClothById).toHaveBeenCalledWith(req.params.clothId)
-  expect(mockHandleMongoDBError).toHaveBeenCalledWith(res,error)
-})
+  expect(mockRemoveClothById).toHaveBeenCalledWith(req.params.clothId);
+  expect(mockHandleMongoDBError).toHaveBeenCalledWith(res, error);
+});
 
-test("deleteCloth -> removeClothById success -> return success",async()=>{
+test("deleteCloth -> removeClothById success -> return success", async () => {
   const req = { params: { clothId: 123 } };
   const res = makeRes();
 
-  await deleteCloth(req,res)
+  await deleteCloth(req, res);
 
-  expect(mockRemoveClothById).toHaveBeenCalledWith(req.params.clothId)
-  expect(res.status).toHaveBeenCalledWith(200)
-  expect(res.send).toHaveBeenCalled()
-})
+  expect(mockRemoveClothById).toHaveBeenCalledWith(req.params.clothId);
+  expect(res.status).toHaveBeenCalledWith(200);
+  expect(res.send).toHaveBeenCalled();
+});

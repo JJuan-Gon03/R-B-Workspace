@@ -1,11 +1,11 @@
 import { jest } from "@jest/globals";
-import { Cloth } from "../../src/models/cloth.model.js";
+import { Cloth } from "../../../src/models/cloth.model.js";
 import {
   getClothesByUserId,
   addCloth,
   removeClothById,
   removeTagFromClothes,
-} from "../../src/services/cloth.service.js";
+} from "../../../src/services/cloth.service.js";
 
 const expected_result = [{ test_value: "test_value" }];
 

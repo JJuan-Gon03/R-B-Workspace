@@ -1,12 +1,12 @@
 import { jest } from "@jest/globals";
 
 const mockGetClothesByUserId = jest.fn();
-jest.unstable_mockModule("../../src/services/cloth.service.js", () => ({
+jest.unstable_mockModule("../../../src/services/cloth.service.js", () => ({
   getClothesByUserId: mockGetClothesByUserId,
 }));
 
 const mockGetTags = jest.fn();
-jest.unstable_mockModule("../../src/services/tag.service.js", () => ({
+jest.unstable_mockModule("../../../src/services/tag.service.js", () => ({
   getTags: mockGetTags,
 }));
 
@@ -27,7 +27,7 @@ jest.unstable_mockModule("@google/genai", () => ({
 }));
 
 const { main, parse_cloth, resetChat } = await import(
-  "../../src/services/gemini.service.js"
+  "../../../src/services/gemini.service.js"
 );
 
 beforeEach(() => {

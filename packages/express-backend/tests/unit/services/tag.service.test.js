@@ -1,10 +1,10 @@
 import { jest } from "@jest/globals";
-import { Tag } from "../../src/models/tag.model.js";
+import { Tag } from "../../../src/models/tag.model.js";
 import {
   getTags,
   addTag,
   removeTagById,
-} from "../../src/services/tag.service.js";
+} from "../../../src/services/tag.service.js";
 
 const expected_result = [{ test_value: "test_value" }];
 
