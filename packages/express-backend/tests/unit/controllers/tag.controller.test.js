@@ -11,13 +11,13 @@ jest.unstable_mockModule("../../../src/services/tag.service.js", () => ({
   removeTagById: mockRemoveTagById,
 }));
 
-jest.unstable_mockModule("../../../src/services/cloth.service.js",()=>({
-    removeTagFromClothes: mockRemoveTagFromClothes,
-}))
+jest.unstable_mockModule("../../../src/services/cloth.service.js", () => ({
+  removeTagFromClothes: mockRemoveTagFromClothes,
+}));
 
-const mockHandleMongoDBError=jest.fn();
+const mockHandleMongoDBError = jest.fn();
 jest.unstable_mockModule("../../../src/db.js", () => ({
-  handleMongoDBError: mockHandleMongoDBError
+  handleMongoDBError: mockHandleMongoDBError,
 }));
 
 const { postTag, getTagsForUser, deleteTag } = await import(
@@ -53,8 +53,8 @@ test("posting a tag", async () => {
 });
 
 test("posting a tag with error", async () => {
-  const error=new Error("error")
-  mockAddTag.mockRejectedValueOnce(error)
+  const error = new Error("error");
+  mockAddTag.mockRejectedValueOnce(error);
 
   const tag = { name: "name", user_id: 123 };
   const req = { body: tag };
@@ -63,13 +63,13 @@ test("posting a tag with error", async () => {
   await postTag(req, res);
 
   expect(mockAddTag).toHaveBeenCalledWith(tag);
-  expect(mockHandleMongoDBError).toHaveBeenCalledWith(res,error)
+  expect(mockHandleMongoDBError).toHaveBeenCalledWith(res, error);
 });
 
 test("getting tags", async () => {
   mockGetTags.mockResolvedValueOnce([test_tag]);
 
-  const req = { params: {user_id: 123} };
+  const req = { params: { user_id: 123 } };
   const res = makeRes();
 
   await getTagsForUser(req, res);
@@ -80,20 +80,20 @@ test("getting tags", async () => {
 });
 
 test("getting tags with error", async () => {
-  const error=new Error("error")
-  mockGetTags.mockRejectedValueOnce(error)
+  const error = new Error("error");
+  mockGetTags.mockRejectedValueOnce(error);
 
-  const req = { params: {user_id: 123} };
+  const req = { params: { user_id: 123 } };
   const res = makeRes();
 
   await getTagsForUser(req, res);
 
   expect(mockGetTags).toHaveBeenCalledWith(req.params.user_id);
-  expect(mockHandleMongoDBError).toHaveBeenCalledWith(res,error)
+  expect(mockHandleMongoDBError).toHaveBeenCalledWith(res, error);
 });
 
 test("deleting tag", async () => {
-  const req = { params: {tagId: 123} };
+  const req = { params: { tagId: 123 } };
   const res = makeRes();
 
   await deleteTag(req, res);
@@ -104,15 +104,15 @@ test("deleting tag", async () => {
 });
 
 test("deleting tag with error", async () => {
-  const error=new Error("error")
-  mockRemoveTagById.mockRejectedValueOnce(error)
+  const error = new Error("error");
+  mockRemoveTagById.mockRejectedValueOnce(error);
 
-  const req = { params: {tagId: 123} };
+  const req = { params: { tagId: 123 } };
   const res = makeRes();
 
   await deleteTag(req, res);
 
   expect(mockRemoveTagById).toHaveBeenCalledWith(req.params.tagId);
   expect(mockRemoveTagFromClothes).not.toHaveBeenCalled();
-  expect(mockHandleMongoDBError).toHaveBeenCalledWith(res,error)
+  expect(mockHandleMongoDBError).toHaveBeenCalledWith(res, error);
 });
