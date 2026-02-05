@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import "./Assistant.css";
+import { useState } from "react";
 
 export default function Assistant() {
   const [text, setText] = useState("");
@@ -8,7 +7,7 @@ export default function Assistant() {
   const [open, setOpen] = useState(false);
 
   async function handleSubmit(event) {
-    event.preventDefault(); //no page reload
+    event.preventDefault();
     setReady(false);
     setChat((prev) => [...prev, [text]]);
     setText("");
@@ -33,50 +32,32 @@ export default function Assistant() {
 
       setReady(true);
     } catch (err) {
-      setChat((prev) => [...prev, ["servers down"]]);
+      setChat((prev) => [...prev, ["AI Assistant is unavailable at this time"]]);
       console.log(err?.message || err);
     }
   }
 
   if (!open) {
-    return (
-      <button className="chat-fab" onClick={() => setOpen(true)}>
-        AI
-      </button>
-    );
+    return <button className="chatbox-open" onClick={() => setOpen(true)}>AI</button>;
   }
 
   return (
-    <div className="thriftr-chat-panel chat-floating">
-      <div className="thriftr-chat-header">
-        <div className="thriftr-chat-title">Assistant</div>
-        <div className="thriftr-chat-subtitle">
-          Help with items, listings, and questions
-        </div>
-        <button className="chat-close" onClick={() => setOpen(false)}>
-          ✕
-        </button>
-      </div>
+    <div className="chatbox">
+      <div className="chatbox-header">AI Assistant</div>
+      <button className="chatbox-close" onClick={() => setOpen(false)}>✕</button>
+      {chat.map((t, i) => {
+        return (
+          <div className="chatbox-message" key={i}>
+            {t[0]}
+            {t.length > 1 &&
+              t[1].map((imgurl, idx) => <img className="chatbox-message-image" key={idx} src={imgurl} />)}
+          </div>
+        );
+      })}
 
-      <div className="chat-messages">
-        {chat.map((t, i) => {
-          return (
-            <div key={i} className={`message ${i % 2 === 0 ? "user" : "bot"}`}>
-              {t[0]}
-              {t.length > 1 &&
-                t[1].map((imgurl, idx) => <img key={idx} src={imgurl} />)}
-            </div>
-          );
-        })}
-      </div>
-
-      <form className="chat-input" onSubmit={handleSubmit}>
-        <input
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Send a message..."
-        />
-        <button disabled={!ready || !text.trim()}>Send</button>
+      <form className="chatbox-form" onSubmit={handleSubmit}>
+        <input className="chatbox-input" value={text} onChange={(e) => setText(e.target.value)} />
+        <button className="chatbox-send" disabled={!ready || !text.trim()}>Send</button>
       </form>
     </div>
   );

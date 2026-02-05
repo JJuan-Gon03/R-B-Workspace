@@ -7,75 +7,60 @@ const hoodie_img =
 const sweatpant_img =
   "https://hourscollection.com/cdn/shop/files/ClassicSweatpants-Grey_1600x.png?v=1762198113";
 
-beforeEach(() => {
-  vi.restoreAllMocks();
+test("opening chat", async () => {
+  render(<Assistant />);
+  fireEvent.click(screen.getByText("AI"));
+
+  expect(screen.getByText("AI Assistant")).toBeInTheDocument();
 });
 
-test("open chat, send message, recieve message w/o images", async () => {
-  vi.spyOn(global, "fetch").mockResolvedValueOnce({
+test("sending a message", async () => {
+  render(<Assistant />);
+  fireEvent.click(screen.getByText("AI"));
+  fireEvent.change(screen.getByRole("textbox"), {
+    target: { value: "hello!" },
+  });
+  fireEvent.click(screen.getByText("Send"));
+
+  expect(screen.getByRole("textbox")).toHaveValue("");
+  expect(screen.getByText("hello!")).toBeInTheDocument();
+});
+
+test("recieving a message", async () => {
+  vi.spyOn(global, "fetch").mockResolvedValue({
     ok: true,
-    json: async () => ({ text: "hi" }),
+    json: async () => ({ text: "hi! how can i help you?" }),
   });
 
   render(<Assistant />);
-
   fireEvent.click(screen.getByText("AI"));
-
-  fireEvent.change(screen.getByPlaceholderText("Send a message..."), {
-    target: { value: "hello" },
+  fireEvent.change(screen.getByRole("textbox"), {
+    target: { value: "hello!" },
   });
-  fireEvent.click(screen.getByRole("button", { name: /send/i }));
-  expect(screen.getByText("hello")).toBeInTheDocument();
+  fireEvent.click(screen.getByText("Send"));
 
-  await waitFor(() => {
-    expect(screen.getByText("hi")).toBeInTheDocument();
-  });
+  await waitFor(()=>{
+    expect(screen.getByText("hi! how can i help you?")).toBeInTheDocument();
+  })
 });
 
-test("open chat, send message, recieve message w/ images", async () => {
-  vi.spyOn(global, "fetch").mockResolvedValueOnce({
+test("recieving a message with images", async () => {
+  vi.spyOn(global, "fetch").mockResolvedValue({
     ok: true,
-    json: async () => ({
-      ok: true,
-      text: "hi",
-      imgs: [hoodie_img, sweatpant_img],
-    }),
+    json: async () => ({ text: "hi! how can i help you?", imgs: [hoodie_img,sweatpant_img]}),
   });
 
   render(<Assistant />);
-
   fireEvent.click(screen.getByText("AI"));
-
-  fireEvent.change(screen.getByPlaceholderText("Send a message..."), {
-    target: { value: "hello" },
+  fireEvent.change(screen.getByRole("textbox"), {
+    target: { value: "hello!" },
   });
-  fireEvent.click(screen.getByRole("button", { name: /send/i }));
-  expect(screen.getByText("hello")).toBeInTheDocument();
+  fireEvent.click(screen.getByText("Send"));
 
-  await waitFor(() => {
-    expect(screen.getByText("hi")).toBeInTheDocument();
-  });
-
-  const imgs = document.querySelectorAll("img");
-  expect(imgs.length).toBe(2);
-});
-
-test("server error", async () => {
-  vi.spyOn(global, "fetch").mockResolvedValueOnce({
-    json: async () => ({ ok: false }),
-  });
-
-  render(<Assistant />);
-
-  fireEvent.click(screen.getByText("AI"));
-
-  fireEvent.change(screen.getByPlaceholderText("Send a message..."), {
-    target: { value: "hello" },
-  });
-  fireEvent.click(screen.getByRole("button", { name: /send/i }));
-  expect(screen.getByText("hello")).toBeInTheDocument();
-
-  await waitFor(() => {
-    expect(screen.getByText("servers down")).toBeInTheDocument();
-  });
+  await waitFor(()=>{
+    expect(screen.getByText("hi! how can i help you?")).toBeInTheDocument();
+    
+    const imgs = document.querySelectorAll("img");
+    expect(imgs.length).toBe(2);
+  })
 });

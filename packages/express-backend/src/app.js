@@ -14,7 +14,6 @@ import clothRoutes from "./routes/cloth.route.js";
 import OauthRouter from "./routes/Oauth.route.js";
 
 const app = express();
-
 app.use(express.json());
 
 app.use(

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import AddTagButton from "../src/AddTagButton";
+import AddTagButton from "../src/tags/AddTagButton";
 import { vi } from "vitest";
 
 test("basic functionality",async()=>{

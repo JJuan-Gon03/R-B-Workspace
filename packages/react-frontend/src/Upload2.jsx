@@ -1,7 +1,6 @@
-import cloudinary from "./cloudinary.js";
+import cloudinary from "./services/cloudinary.js";
 import { useState } from "react";
-import "./Upload2.css";
-import TagsBox from "./TagsBox.jsx";
+import TagsBox from "./tags/TagsBox.jsx";
 
 export default function Upload({ setClothes }) {
   const [busy, setBusy] = useState(false);
