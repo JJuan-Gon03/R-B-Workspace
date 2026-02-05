@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import Assistant from "../Assistant";
+import Assistant from "../src/Assistant";
 import { vi } from "vitest";
 
 const hoodie_img =

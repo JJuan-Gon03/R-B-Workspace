@@ -2,11 +2,8 @@ import "dotenv/config";
 import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
-import wardrobe from "./wardrobe.js";
-import tags from "./tags.js"
-
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-let chat = null;
+import { getClothesByUserId } from "./cloth.service.js";
+import { getTags } from "./tag.service.js";
 
 const replySchema = z.object({
   text: z.string().describe("Your text response to the User goes here."),
@@ -18,14 +15,17 @@ const replySchema = z.object({
     ),
 });
 
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+let chat = null;
+
 async function main(prompt, user_id) {
   if (!chat) {
-    const wd = await wardrobe.getWardrobe(user_id);
-    const tgs=await tags.getTags(user_id);
+    const wardrobe = await getClothesByUserId(user_id);
+    const tgs = await getTags(user_id);
     chat = ai.chats.create({
       model: "gemini-2.5-flash",
       config: {
-        systemInstruction: `You are an AI assistant with access to a user's wardrobe: ${wd}. Wardrobe items have tag ids that are associated with tag objects: ${tgs}`,
+        systemInstruction: `You are an AI assistant with access to a user's wardrobe: ${wardrobe}. Wardrobe items have tag ids that are associated with tag objects: ${tgs}`,
         responseMimeType: "application/json",
         responseJsonSchema: zodToJsonSchema(replySchema),
       },
@@ -48,8 +48,8 @@ async function parse_cloth(img_url) {
   return response.text;
 }
 
-function resetChat(){
-  chat=null;
+function resetChat() {
+  chat = null;
 }
 
-export default { main, parse_cloth, resetChat };
+export {main, parse_cloth, resetChat};
