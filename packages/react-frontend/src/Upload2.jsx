@@ -1,20 +1,21 @@
 import cloudinary from "./services/cloudinary.js";
 import { useState } from "react";
 import TagsBox from "./tags/TagsBox.jsx";
+import "./Upload2.css";
 
 export default function Upload({ setClothes }) {
   const [busy, setBusy] = useState(false);
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState(false);
+
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const [type, setType] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const [img, setImg] = useState(null);
   const [preview, setPreview] = useState("");
-  const [error, setError] = useState(false);
-  const [errMsg, setErrMsg] = useState("");
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [refreshTrigger,setRefreshTrigger]=useState(0);
+
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   function resetData() {
     setImg(null);
@@ -23,12 +24,11 @@ export default function Upload({ setClothes }) {
     setType("");
     setColor("");
     setName("");
-    setRefreshTrigger(x=>x+1);
+    setRefreshTrigger((x) => x + 1);
   }
 
   function onClose() {
     setOpen(false);
-    setShowSuccess(false);
     resetData();
   }
 
@@ -38,7 +38,6 @@ export default function Upload({ setClothes }) {
     if (busy || !name || !color || !type || !img) return;
 
     setBusy(true);
-    setShowSuccess(false);
 
     try {
       const img_url = await cloudinary.getImgURL(img);
@@ -65,10 +64,8 @@ export default function Upload({ setClothes }) {
       setClothes((prev) => [...prev, new_cloth]);
 
       resetData();
-      setShowSuccess(true);
     } catch (err) {
       setError(true);
-      setErrMsg(err?.message);
       console.log(err?.message || err);
     }
 
@@ -84,8 +81,7 @@ export default function Upload({ setClothes }) {
 
   if (!open) {
     return (
-      <button className="upload-pill" onClick={() => setOpen(true)}>
-        <span className="upload-plus">＋</span>
+      <button className="upload-open" onClick={() => setOpen(true)}>
         Upload Item
       </button>
     );
@@ -93,147 +89,105 @@ export default function Upload({ setClothes }) {
 
   if (error) {
     return (
-      <div className="upload-overlay">
-        <div className="upload-card upload-error-card">
-          <button
-            className="upload-close"
-            onClick={() => {
-              setError(false);
-            }}
-          >
-            ✕
-          </button>
+      <div className="upload-error">
+        <button
+          className="upload-close"
+          onClick={() => {
+            setError(false);
+          }}
+        >
+          ✕
+        </button>
 
-          <div className="upload-error-body">
-            <h2 className="upload-title">Upload failed</h2>
-            <p>{errMsg}</p>
+        <div className="upload-error-message">Upload failed</div>
 
-            <button
-              className="upload-btn"
-              onClick={() => {
-                setError(false);
-                // keep modal open + keep form data so they can hit Upload again
-              }}
-            >
-              Try again
-            </button>
-          </div>
-        </div>
+        <button
+          className="upload-error-tryAgain"
+          onClick={() => {
+            setError(false);
+          }}
+        >
+          Try again
+        </button>
       </div>
     );
   }
 
   return (
     <div className="upload-overlay">
-      <div className="upload-card">
-        {/* 🔽 LOADING OVERLAY */}
-        {busy && (
-          <div className="upload-loading-overlay">
-            <div className="upload-loading-box">
-              <div className="upload-spinner" />
-              <div className="upload-loading-text">Uploading…</div>
-            </div>
-          </div>
-        )}
+      <div className="upload">
+        {busy && <div>Uploading…</div>}
 
         <button className="upload-close" onClick={() => onClose()}>
           ✕
         </button>
 
-        {showSuccess && (
-          <div className="success-modal">
-            <button className="close" onClick={() => setShowSuccess(false)}>
-              ×
-            </button>
-            <div className="content">
-              <p>Upload successful</p>
-            </div>
-          </div>
-        )}
-
         <form className="upload-form" onSubmit={onSubmit}>
-          <h2 className="upload-title">Upload Item</h2>
+          <label className="upload-form-label">Item Name</label>
+          <input
+            className="upload-form-field"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            aria-label="name-select"
+          />
 
-          <div className="upload-field">
-            <label className="upload-label">Item Name</label>
-            <input
-              className="upload-name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Name"
-              aria-label="name-select"
-            />
-          </div>
+          <label className="upload-form-label">Color</label>
+          <select
+            className="upload-form-field"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            aria-label="color-select"
+          >
+            <option value="" disabled>
+              Select color
+            </option>
+            <option value="Red">Red</option>
+            <option value="Orange">Orange</option>
+            <option value="Yellow">Yellow</option>
+            <option value="Green">Green</option>
+            <option value="Blue">Blue</option>
+            <option value="Purple">Purple</option>
+            <option value="Brown">Brown</option>
+            <option value="Gray">Gray</option>
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Multi">Multi</option>
+          </select>
 
-          <div className="upload-field">
-            <label className="upload-label">Color</label>
-            <select
-              aria-label="color-select"
-              className="upload-select"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-            >
-              <option value="" disabled>
-                Select color
-              </option>
-              {[
-                "Red",
-                "Orange",
-                "Yellow",
-                "Green",
-                "Blue",
-                "Purple",
-                "Brown",
-                "Gray",
-                "Black",
-                "White",
-                "Multi",
-              ].map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-          </div>
+          <label className="upload-form-label">Type</label>
+          <select
+            className="upload-form-field"
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+            aria-label="type-select"
+          >
+            <option value="" disabled>
+              Select type
+            </option>
+            <option value="Shirts">Shirts</option>
+            <option value="Pants">Pants</option>
+            <option value="Jackets">Jackets</option>
+            <option value="Shoes">Shoes</option>
+            <option value="Accessories">Accessories</option>
+          </select>
 
-          <div className="upload-field">
-            <label className="upload-label">Type</label>
-            <select
-              aria-label="type-select"
-              className="upload-select"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-            >
-              <option value="" disabled>
-                Select type
-              </option>
-              {["Shirts", "Pants", "Jackets", "Shoes", "Accessories"].map(
-                (t) => (
-                  <option key={t} value={t}>
-                    {t}
-                  </option>
-                )
-              )}
-            </select>
-          </div>
+          <TagsBox
+            selectedTags={selectedTags}
+            setSelectedTags={setSelectedTags}
+            refreshTrigger={refreshTrigger}
+          />
 
-          <TagsBox selectedTags={selectedTags} setSelectedTags={setSelectedTags} refreshTrigger={refreshTrigger}/>
+          <label className="upload-form-label">Item Image</label>
+          <input
+            className="upload-form-field"
+            type="file"
+            accept="image/*"
+            onChange={(e) => fileSelected(e)}
+            aria-label="file-select"
+          />
+          {preview && <img className="upload-form-imagePreview" src={preview} aria-label="preview"/>}
 
-          <div className="upload-field">
-            <label className="upload-label">Item Image</label>
-            <input
-              aria-label="file-select"
-              className="upload-file"
-              type="file"
-              accept="image/*"
-              onChange={(e) => fileSelected(e)}
-            />
-            {preview && (
-              <img className="upload-preview" src={preview} alt="preview" />
-            )}
-          </div>
-
-          <button className="upload-btn" type="submit" disabled={busy}>
+          <button className="upload-form-submit" type="submit" disabled={busy}>
             Upload
           </button>
         </form>
