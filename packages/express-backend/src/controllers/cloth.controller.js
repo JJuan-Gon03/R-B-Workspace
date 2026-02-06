@@ -72,6 +72,7 @@ const deleteCloth = async (req, res) => {
     try {
       await delete_image_from_cloudinary(deletedCloth.public_id);
     } catch (err) {
+      console.log(err)
       return res
         .status(500)
         .json({ message: "error deleting image from cloudinary" });

@@ -1,4 +1,5 @@
-import { v2 as cloudinary } from 'cloudinary';
+import "dotenv/config";
+import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -6,8 +7,8 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-async function delete_image_from_cloudinary(public_id){
+async function delete_image_from_cloudinary(public_id) {
   await cloudinary.uploader.destroy(public_id);
 }
 
-export {delete_image_from_cloudinary}
+export { delete_image_from_cloudinary };
