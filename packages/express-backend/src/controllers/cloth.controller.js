@@ -31,6 +31,7 @@ const postCloth = async (req, res) => {
       req.body.user_id
     );
   } catch (err) {
+    console.log(err)
     return res
       .status(500)
       .json({ message: "error sending uploaded image to gemini chat" });
@@ -64,6 +65,7 @@ const deleteCloth = async (req, res) => {
         deletedCloth.user_id
       );
     } catch (err) {
+      console.log(err)
       return res
         .status(500)
         .json({ message: "error sending deleted cloth to gemini chat" });
