@@ -1,5 +1,5 @@
 /* ---- Tags area (matches your modal theme) ---- */
-.tags{
+.tags {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -10,14 +10,14 @@
 }
 
 /* wrapper around each tag chip + x */
-.tags > div{
+.tags > div {
   display: inline-flex;
   align-items: center;
   gap: 6px;
 }
 
 /* chip */
-.tagName{
+.tagName {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -38,7 +38,7 @@
 }
 
 /* x button */
-.tagRemove{
+.tagRemove {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -59,7 +59,7 @@
 }
 
 /* search input (first child in second .tags) */
-.tags > input[type="text"]{
+.tags > input[type="text"] {
   width: 100%;
   height: 38px;
   padding: 0 12px;
@@ -73,23 +73,23 @@
 
 /* hover/focus to match the purple accent */
 .tagName:hover,
-.tagRemove:hover{
+.tagRemove:hover {
   border-color: #4f46e5;
 }
 
-.tags > input[type="text"]:focus{
+.tags > input[type="text"]:focus {
   border-color: #4f46e5;
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
 }
 
 /* optional: make the chips not stretch weirdly */
 .tagName,
-.tagRemove{
+.tagRemove {
   white-space: nowrap;
 }
 
 /* the pill wrapper (button + x together) */
-.tags > div{
+.tags > div {
   display: inline-flex;
   align-items: center;
 
@@ -103,7 +103,7 @@
 }
 
 /* tag text */
-.tagName{
+.tagName {
   background: transparent;
   border: none;
   padding: 0;
@@ -116,7 +116,7 @@
 }
 
 /* x button inside pill */
-.tagRemove{
+.tagRemove {
   margin-left: 8px;
 
   width: 22px;
@@ -135,10 +135,10 @@
 }
 
 /* hover / focus accents */
-.tags > div:hover{
+.tags > div:hover {
   border-color: #4f46e5;
 }
 
-.tagRemove:hover{
+.tagRemove:hover {
   background: #e5e5e5;
 }

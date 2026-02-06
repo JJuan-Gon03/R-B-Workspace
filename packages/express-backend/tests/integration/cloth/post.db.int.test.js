@@ -27,18 +27,35 @@ afterAll(async () => {
   await mongo.stop();
 });
 
-test("POST /clothes",async()=>{
-  mockParseCloth.mockResolvedValueOnce("description")
+test("POST /clothes", async () => {
+  mockParseCloth.mockResolvedValueOnce("description");
 
-  const reqBody={user_id:123,name:"name",color:"color",type:"type",tags:[],img_url:"img_url",public_id:"public_id"}
-  const resBody={user_id:123,name:"name",color:"color",type:"type",tags:[],img_url:"img_url",public_id:"public_id",description:"description"}
+  const reqBody = {
+    user_id: 123,
+    name: "name",
+    color: "color",
+    type: "type",
+    tags: [],
+    img_url: "img_url",
+    public_id: "public_id",
+  };
+  const resBody = {
+    user_id: 123,
+    name: "name",
+    color: "color",
+    type: "type",
+    tags: [],
+    img_url: "img_url",
+    public_id: "public_id",
+    description: "description",
+  };
 
-  const res=await request(app).post("/wardrobe").send(reqBody)
+  const res = await request(app).post("/wardrobe").send(reqBody);
 
-  expect(res.status).toBe(201)
-  expect(res.body).toMatchObject(resBody)
+  expect(res.status).toBe(201);
+  expect(res.body).toMatchObject(resBody);
 
-  const docs=await Cloth.find({user_id: 123}).lean()
-  expect(docs).toHaveLength(1)
-  expect(docs[0]).toMatchObject(resBody)
-})
+  const docs = await Cloth.find({ user_id: 123 }).lean();
+  expect(docs).toHaveLength(1);
+  expect(docs[0]).toMatchObject(resBody);
+});

@@ -23,12 +23,13 @@ When editing a file enter ctrl + S to format code.
 For more information about using Prettier go to https://prettier.io/docs/install
 
 # How to Collaborate
+
 **Installing Packages**
 Run npm install in the root directory
-This will install @google/genai, Express, CORS, Mongoose, and set up the React dependencies. 
+This will install @google/genai, Express, CORS, Mongoose, and set up the React dependencies.
 
 Create a new branch with your changes.
 
 Create a pull request.
 
-Then we'll merge. 
+Then we'll merge.

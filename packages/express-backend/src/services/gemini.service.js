@@ -52,4 +52,4 @@ function resetChat() {
   chat = null;
 }
 
-export {main, parse_cloth, resetChat};
+export { main, parse_cloth, resetChat };

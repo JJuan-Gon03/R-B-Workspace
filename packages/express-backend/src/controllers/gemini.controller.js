@@ -1,4 +1,4 @@
-import {main} from "../services/gemini.service.js";
+import { main } from "../services/gemini.service.js";
 
 const getGeminiResponse = async (req, res) => {
   try {
@@ -14,5 +14,4 @@ const getGeminiResponse = async (req, res) => {
   }
 };
 
-export {getGeminiResponse}
-
+export { getGeminiResponse };

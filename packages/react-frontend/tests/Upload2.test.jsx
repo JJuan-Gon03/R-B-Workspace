@@ -7,26 +7,25 @@ vi.mock("../src/servicescloudinary.js", async () => ({
   },
 }));
 
-vi.mock('../src/tags/TagsBox', () => ({
-  default: () => <div data-testid="child-mock" />
+vi.mock("../src/tags/TagsBox", () => ({
+  default: () => <div data-testid="child-mock" />,
 }));
 
 vi.spyOn(global, "fetch").mockResolvedValue({
-    ok: true,
-    json: async () => ({}),
+  ok: true,
+  json: async () => ({}),
 });
 
 import Upload2 from "../src/Upload2";
 
 test("basic functionality", async () => {
-  
   global.URL.createObjectURL = vi.fn(() => "blob:preview-url");
 
   render(<Upload2 setClothes={vi.fn()} />);
 
   fireEvent.click(screen.getByText("Upload Item"));
 
-  expect(screen.getByTestId('child-mock')).toBeInTheDocument();
+  expect(screen.getByTestId("child-mock")).toBeInTheDocument();
 
   const select_name = screen.getByLabelText("name-select");
 

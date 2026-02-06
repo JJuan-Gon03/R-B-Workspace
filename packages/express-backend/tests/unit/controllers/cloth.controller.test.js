@@ -171,9 +171,9 @@ test("deleteCloth -> removeClothById error", async () => {
 });
 
 test("deleteCloth -> removeClothById success -> main error", async () => {
-  const deletedCloth={user_id:123}
-  mockRemoveClothById.mockResolvedValueOnce(deletedCloth)
-  mockMain.mockRejectedValueOnce(new Error('error'))
+  const deletedCloth = { user_id: 123 };
+  mockRemoveClothById.mockResolvedValueOnce(deletedCloth);
+  mockMain.mockRejectedValueOnce(new Error("error"));
 
   const req = { params: { clothId: 123 } };
   const res = makeRes();
@@ -186,13 +186,15 @@ test("deleteCloth -> removeClothById success -> main error", async () => {
     deletedCloth.user_id
   );
   expect(res.status).toHaveBeenCalledWith(500);
-  expect(res.json).toHaveBeenCalledWith({ message: "error sending deleted cloth to gemini chat" });
+  expect(res.json).toHaveBeenCalledWith({
+    message: "error sending deleted cloth to gemini chat",
+  });
 });
 
 test("deleteCloth -> removeClothById success -> main success -> cloudinary delete image error", async () => {
-  const deletedCloth={user_id:123, public_id:123}
-  mockRemoveClothById.mockResolvedValueOnce(deletedCloth)
-  mockDeleteImageFromCloudinary.mockRejectedValueOnce(new Error('error'))
+  const deletedCloth = { user_id: 123, public_id: 123 };
+  mockRemoveClothById.mockResolvedValueOnce(deletedCloth);
+  mockDeleteImageFromCloudinary.mockRejectedValueOnce(new Error("error"));
 
   const req = { params: { clothId: 123 } };
   const res = makeRes();
@@ -204,14 +206,18 @@ test("deleteCloth -> removeClothById success -> main success -> cloudinary delet
     expect.stringContaining(JSON.stringify(deletedCloth)),
     deletedCloth.user_id
   );
-  expect(mockDeleteImageFromCloudinary).toHaveBeenCalledWith(deletedCloth.public_id)
+  expect(mockDeleteImageFromCloudinary).toHaveBeenCalledWith(
+    deletedCloth.public_id
+  );
   expect(res.status).toHaveBeenCalledWith(500);
-  expect(res.json).toHaveBeenCalledWith({ message: "error deleting image from cloudinary" });
+  expect(res.json).toHaveBeenCalledWith({
+    message: "error deleting image from cloudinary",
+  });
 });
 
 test("deleteCloth -> removeClothById success -> main success -> cloudinary delete image success -> return success", async () => {
-  const deletedCloth={user_id:123, public_id:123}
-  mockRemoveClothById.mockResolvedValueOnce(deletedCloth)
+  const deletedCloth = { user_id: 123, public_id: 123 };
+  mockRemoveClothById.mockResolvedValueOnce(deletedCloth);
 
   const req = { params: { clothId: 123 } };
   const res = makeRes();
@@ -223,7 +229,9 @@ test("deleteCloth -> removeClothById success -> main success -> cloudinary delet
     expect.stringContaining(JSON.stringify(deletedCloth)),
     deletedCloth.user_id
   );
-  expect(mockDeleteImageFromCloudinary).toHaveBeenCalledWith(deletedCloth.public_id)
+  expect(mockDeleteImageFromCloudinary).toHaveBeenCalledWith(
+    deletedCloth.public_id
+  );
   expect(res.status).toHaveBeenCalledWith(200);
   expect(res.send).toHaveBeenCalled();
 });

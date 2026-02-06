@@ -10,4 +10,4 @@ const TagSchema = new mongoose.Schema(
 
 const Tag = mongoose.model("Tag", TagSchema);
 
-export {Tag};
+export { Tag };

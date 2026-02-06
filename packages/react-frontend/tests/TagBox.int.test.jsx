@@ -79,10 +79,9 @@ test("add to selected tags", async () => {
     />
   );
 
-
   const bottomSection = screen.getByRole("separator").nextSibling;
   const tag1 = await within(bottomSection).findByText("tag1");
-  fireEvent.click(tag1)
+  fireEvent.click(tag1);
 
   await waitFor(() => {
     expect(selectedTags).toEqual([{ _id: 1, user_id: 123, name: "tag1" }]);

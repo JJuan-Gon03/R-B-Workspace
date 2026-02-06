@@ -39,15 +39,18 @@ test("recieving a message", async () => {
   });
   fireEvent.click(screen.getByText("Send"));
 
-  await waitFor(()=>{
+  await waitFor(() => {
     expect(screen.getByText("hi! how can i help you?")).toBeInTheDocument();
-  })
+  });
 });
 
 test("recieving a message with images", async () => {
   vi.spyOn(global, "fetch").mockResolvedValue({
     ok: true,
-    json: async () => ({ text: "hi! how can i help you?", imgs: [hoodie_img,sweatpant_img]}),
+    json: async () => ({
+      text: "hi! how can i help you?",
+      imgs: [hoodie_img, sweatpant_img],
+    }),
   });
 
   render(<Assistant />);
@@ -57,10 +60,10 @@ test("recieving a message with images", async () => {
   });
   fireEvent.click(screen.getByText("Send"));
 
-  await waitFor(()=>{
+  await waitFor(() => {
     expect(screen.getByText("hi! how can i help you?")).toBeInTheDocument();
-    
+
     const imgs = document.querySelectorAll("img");
     expect(imgs.length).toBe(2);
-  })
+  });
 });

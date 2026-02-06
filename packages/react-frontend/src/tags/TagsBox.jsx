@@ -1,31 +1,45 @@
-import {useState,useEffect} from "react"
-import UnselectedTagsBox from "./UnselectedTagsBox"
-import SelectedTagsBox from "./SelectedTagsBox"
-import "./TagBoxSelections.css"
+import { useState, useEffect } from "react";
+import UnselectedTagsBox from "./UnselectedTagsBox";
+import SelectedTagsBox from "./SelectedTagsBox";
+import "./TagBoxSelections.css";
 
-export default function TagsBox({selectedTags,setSelectedTags,refreshTrigger}){
-    const [unselectedTags,setUnselectedTags]=useState([])
+export default function TagsBox({
+  selectedTags,
+  setSelectedTags,
+  refreshTrigger,
+}) {
+  const [unselectedTags, setUnselectedTags] = useState([]);
 
-    useEffect(()=>{
-        async function fetchData(){
-            try{
-                const res=await fetch("http://localhost:8000/tags/123")
-                const tags=await res.json()
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await fetch("http://localhost:8000/tags/123");
+        const tags = await res.json();
 
-                if(!res.ok){throw new Error(res_json?.message)}
-                setUnselectedTags(tags)
-            }catch(err){
-                console.log(err?.message || err)
-            }
+        if (!res.ok) {
+          throw new Error(res_json?.message);
         }
-        fetchData()
-    },[refreshTrigger])
+        setUnselectedTags(tags);
+      } catch (err) {
+        console.log(err?.message || err);
+      }
+    }
+    fetchData();
+  }, [refreshTrigger]);
 
-    return(
-        <div>
-            <SelectedTagsBox selectedTags={selectedTags} setSelectedTags={setSelectedTags} setUnselectedTags={setUnselectedTags}/>
-            <hr />
-            <UnselectedTagsBox unselectedTags={unselectedTags} setUnselectedTags={setUnselectedTags} setSelectedTags={setSelectedTags}/>
-        </div>
-    )
+  return (
+    <div>
+      <SelectedTagsBox
+        selectedTags={selectedTags}
+        setSelectedTags={setSelectedTags}
+        setUnselectedTags={setUnselectedTags}
+      />
+      <hr />
+      <UnselectedTagsBox
+        unselectedTags={unselectedTags}
+        setUnselectedTags={setUnselectedTags}
+        setSelectedTags={setSelectedTags}
+      />
+    </div>
+  );
 }

@@ -22,7 +22,12 @@ export default function AuthModal({ variant = "signin", onClose, onGoogle }) {
       role="presentation"
       onMouseDown={(e) => e.target === e.currentTarget && onClose?.()}
     >
-      <div className="modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+      <div
+        className="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="auth-modal-title"
+      >
         <div className="modal-header">
           <h2 className="modal-title" id="auth-modal-title">
             {isRegister ? "Register" : "Sign in"}
@@ -38,24 +43,29 @@ export default function AuthModal({ variant = "signin", onClose, onGoogle }) {
           <div className="modal-left">
             <div className="modal-left-box">
               <div className="modal-left-icon">👕</div>
-              <div className="modal-left-text">{isRegister ? "Join THRIFTR" : "Welcome back"}</div>
+              <div className="modal-left-text">
+                {isRegister ? "Join THRIFTR" : "Welcome back"}
+              </div>
               <div className="modal-left-hint">
-                {isRegister ? "Save & shop your style" : "Pick up where you left off"}
+                {isRegister
+                  ? "Save & shop your style"
+                  : "Pick up where you left off"}
               </div>
             </div>
           </div>
 
           <form className="modal-form" onSubmit={(e) => e.preventDefault()}>
             {/* Google sign-in */}
-<button
-  className="google-btn"
-  type="button"
-  onClick={() => {
-    window.location.href = "http://localhost:8000/auth/google?mode=signin";
-  }}
->
-  Continue with Google
-</button>
+            <button
+              className="google-btn"
+              type="button"
+              onClick={() => {
+                window.location.href =
+                  "http://localhost:8000/auth/google?mode=signin";
+              }}
+            >
+              Continue with Google
+            </button>
 
             <div className="divider" role="separator" aria-label="or">
               <span>or</span>
@@ -64,24 +74,44 @@ export default function AuthModal({ variant = "signin", onClose, onGoogle }) {
             {isRegister && (
               <label className="field">
                 <span className="field-label">Name*</span>
-                <input className="field-input" type="text" placeholder="Your name" required />
+                <input
+                  className="field-input"
+                  type="text"
+                  placeholder="Your name"
+                  required
+                />
               </label>
             )}
 
             <label className="field">
               <span className="field-label">Email*</span>
-              <input className="field-input" type="email" placeholder="you@example.com" required />
+              <input
+                className="field-input"
+                type="email"
+                placeholder="you@example.com"
+                required
+              />
             </label>
 
             <label className="field">
               <span className="field-label">Password*</span>
-              <input className="field-input" type="password" placeholder="••••••••" required />
+              <input
+                className="field-input"
+                type="password"
+                placeholder="••••••••"
+                required
+              />
             </label>
 
             {isRegister && (
               <label className="field">
                 <span className="field-label">Confirm Password*</span>
-                <input className="field-input" type="password" placeholder="••••••••" required />
+                <input
+                  className="field-input"
+                  type="password"
+                  placeholder="••••••••"
+                  required
+                />
               </label>
             )}
 

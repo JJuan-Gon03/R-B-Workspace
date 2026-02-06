@@ -5,7 +5,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   margin: 0;
   padding: 0;
@@ -43,7 +44,7 @@ html, body {
 /* 4. Image Row - This forces side-by-side alignment */
 .image-row {
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 15px;
@@ -51,14 +52,14 @@ html, body {
   max-width: 1200px;
   margin: 40px auto;
   /* Remove flex-wrap if you want them to stay in one line always */
-  flex-wrap: nowrap; 
+  flex-wrap: nowrap;
 }
 
 .clothing-card {
   width: 180px;
   height: 240px;
   background: white;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   flex-shrink: 0; /* Prevents images from getting squished */
 }
 
@@ -178,8 +179,8 @@ html, body {
 }
 
 /* These sections must stretch 100% to show their background colors */
-.hero-section, 
-.how-it-works, 
+.hero-section,
+.how-it-works,
 .cta-section,
 .footer {
   width: 100%;
@@ -200,7 +201,7 @@ html, body {
 
 .image-row {
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 15px;
