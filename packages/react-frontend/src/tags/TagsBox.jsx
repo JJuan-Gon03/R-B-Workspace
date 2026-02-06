@@ -1,6 +1,7 @@
 import {useState,useEffect} from "react"
 import UnselectedTagsBox from "./UnselectedTagsBox"
 import SelectedTagsBox from "./SelectedTagsBox"
+import "./TagBoxSelections.css"
 
 export default function TagsBox({selectedTags,setSelectedTags,refreshTrigger}){
     const [unselectedTags,setUnselectedTags]=useState([])
@@ -9,10 +10,10 @@ export default function TagsBox({selectedTags,setSelectedTags,refreshTrigger}){
         async function fetchData(){
             try{
                 const res=await fetch("http://localhost:8000/tags/123")
-                const res_json=await res.json()
+                const tags=await res.json()
 
                 if(!res.ok){throw new Error(res_json?.message)}
-                setUnselectedTags(res_json)
+                setUnselectedTags(tags)
             }catch(err){
                 console.log(err?.message || err)
             }

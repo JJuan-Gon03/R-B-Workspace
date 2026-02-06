@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./Assistant.css";
 
 export default function Assistant() {
   const [text, setText] = useState("");
@@ -32,32 +33,56 @@ export default function Assistant() {
 
       setReady(true);
     } catch (err) {
-      setChat((prev) => [...prev, ["AI Assistant is unavailable at this time"]]);
+      setChat((prev) => [
+        ...prev,
+        ["AI Assistant is unavailable at this time"],
+      ]);
       console.log(err?.message || err);
     }
   }
 
   if (!open) {
-    return <button className="chatbox-open" onClick={() => setOpen(true)}>AI</button>;
+    return (
+      <button className="chatbox-open" onClick={() => setOpen(true)}>
+        AI
+      </button>
+    );
   }
 
   return (
     <div className="chatbox">
       <div className="chatbox-header">AI Assistant</div>
-      <button className="chatbox-close" onClick={() => setOpen(false)}>✕</button>
-      {chat.map((t, i) => {
-        return (
-          <div className="chatbox-message" key={i}>
-            {t[0]}
-            {t.length > 1 &&
-              t[1].map((imgurl, idx) => <img className="chatbox-message-image" key={idx} src={imgurl} />)}
-          </div>
-        );
-      })}
+      <button className="chatbox-close" onClick={() => setOpen(false)}>
+        ✕
+      </button>
+
+      <div className="chatbox-messages">
+        {chat.map((t, i) => {
+          return (
+            <div className="chatbox-message" key={i}>
+              {t[0]}
+              {t.length > 1 &&
+                t[1].map((imgurl, idx) => (
+                  <img
+                    className="chatbox-message-image"
+                    key={idx}
+                    src={imgurl}
+                  />
+                ))}
+            </div>
+          );
+        })}
+      </div>
 
       <form className="chatbox-form" onSubmit={handleSubmit}>
-        <input className="chatbox-input" value={text} onChange={(e) => setText(e.target.value)} />
-        <button className="chatbox-send" disabled={!ready || !text.trim()}>Send</button>
+        <input
+          className="chatbox-input"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+        <button className="chatbox-send" disabled={!ready || !text.trim()}>
+          Send
+        </button>
       </form>
     </div>
   );

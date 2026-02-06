@@ -1,5 +1,3 @@
-import "./TagBoxSelections.css"
-
 export default function SelectedTagsBox({selectedTags,setSelectedTags,setUnselectedTags}){
 
     function removeFromSelected(event,tagJsonToRemove){

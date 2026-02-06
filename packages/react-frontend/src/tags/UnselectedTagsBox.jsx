@@ -1,6 +1,5 @@
 import AddTagButton from "./AddTagButton"
 import {useState} from "react"
-import "./TagBoxSelections.css"
 
 export default function UnselectedTagsBox({unselectedTags,setUnselectedTags,setSelectedTags}){
     const [searchPrefix,setSearchPrefix]=useState("")
