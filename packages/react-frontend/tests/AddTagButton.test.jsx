@@ -8,7 +8,7 @@ test("basic functionality",async()=>{
         json: async() => ({message: "error"})
     })
 
-    render(<AddTagButton setUnselectedTags={vi.fn()}/>)
+    render(<AddTagButton setUnselectedTags={vi.fn()} setSearchPrefix={vi.fn()}/>)
 
     fireEvent.click(screen.getByRole("button"))
 
