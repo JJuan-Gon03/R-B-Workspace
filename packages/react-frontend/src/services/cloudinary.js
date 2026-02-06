@@ -8,7 +8,7 @@ async function uploadImage(formData) {
   );
 
   const data = await upload.json();
-  return data.secure_url;
+  return { img_url: data.secure_url, public_id: data.public_id };
 }
 
 async function getImgURL(img_file) {

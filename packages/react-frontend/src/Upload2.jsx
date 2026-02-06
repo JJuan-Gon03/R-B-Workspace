@@ -40,7 +40,7 @@ export default function Upload({ setClothes }) {
     setBusy(true);
 
     try {
-      const img_url = await cloudinary.getImgURL(img);
+      const result = await cloudinary.getImgURL(img);
       const res = await fetch("http://localhost:8000/wardrobe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -50,7 +50,8 @@ export default function Upload({ setClothes }) {
           color: color,
           type: type,
           tags: selectedTags,
-          img_url: img_url,
+          img_url: result.img_url,
+          public_id: result.public_id,
         }),
       });
 
@@ -185,7 +186,13 @@ export default function Upload({ setClothes }) {
             onChange={(e) => fileSelected(e)}
             aria-label="file-select"
           />
-          {preview && <img className="upload-form-imagePreview" src={preview} aria-label="preview"/>}
+          {preview && (
+            <img
+              className="upload-form-imagePreview"
+              src={preview}
+              aria-label="preview"
+            />
+          )}
 
           <button className="upload-form-submit" type="submit" disabled={busy}>
             Upload
