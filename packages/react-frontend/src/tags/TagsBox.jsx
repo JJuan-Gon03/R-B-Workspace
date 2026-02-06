@@ -17,7 +17,7 @@ export default function TagsBox({
         const tags = await res.json();
 
         if (!res.ok) {
-          throw new Error(res_json?.message);
+          throw new Error(tags?.message);
         }
         setUnselectedTags(tags);
       } catch (err) {

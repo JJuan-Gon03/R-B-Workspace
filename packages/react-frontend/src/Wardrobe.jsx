@@ -11,7 +11,7 @@ const CATEGORIES = [
   "Accessories",
 ];
 
-export default function Wardrobe({ clothImgUrls = [], setWardrobeImages }) {
+export default function Wardrobe() {
   const [selected, setSelected] = useState(null);
   const [activeCategory, setActiveCategory] = useState("All");
   const [clothes, setClothes] = useState([]);
