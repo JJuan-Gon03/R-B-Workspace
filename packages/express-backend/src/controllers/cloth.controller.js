@@ -48,12 +48,28 @@ const getClothes = async (req, res) => {
 };
 
 const deleteCloth = async (req, res) => {
+  let deletedCloth;
+
   try {
-    await removeClothById(req.params.clothId);
-    res.status(200).send();
+    deletedCloth = await removeClothById(req.params.clothId);
   } catch (err) {
     return handleMongoDBError(res, err);
   }
+
+  if (deleteCloth) {
+    try {
+      await main(
+        `The user has just deleted an item from their wardrobe: ${JSON.stringify(deletedCloth)}. Take note of this. There is no need to respond.`,
+        deletedCloth.user_id
+      );
+    } catch (err) {
+      return res
+        .status(500)
+        .json({ message: "error sending deleted cloth to gemini chat" });
+    }
+  }
+
+  res.status(200).send();
 };
 
 export { postCloth, getClothes, deleteCloth };
