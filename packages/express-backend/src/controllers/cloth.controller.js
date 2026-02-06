@@ -5,6 +5,7 @@ import {
 } from "../services/cloth.service.js";
 import { parse_cloth, main } from "../services/gemini.service.js";
 import { handleMongoDBError } from "../db.js";
+import { delete_image_from_cloudinary } from "../services/cloudinary.service.js";
 
 const postCloth = async (req, res) => {
   try {
@@ -66,6 +67,14 @@ const deleteCloth = async (req, res) => {
       return res
         .status(500)
         .json({ message: "error sending deleted cloth to gemini chat" });
+    }
+
+    try {
+      await delete_image_from_cloudinary(deletedCloth.public_id);
+    } catch (err) {
+      return res
+        .status(500)
+        .json({ message: "error deleting image from cloudinary" });
     }
   }
 

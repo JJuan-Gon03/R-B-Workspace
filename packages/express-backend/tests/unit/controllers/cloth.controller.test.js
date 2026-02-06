@@ -22,6 +22,11 @@ jest.unstable_mockModule("../../../src/services/gemini.service.js", () => ({
   main: mockMain,
 }));
 
+const mockDeleteImageFromCloudinary = jest.fn();
+jest.unstable_mockModule("../../../src/services/cloudinary.service.js", () => ({
+  delete_image_from_cloudinary: mockDeleteImageFromCloudinary,
+}));
+
 const { postCloth, getClothes, deleteCloth } = await import(
   "../../../src/controllers/cloth.controller.js"
 );
@@ -184,8 +189,28 @@ test("deleteCloth -> removeClothById success -> main error", async () => {
   expect(res.json).toHaveBeenCalledWith({ message: "error sending deleted cloth to gemini chat" });
 });
 
-test("deleteCloth -> removeClothById success -> return success", async () => {
-  const deletedCloth={user_id:123}
+test("deleteCloth -> removeClothById success -> main success -> cloudinary delete image error", async () => {
+  const deletedCloth={user_id:123, public_id:123}
+  mockRemoveClothById.mockResolvedValueOnce(deletedCloth)
+  mockDeleteImageFromCloudinary.mockRejectedValueOnce(new Error('error'))
+
+  const req = { params: { clothId: 123 } };
+  const res = makeRes();
+
+  await deleteCloth(req, res);
+
+  expect(mockRemoveClothById).toHaveBeenCalledWith(req.params.clothId);
+  expect(mockMain).toHaveBeenCalledWith(
+    expect.stringContaining(JSON.stringify(deletedCloth)),
+    deletedCloth.user_id
+  );
+  expect(mockDeleteImageFromCloudinary).toHaveBeenCalledWith(deletedCloth.public_id)
+  expect(res.status).toHaveBeenCalledWith(500);
+  expect(res.json).toHaveBeenCalledWith({ message: "error deleting image from cloudinary" });
+});
+
+test("deleteCloth -> removeClothById success -> main success -> cloudinary delete image success -> return success", async () => {
+  const deletedCloth={user_id:123, public_id:123}
   mockRemoveClothById.mockResolvedValueOnce(deletedCloth)
 
   const req = { params: { clothId: 123 } };
@@ -198,6 +223,7 @@ test("deleteCloth -> removeClothById success -> return success", async () => {
     expect.stringContaining(JSON.stringify(deletedCloth)),
     deletedCloth.user_id
   );
+  expect(mockDeleteImageFromCloudinary).toHaveBeenCalledWith(deletedCloth.public_id)
   expect(res.status).toHaveBeenCalledWith(200);
   expect(res.send).toHaveBeenCalled();
 });

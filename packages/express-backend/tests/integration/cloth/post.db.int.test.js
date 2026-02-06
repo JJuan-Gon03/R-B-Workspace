@@ -30,8 +30,8 @@ afterAll(async () => {
 test("POST /clothes",async()=>{
   mockParseCloth.mockResolvedValueOnce("description")
 
-  const reqBody={user_id:123,name:"name",color:"color",type:"type",tags:[],img_url:"img_url"}
-  const resBody={user_id:123,name:"name",color:"color",type:"type",tags:[],img_url:"img_url",description:"description"}
+  const reqBody={user_id:123,name:"name",color:"color",type:"type",tags:[],img_url:"img_url",public_id:"public_id"}
+  const resBody={user_id:123,name:"name",color:"color",type:"type",tags:[],img_url:"img_url",public_id:"public_id",description:"description"}
 
   const res=await request(app).post("/wardrobe").send(reqBody)
 

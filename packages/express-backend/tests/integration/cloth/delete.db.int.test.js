@@ -10,6 +10,11 @@ jest.unstable_mockModule("../../../src/services/gemini.service.js", () => ({
   parse_cloth: jest.fn(),
 }));
 
+const mockDeleteImageFromCloudinary = jest.fn();
+jest.unstable_mockModule("../../../src/services/cloudinary.service.js", () => ({
+  delete_image_from_cloudinary: mockDeleteImageFromCloudinary,
+}));
+
 const { app } = await import("../../../src/app.js");
 const { Cloth } = await import("../../../src/models/cloth.model.js");
 
@@ -27,6 +32,7 @@ beforeAll(async () => {
     type: "type",
     tags: [],
     img_url: "img_url",
+    public_id: "public_id",
     description: "description",
   });
 });
@@ -44,6 +50,7 @@ test("DELETE /clothes/:cloth_id", async () => {
   expect(res.status).toBe(200);
 
   expect(mockMain).toHaveBeenCalled();
+  expect(mockDeleteImageFromCloudinary).toHaveBeenCalled();
 
   const docs = await Cloth.find({ user_id: 123 }).lean();
   expect(docs).toHaveLength(0);
