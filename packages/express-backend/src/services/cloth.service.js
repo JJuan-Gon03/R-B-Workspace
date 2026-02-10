@@ -16,4 +16,9 @@ function removeTagFromClothes(tag_id) {
   return Cloth.updateMany({ tags: tag_id }, { $pull: { tags: tag_id } });
 }
 
-export { getClothesByUserId, addCloth, removeClothById, removeTagFromClothes };
+async function getPublicId(clothId) {
+  const cloth = await Cloth.findById(clothId);
+  return cloth.public_id;
+}
+
+export { getPublicId, getClothesByUserId, addCloth, removeClothById, removeTagFromClothes };

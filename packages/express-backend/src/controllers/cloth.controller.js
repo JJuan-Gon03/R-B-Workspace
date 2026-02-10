@@ -2,6 +2,7 @@ import {
   getClothesByUserId,
   addCloth,
   removeClothById,
+  getPublicId,
 } from "../services/cloth.service.js";
 import { parse_cloth, main } from "../services/gemini.service.js";
 import { handleMongoDBError } from "../db.js";
@@ -50,35 +51,41 @@ const getClothes = async (req, res) => {
 };
 
 const deleteCloth = async (req, res) => {
+  const clothId = req.params.clothId;
+  let publicId;
   let deletedCloth;
 
   try {
-    deletedCloth = await removeClothById(req.params.clothId);
+    publicId = await getPublicId(clothId);
   } catch (err) {
     return handleMongoDBError(res, err);
   }
 
-  if (deleteCloth) {
-    try {
-      await main(
-        `The user has just deleted an item from their wardrobe: ${JSON.stringify(deletedCloth)}. Take note of this. There is no need to respond.`,
-        deletedCloth.user_id
-      );
-    } catch (err) {
-      console.log(err);
-      return res
-        .status(500)
-        .json({ message: "error sending deleted cloth to gemini chat" });
-    }
+  try {
+    await delete_image_from_cloudinary(publicId);
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .json({ message: "error deleting image from cloudinary" });
+  }
 
-    try {
-      await delete_image_from_cloudinary(deletedCloth.public_id);
-    } catch (err) {
-      console.log(err);
-      return res
-        .status(500)
-        .json({ message: "error deleting image from cloudinary" });
-    }
+  try {
+    deletedCloth = await removeClothById(clothId);
+  } catch (err) {
+    return handleMongoDBError(res, err);
+  }
+
+  try {
+    await main(
+      `The user has just deleted an item from their wardrobe: ${JSON.stringify(deletedCloth)}. Take note of this. There is no need to respond.`,
+      deletedCloth.user_id
+    );
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .json({ message: "error sending deleted cloth to gemini chat" });
   }
 
   res.status(200).send();
