@@ -5,7 +5,7 @@ import {
   addCloth,
   removeClothById,
   removeTagFromClothes,
-  getPublicId
+  getPublicId,
 } from "../../../src/services/cloth.service.js";
 
 const expected_result = [{ test_value: "test_value" }];
@@ -60,10 +60,8 @@ test("remove tag from clothes", async () => {
 });
 
 test("get public id", async () => {
-  const cloth={public_id: 123}
-  const findSpy = jest
-    .spyOn(Cloth, "findById")
-    .mockResolvedValue(cloth);
+  const cloth = { public_id: 123 };
+  const findSpy = jest.spyOn(Cloth, "findById").mockResolvedValue(cloth);
 
   const cloth_id = 123;
   const result = await getPublicId(cloth_id);

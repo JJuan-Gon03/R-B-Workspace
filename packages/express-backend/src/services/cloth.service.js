@@ -21,4 +21,10 @@ async function getPublicId(clothId) {
   return cloth.public_id;
 }
 
-export { getPublicId, getClothesByUserId, addCloth, removeClothById, removeTagFromClothes };
+export {
+  getPublicId,
+  getClothesByUserId,
+  addCloth,
+  removeClothById,
+  removeTagFromClothes,
+};

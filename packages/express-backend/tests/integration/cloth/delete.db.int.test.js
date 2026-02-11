@@ -51,7 +51,7 @@ test("DELETE /clothes/:cloth_id", async () => {
 
   expect(mockDeleteImageFromCloudinary).toHaveBeenCalled();
   expect(mockMain).toHaveBeenCalled();
-  
+
   const docs = await Cloth.find({ user_id: 123 }).lean();
   expect(docs).toHaveLength(0);
 });
