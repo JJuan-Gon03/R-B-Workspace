@@ -4,7 +4,7 @@ import {
   removeClothById,
   getPublicId,
 } from "../services/cloth.service.js";
-import { parse_cloth, main } from "../services/gemini.service.js";
+import { parse_cloth } from "../services/gemini.service.js";
 import { handleMongoDBError } from "../db.js";
 import { delete_image_from_cloudinary } from "../services/cloudinary.service.js";
 
@@ -26,18 +26,6 @@ const postCloth = async (req, res) => {
     return handleMongoDBError(res, err);
   }
 
-  try {
-    await main(
-      `The user has just uploaded a new item to their wardrobe: ${JSON.stringify(req.body)}. Take note of this. There is no need to respond.`,
-      req.body.user_id
-    );
-  } catch (err) {
-    console.log(err);
-    return res
-      .status(500)
-      .json({ message: "error sending uploaded image to gemini chat" });
-  }
-
   return res.status(201).send(req.body);
 };
 
@@ -53,7 +41,6 @@ const getClothes = async (req, res) => {
 const deleteCloth = async (req, res) => {
   const clothId = req.params.clothId;
   let publicId;
-  let deletedCloth;
 
   try {
     publicId = await getPublicId(clothId);
@@ -71,21 +58,9 @@ const deleteCloth = async (req, res) => {
   }
 
   try {
-    deletedCloth = await removeClothById(clothId);
+    await removeClothById(clothId);
   } catch (err) {
     return handleMongoDBError(res, err);
-  }
-
-  try {
-    await main(
-      `The user has just deleted an item from their wardrobe: ${JSON.stringify(deletedCloth)}. Take note of this. There is no need to respond.`,
-      deletedCloth.user_id
-    );
-  } catch (err) {
-    console.log(err);
-    return res
-      .status(500)
-      .json({ message: "error sending deleted cloth to gemini chat" });
   }
 
   res.status(200).send();

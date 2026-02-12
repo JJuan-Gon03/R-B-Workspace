@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 import Saved from "./Saved";
 import Wardrobe from "./Wardrobe";
 import Assistant from "./Assistant";
-import Homepage from "./homepage";
+import Homepage from "./Homepage";
 import { Routes, Route } from "react-router-dom";
 
 function App() {

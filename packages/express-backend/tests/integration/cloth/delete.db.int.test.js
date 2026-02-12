@@ -3,13 +3,6 @@ import request from "supertest";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
-const mockMain = jest.fn();
-
-jest.unstable_mockModule("../../../src/services/gemini.service.js", () => ({
-  main: mockMain,
-  parse_cloth: jest.fn(),
-}));
-
 const mockDeleteImageFromCloudinary = jest.fn();
 jest.unstable_mockModule("../../../src/services/cloudinary.service.js", () => ({
   delete_image_from_cloudinary: mockDeleteImageFromCloudinary,
@@ -50,7 +43,6 @@ test("DELETE /clothes/:cloth_id", async () => {
   expect(res.status).toBe(200);
 
   expect(mockDeleteImageFromCloudinary).toHaveBeenCalled();
-  expect(mockMain).toHaveBeenCalled();
 
   const docs = await Cloth.find({ user_id: 123 }).lean();
   expect(docs).toHaveLength(0);

@@ -3,7 +3,7 @@ import "./homepage.css";
 import { useState } from "react";
 import AuthModal from "./AuthModal";
 
-const homepage = () => {
+const Homepage = () => {
   const images = [
     "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=300",
     "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300",
@@ -115,4 +115,4 @@ const homepage = () => {
   );
 };
 
-export default homepage;
+export default Homepage;

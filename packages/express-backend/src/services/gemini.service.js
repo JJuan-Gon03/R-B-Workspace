@@ -16,23 +16,21 @@ const replySchema = z.object({
 });
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-let chat = null;
 
 async function main(prompt, user_id) {
-  if (!chat) {
-    const wardrobe = await getClothesByUserId(user_id);
-    const tgs = await getTags(user_id);
-    chat = ai.chats.create({
-      model: "gemini-2.5-flash",
-      config: {
-        systemInstruction: `You are an AI assistant with access to a user's wardrobe: ${wardrobe}. Wardrobe items have tag ids that are associated with tag objects: ${tgs}`,
-        responseMimeType: "application/json",
-        responseJsonSchema: zodToJsonSchema(replySchema),
-      },
-    });
-  }
+  const wardrobe = await getClothesByUserId(user_id);
+  const tags = await getTags(user_id);
 
-  const response = await chat.sendMessage({ message: prompt });
+  const response = await ai.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents: `You are an AI assistant with access to a user's wardrobe: ${wardrobe}. Wardrobe items have tag ids that are associated with tag objects: ${tags}
+               Do your best to answer the user's request: ${prompt}`,
+    config: {
+      responseMimeType: "application/json",
+      responseJsonSchema: zodToJsonSchema(replySchema),
+    },
+  });
+
   const reply = replySchema.parse(JSON.parse(response.text));
   return reply;
 }
@@ -45,11 +43,8 @@ async function parse_cloth(img_url) {
                IMPORTANT: If there is no url or there is anything else except a SINGLE CLOTHING/CLOTHING ACCESSORY item (NO HUMANS ALLOWED), return this text EXACTLY: INVALID`,
     config: { tools: [{ urlContext: {} }] },
   });
+
   return response.text;
 }
 
-function resetChat() {
-  chat = null;
-}
-
-export { main, parse_cloth, resetChat };
+export { main, parse_cloth };

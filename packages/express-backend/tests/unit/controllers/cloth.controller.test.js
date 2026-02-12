@@ -89,26 +89,6 @@ test("postCloth -> parseCloth success -> addCloth error", async () => {
   expect(mockHandleMongoDBError).toHaveBeenCalledWith(res, error);
 });
 
-test("postCloth -> parseCloth success -> addCloth success -> gemini main error", async () => {
-  mockMain.mockRejectedValueOnce(new Error("error"));
-
-  const req = { body: { img_url: "imgurl", user_id: 123 } };
-  const res = makeRes();
-
-  await postCloth(req, res);
-
-  expect(mockParseCloth).toHaveBeenCalledWith(req.body.img_url);
-  expect(mockAddCloth).toHaveBeenCalledWith(req.body);
-  expect(mockMain).toHaveBeenCalledWith(
-    expect.stringContaining(JSON.stringify(req.body)),
-    req.body.user_id
-  );
-  expect(res.status).toHaveBeenCalledWith(500);
-  expect(res.json).toHaveBeenCalledWith({
-    message: "error sending uploaded image to gemini chat",
-  });
-});
-
 test("postCloth -> parseCloth success -> addCloth success -> gemini main success -> return success", async () => {
   mockParseCloth.mockResolvedValueOnce("description");
 
@@ -119,10 +99,6 @@ test("postCloth -> parseCloth success -> addCloth success -> gemini main success
 
   expect(mockParseCloth).toHaveBeenCalledWith(req.body.img_url);
   expect(mockAddCloth).toHaveBeenCalledWith(req.body);
-  expect(mockMain).toHaveBeenCalledWith(
-    expect.stringContaining(JSON.stringify(req.body)),
-    req.body.user_id
-  );
   expect(res.status).toHaveBeenCalledWith(201);
   expect(res.send).toHaveBeenCalledWith(req.body);
   expect(req.body).toEqual({
@@ -210,32 +186,6 @@ test("deleteCloth -> removeClothById error", async () => {
   expect(mockHandleMongoDBError).toHaveBeenCalledWith(res, error);
 });
 
-test("deleteCloth -> gemini main error", async () => {
-  const publicId = 123;
-  const deletedCloth = { user_id: 123 };
-
-  mockGetPublicId.mockResolvedValueOnce(publicId);
-  mockRemoveClothById.mockResolvedValueOnce(deletedCloth);
-  mockMain.mockRejectedValueOnce(new Error("error"));
-
-  const req = { params: { clothId: 123 } };
-  const res = makeRes();
-
-  await deleteCloth(req, res);
-
-  expect(mockGetPublicId).toHaveBeenCalledWith(req.params.clothId);
-  expect(mockDeleteImageFromCloudinary).toHaveBeenCalledWith(publicId);
-  expect(mockRemoveClothById).toHaveBeenCalledWith(req.params.clothId);
-  expect(mockMain).toHaveBeenCalledWith(
-    expect.stringContaining(JSON.stringify(deletedCloth)),
-    deletedCloth.user_id
-  );
-  expect(res.status).toHaveBeenCalledWith(500);
-  expect(res.json).toHaveBeenCalledWith({
-    message: "error sending deleted cloth to gemini chat",
-  });
-});
-
 test("deleteCloth -> success", async () => {
   const publicId = 123;
   const deletedCloth = { user_id: 123 };
@@ -251,10 +201,6 @@ test("deleteCloth -> success", async () => {
   expect(mockGetPublicId).toHaveBeenCalledWith(req.params.clothId);
   expect(mockDeleteImageFromCloudinary).toHaveBeenCalledWith(publicId);
   expect(mockRemoveClothById).toHaveBeenCalledWith(req.params.clothId);
-  expect(mockMain).toHaveBeenCalledWith(
-    expect.stringContaining(JSON.stringify(deletedCloth)),
-    deletedCloth.user_id
-  );
   expect(res.status).toHaveBeenCalledWith(200);
   expect(res.send).toHaveBeenCalled();
 });

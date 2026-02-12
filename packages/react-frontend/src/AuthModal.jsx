@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import "./AuthModal.css";
 
-export default function AuthModal({ variant = "signin", onClose, onGoogle }) {
+export default function AuthModal({ variant = "signin", onClose }) {
   const isRegister = variant === "register";
 
   useEffect(() => {

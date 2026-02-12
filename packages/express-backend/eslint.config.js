@@ -3,12 +3,9 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
   {
+    ignores: ["**/*.test.js", "**/jest.config.js"],
     files: ["**/*.js"],
-    ignores: ["**/*.test.js"],
-    plugins: {
-      js,
-    },
-    extends: ["js/recommended"],
+    extends: [js.configs.recommended],
     rules: {
       "no-unused-vars": "warn",
     },

@@ -4,11 +4,9 @@ import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
 const mockParseCloth = jest.fn();
-const mockMain = jest.fn();
-
 jest.unstable_mockModule("../../../src/services/gemini.service.js", () => ({
   parse_cloth: mockParseCloth,
-  main: mockMain,
+  main: jest.fn(),
 }));
 
 const { app } = await import("../../../src/app.js");

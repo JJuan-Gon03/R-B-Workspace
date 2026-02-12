@@ -10,31 +10,24 @@ jest.unstable_mockModule("../../../src/services/tag.service.js", () => ({
   getTags: mockGetTags,
 }));
 
-const mockSendMessage = jest.fn();
-const mockChatsCreate = jest.fn(() => ({
-  sendMessage: mockSendMessage,
-}));
-
 const mockGenerateContent = jest.fn();
 
 jest.unstable_mockModule("@google/genai", () => ({
   GoogleGenAI: class {
     constructor() {
-      this.chats = { create: mockChatsCreate };
       this.models = { generateContent: mockGenerateContent };
     }
   },
 }));
 
-const { main, parse_cloth, resetChat } = await import(
+const { main, parse_cloth } = await import(
   "../../../src/services/gemini.service.js"
 );
 
 beforeEach(() => {
+  mockGenerateContent.mockReset();
   mockGetClothesByUserId.mockReset();
-  mockSendMessage.mockReset();
-  mockChatsCreate.mockClear();
-  resetChat();
+  mockGetTags.mockReset();
 });
 
 const hoodie_url =
@@ -56,12 +49,12 @@ test("parse_cloth()", async () => {
   );
 });
 
-test("main(): first call; create chat, send prompt, return reply", async () => {
-  mockGetClothesByUserId.mockResolvedValue([
-    { name: "hoodie", img_url: hoodie_url },
-  ]);
-  mockGetTags.mockResolvedValue([{}]);
-  mockSendMessage.mockResolvedValue({
+test("main()", async () => {
+  const clothes = [{ name: "hoodie", img_url: hoodie_url }];
+  const tags = [{ name: "tag" }];
+  mockGetClothesByUserId.mockResolvedValue(clothes);
+  mockGetTags.mockResolvedValue(tags);
+  mockGenerateContent.mockResolvedValue({
     text: JSON.stringify({
       text: "this hoodie would be fire for you",
       imgs: [hoodie_url],
@@ -69,26 +62,20 @@ test("main(): first call; create chat, send prompt, return reply", async () => {
   });
 
   const prompt1 = "what should i wear?";
-  const prompt2 = "what should i wear again?";
   const user_id = 123;
 
   const result = await main(prompt1, user_id);
-  const result2 = await main(prompt2, user_id);
 
   expect(result).toEqual({
-    text: "this hoodie would be fire for you",
-    imgs: [hoodie_url],
-  });
-  expect(result2).toEqual({
     text: "this hoodie would be fire for you",
     imgs: [hoodie_url],
   });
 
   expect(mockGetClothesByUserId).toHaveBeenCalledTimes(1);
   expect(mockGetClothesByUserId).toHaveBeenCalledWith(user_id);
-  expect(mockChatsCreate).toHaveBeenCalledTimes(1);
 
-  expect(mockSendMessage).toHaveBeenCalledTimes(2);
-  expect(mockSendMessage).toHaveBeenNthCalledWith(1, { message: prompt1 });
-  expect(mockSendMessage).toHaveBeenNthCalledWith(2, { message: prompt2 });
+  expect(mockGetTags).toHaveBeenCalledTimes(1);
+  expect(mockGetTags).toHaveBeenCalledWith(user_id);
+
+  expect(mockGenerateContent).toHaveBeenCalledTimes(1);
 });
