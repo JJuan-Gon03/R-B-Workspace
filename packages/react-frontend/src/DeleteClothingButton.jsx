@@ -6,15 +6,16 @@ export default function DeleteClothingButton({ clothId, setWardrobe }) {
       await deleteCloth(clothId);
     } catch (error) {
       console.log(error?.message || error);
+      //add error handling in the future
       return;
     }
 
-    setWardrobe((prev) => prev.filter((cloth) => cloth._id != clothId));
+    setWardrobe((prev) => prev.filter((cloth) => cloth._id !== clothId));
   }
 
   return (
     <div>
-      <button onClick={handleDelete()}>DELETE</button>
+      <button onClick={handleDelete}>DELETE</button>
     </div>
   );
 }

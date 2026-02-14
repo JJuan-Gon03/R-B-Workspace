@@ -7,8 +7,8 @@ async function deleteCloth(clothId) {
   );
 
   if (!res.ok) {
-    const err = await res.json().catch(() => null);
-    throw new Error(err?.message);
+    const err = await res.json();
+    throw new Error(err?.message || "Cloth Delete Failed");
   }
 }
 
