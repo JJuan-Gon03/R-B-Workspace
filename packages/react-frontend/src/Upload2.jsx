@@ -41,7 +41,7 @@ export default function Upload({ setClothes }) {
 
     try {
       const result = await cloudinary.getImgURL(img);
-      const res = await fetch("http://localhost:8000/wardrobe", {
+      const res = await fetch("thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/wardrobe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
