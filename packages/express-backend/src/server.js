@@ -5,6 +5,6 @@ import { connectDB } from "./db.js";
 await connectDB();
 
 const port = 8000;
-app.listen(port, () => {
-  console.log(`http://localhost:${port}`);
+app.listen(process.env.PORT || port, () => {
+  console.log("REST API is listening.");
 });
