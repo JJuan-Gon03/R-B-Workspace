@@ -22,6 +22,7 @@ export default function Wardrobe() {
 
     document.body.style.overflow = "hidden";
     document.body.style.overscrollBehavior = "none";
+    document.body.classList.add("wardrobe-page");
 
     fetch("http://localhost:8000/wardrobe/123")
       .then((res) => {
@@ -42,6 +43,7 @@ export default function Wardrobe() {
     return () => {
       document.body.style.overflow = prevOverflow;
       document.body.style.overscrollBehavior = prevOverscroll;
+      document.body.classList.remove("wardrobe-page");
     };
   }, []);
 
