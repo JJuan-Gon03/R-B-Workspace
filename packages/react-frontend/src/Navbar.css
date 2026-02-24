@@ -35,7 +35,7 @@
   color: #000;
 
   -webkit-text-stroke: 2px #fff;
-  text-stroke: 2px #fff;
+  /*text-stroke: 2px #fff;*/
 
   text-shadow: 0 4px 12px rgba(71, 71, 71, 0.45);
 
