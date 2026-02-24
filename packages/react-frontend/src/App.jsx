@@ -14,9 +14,6 @@ function App() {
     <div className="app">
       <Navbar />
       <Assistant />
-      <Routes>
-        <Route path="/homepage" element={<Homepage />} />
-      </Routes>
       <main className="page-wrap">
         <Routes>
           <Route
@@ -38,6 +35,7 @@ function App() {
               />
             }
           />
+          <Route path="/homepage" element={<Homepage />} />
         </Routes>
       </main>
     </div>

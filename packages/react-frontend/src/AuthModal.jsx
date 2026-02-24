@@ -61,7 +61,7 @@ export default function AuthModal({ variant = "signin", onClose }) {
               type="button"
               onClick={() => {
                 window.location.href =
-                  "thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/auth/google?mode=signin";
+                  "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/auth/google?mode=signin";
               }}
             >
               Continue with Google
