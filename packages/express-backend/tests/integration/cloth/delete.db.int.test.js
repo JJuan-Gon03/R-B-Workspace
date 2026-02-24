@@ -8,6 +8,12 @@ jest.unstable_mockModule("../../../src/services/cloudinary.service.js", () => ({
   delete_image_from_cloudinary: mockDeleteImageFromCloudinary,
 }));
 
+//have this cus azure screaming at me for its env vars
+jest.unstable_mockModule("../../../src/services/gemini.service.js", () => ({
+  parse_cloth: jest.fn(),
+  main: jest.fn(),
+}));
+
 const { app } = await import("../../../src/app.js");
 const { Cloth } = await import("../../../src/models/cloth.model.js");
 
