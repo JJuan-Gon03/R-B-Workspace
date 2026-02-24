@@ -20,7 +20,7 @@ export default function Navbar() {
     <>
       <header className="topbar">
         <div className="topbar-inner">
-          <NavLink>
+          <NavLink to="/homepage">
             <div className="topbar-brand">THRIFTR</div>
           </NavLink>
           <nav className="topbar-links" aria-label="Primary">

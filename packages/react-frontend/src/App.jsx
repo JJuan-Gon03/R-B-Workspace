@@ -16,8 +16,8 @@ function App() {
       <Assistant />
 
       <main className="page-wrap">
-        <Route path="/homepage" element={<Homepage />} />
         <Routes>
+          <Route path="/homepage" element={<Homepage />} />
           <Route
             path="/"
             element={
