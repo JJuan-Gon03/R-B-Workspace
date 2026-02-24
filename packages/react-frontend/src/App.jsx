@@ -14,6 +14,7 @@ function App() {
     <div className="app">
       <Navbar />
       <Assistant />
+
       <main className="page-wrap">
         <Routes>
           <Route
@@ -36,6 +37,7 @@ function App() {
             }
           />
           <Route path="/homepage" element={<Homepage />} />
+          <Route path="*" element={<div>Not found</div>} />
         </Routes>
       </main>
     </div>
