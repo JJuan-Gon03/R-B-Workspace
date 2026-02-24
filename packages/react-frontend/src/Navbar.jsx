@@ -7,7 +7,9 @@ export default function Navbar() {
   const [authOpen, setAuthOpen] = useState(false);
   const [authVariant, setAuthVariant] = useState("signin");
 
-  const API_BASE = import.meta.env.VITE_API_BASE || "thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
+  const API_BASE =
+    import.meta.env.VITE_API_BASE ||
+    "thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
 
   async (variant) => {
     window.location.href = `${API_BASE}/auth/google?mode=${encodeURIComponent(variant)}`;

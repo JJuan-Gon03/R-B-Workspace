@@ -15,7 +15,8 @@ export default function Assistant() {
 
     try {
       const res = await fetch(
-        "thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/gemini/response/123/" + encodeURIComponent(text)
+        "thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/gemini/response/123/" +
+          encodeURIComponent(text)
       );
 
       if (!res.ok) {
