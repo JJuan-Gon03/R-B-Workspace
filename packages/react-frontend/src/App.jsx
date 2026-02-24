@@ -16,6 +16,7 @@ function App() {
       <Assistant />
 
       <main className="page-wrap">
+        <Route path="/homepage" element={<Homepage />} />
         <Routes>
           <Route
             path="/"
@@ -36,7 +37,6 @@ function App() {
               />
             }
           />
-          <Route path="/homepage" element={<Homepage />} />
           <Route path="*" element={<div>Not found</div>} />
         </Routes>
       </main>
