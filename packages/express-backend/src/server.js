@@ -1,9 +1,14 @@
-import { app } from "./app.js";
-import { connectDB } from "./db.js";
+import "dotenv/config";
+import mongoose from "mongoose";
 
-await connectDB();
+mongoose.set("debug", true);
 
-const port = 8000;
-app.listen(process.env.PORT || port, () => {
-  console.log("REST API is listening.");
-});
+const MONGODB_URI =
+  process.env.MONGODB_URI || "mongodb://localhost:27017/randb";
+
+async function connectDB() {
+  mongoose
+    .connect(MONGODB_URI, {})
+    .connect("mongodb://localhost:27017/randb", {})
+    .catch((error) => console.log("error connecting to mongodb:\n", error));
+}

@@ -13,7 +13,7 @@ export default function AddTagButton({ setUnselectedTags, setSearchPrefix }) {
     }
     setBusyPostingNewTag(true);
     try {
-      const res = await fetch("http://localhost:8000/tags", {
+      const res = await fetch("thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/tags", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

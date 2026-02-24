@@ -20,7 +20,7 @@ export default function UnselectedTagsBox({
     event.preventDefault();
     try {
       const res = await fetch(
-        "http://localhost:8000/tags/" + tagJsonToDelete._id,
+        "thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/tags/" + tagJsonToDelete._id,
         { method: "DELETE" }
       );
       if (!res.ok) {
