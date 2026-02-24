@@ -9,7 +9,6 @@ const MONGODB_URI =
 async function connectDB() {
   mongoose
     .connect(MONGODB_URI, {})
-    .connect("mongodb://localhost:27017/randb", {})
     .catch((error) => console.log("error connecting to mongodb:\n", error));
 }
 

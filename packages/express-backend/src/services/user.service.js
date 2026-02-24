@@ -8,4 +8,4 @@ function addUser(user) {
   return User.create(user);
 }
 
-export { getByUsername,addUser };
+export { getByUsername, addUser };
