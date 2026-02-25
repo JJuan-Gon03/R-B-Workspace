@@ -28,8 +28,10 @@ afterAll(async () => {
 test("POST /clothes", async () => {
   mockParseCloth.mockResolvedValueOnce("description");
 
+  const userId = new mongoose.Types.ObjectId();
+
   const reqBody = {
-    user_id: 123,
+    user_id: userId,
     name: "name",
     color: "color",
     type: "type",
@@ -38,7 +40,7 @@ test("POST /clothes", async () => {
     public_id: "public_id",
   };
   const resBody = {
-    user_id: 123,
+    user_id: userId,
     name: "name",
     color: "color",
     type: "type",
@@ -53,7 +55,7 @@ test("POST /clothes", async () => {
   expect(res.status).toBe(201);
   expect(res.body).toMatchObject(resBody);
 
-  const docs = await Cloth.find({ user_id: 123 }).lean();
+  const docs = await Cloth.find({ user_id: userId }).lean();
   expect(docs).toHaveLength(1);
   expect(docs[0]).toMatchObject(resBody);
 });

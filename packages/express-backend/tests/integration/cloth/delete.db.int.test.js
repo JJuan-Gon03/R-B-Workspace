@@ -19,13 +19,15 @@ const { Cloth } = await import("../../../src/models/cloth.model.js");
 
 let mongo;
 let clothToDelete;
+let userId;
 
 beforeAll(async () => {
   mongo = await MongoMemoryServer.create();
   const uri = mongo.getUri();
   await mongoose.connect(uri, { dbName: "testCloth" });
+  userId = new mongoose.Types.ObjectId();
   clothToDelete = await Cloth.create({
-    user_id: 123,
+    user_id: userId,
     name: "name",
     color: "color",
     type: "type",
@@ -50,6 +52,6 @@ test("DELETE /clothes/:cloth_id", async () => {
 
   expect(mockDeleteImageFromCloudinary).toHaveBeenCalled();
 
-  const docs = await Cloth.find({ user_id: 123 }).lean();
+  const docs = await Cloth.find({ user_id: userId }).lean();
   expect(docs).toHaveLength(0);
 });
