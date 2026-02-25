@@ -18,7 +18,7 @@ function App() {
       <main className="page-wrap">
         <Routes>
           <Route path="/" element={<Homepage />} />
-          
+
           <Route path="/saved" element={<Saved />} />
           <Route
             path="/wardrobe"
