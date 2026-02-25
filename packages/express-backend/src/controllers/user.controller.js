@@ -1,5 +1,6 @@
 import { getByUsername, addUser } from "../services/user.service.js";
-import { handleMongoDBError } from "../db.js"
+import { handleMongoDBError } from "../db.js";
+import bcrypt from "bcrypt";
 
 const postUser = async (req, res) => {
   if (!req.body.password || !req.body.username) {
