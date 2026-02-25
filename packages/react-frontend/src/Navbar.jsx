@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./Navbar.css";
 import AuthModal from "./AuthModal";
@@ -6,6 +6,12 @@ import AuthModal from "./AuthModal";
 export default function Navbar({ setUserId, userId }) {
   const [authOpen, setAuthOpen] = useState(false);
   const [authVariant, setAuthVariant] = useState("signin");
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    setUserId("");
+    navigate("/");
+  }
 
   return (
     <>
@@ -39,7 +45,16 @@ export default function Navbar({ setUserId, userId }) {
 
           <div className="topbar-actions">
             {userId ? (
-              <span className="topbar-userid">{userId}</span>
+              <>
+                <span className="topbar-userid">{userId}</span>
+                <button
+                  className="topbar-btn topbar-logout"
+                  type="button"
+                  onClick={handleLogout}
+                >
+                  Log out
+                </button>
+              </>
             ) : (
               <>
                 <button
