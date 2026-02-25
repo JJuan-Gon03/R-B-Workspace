@@ -17,16 +17,8 @@ function App() {
 
       <main className="page-wrap">
         <Routes>
-          <Route path="/homepage" element={<Homepage />} />
-          <Route
-            path="/"
-            element={
-              <Wardrobe
-                clothImgUrls={wardrobeImages}
-                setWardrobeImages={setWardrobeImages}
-              />
-            }
-          />
+          <Route path="/" element={<Homepage />} />
+          
           <Route path="/saved" element={<Saved />} />
           <Route
             path="/wardrobe"
