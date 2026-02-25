@@ -1,8 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./AuthModal.css";
+
+const API_BASE =
+  import.meta.env.VITE_API_BASE ||
+  "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
 
 export default function AuthModal({ variant = "signin", onClose, setUserId }) {
   const isRegister = variant === "register";
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     const onKeyDown = (e) => e.key === "Escape" && onClose?.();
@@ -16,8 +26,41 @@ export default function AuthModal({ variant = "signin", onClose, setUserId }) {
     return () => (document.body.style.overflow = prev);
   }, []);
 
-  //REMOVE THIS
-  setUserId("");
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError("");
+
+    if (isRegister && password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    setBusy(true);
+    try {
+      const endpoint = isRegister
+        ? `${API_BASE}/users`
+        : `${API_BASE}/users/login`;
+
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: username.trim(), password }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || "Something went wrong");
+      }
+
+      const userId = await res.text();
+      setUserId(userId);
+      onClose?.();
+    } catch (err) {
+      setError(err.message || "Request failed");
+    } finally {
+      setBusy(false);
+    }
+  }
 
   return (
     <div
@@ -57,14 +100,13 @@ export default function AuthModal({ variant = "signin", onClose, setUserId }) {
             </div>
           </div>
 
-          <form className="modal-form" onSubmit={(e) => e.preventDefault()}>
+          <form className="modal-form" onSubmit={handleSubmit}>
             {/* Google sign-in */}
             <button
               className="google-btn"
               type="button"
               onClick={() => {
-                window.location.href =
-                  "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/auth/google?mode=signin";
+                window.location.href = `${API_BASE}/auth/google?mode=${variant}`;
               }}
             >
               Continue with Google
@@ -74,24 +116,14 @@ export default function AuthModal({ variant = "signin", onClose, setUserId }) {
               <span>or</span>
             </div>
 
-            {isRegister && (
-              <label className="field">
-                <span className="field-label">Name*</span>
-                <input
-                  className="field-input"
-                  type="text"
-                  placeholder="Your name"
-                  required
-                />
-              </label>
-            )}
-
             <label className="field">
-              <span className="field-label">Email*</span>
+              <span className="field-label">Username*</span>
               <input
                 className="field-input"
-                type="email"
-                placeholder="you@example.com"
+                type="text"
+                placeholder="Your username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 required
               />
             </label>
@@ -102,6 +134,8 @@ export default function AuthModal({ variant = "signin", onClose, setUserId }) {
                 className="field-input"
                 type="password"
                 placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </label>
@@ -113,17 +147,39 @@ export default function AuthModal({ variant = "signin", onClose, setUserId }) {
                   className="field-input"
                   type="password"
                   placeholder="••••••••"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                 />
               </label>
+            )}
+
+            {error && (
+              <p
+                style={{
+                  color: "#e53e3e",
+                  fontSize: "0.85rem",
+                  margin: "0 0 8px",
+                }}
+              >
+                {error}
+              </p>
             )}
 
             <div className="modal-footer">
               <button className="modal-btn" type="button" onClick={onClose}>
                 Cancel
               </button>
-              <button className="modal-btn primary" type="submit">
-                {isRegister ? "Create account" : "Sign in"}
+              <button
+                className="modal-btn primary"
+                type="submit"
+                disabled={busy}
+              >
+                {busy
+                  ? "Please wait…"
+                  : isRegister
+                    ? "Create account"
+                    : "Sign in"}
               </button>
             </div>
           </form>

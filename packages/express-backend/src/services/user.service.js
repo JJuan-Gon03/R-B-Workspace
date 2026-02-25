@@ -1,7 +1,7 @@
 import { User } from "../models/user.model.js";
 
 function getByUsername(username) {
-  return User.find({ username: username });
+  return User.findOne({ username: username });
 }
 
 function addUser(user) {
