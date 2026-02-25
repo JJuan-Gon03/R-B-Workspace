@@ -16,6 +16,9 @@ export default function AuthModal({ variant = "signin", onClose, setUserId }) {
     return () => (document.body.style.overflow = prev);
   }, []);
 
+  //REMOVE THIS
+  setUserId("");
+
   return (
     <div
       className="modal-overlay"

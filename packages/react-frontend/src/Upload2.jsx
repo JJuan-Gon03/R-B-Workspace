@@ -3,7 +3,7 @@ import { useState } from "react";
 import TagsBox from "./tags/TagsBox.jsx";
 import "./Upload2.css";
 
-export default function Upload({ setClothes,userId }) {
+export default function Upload({ setClothes, userId }) {
   const [busy, setBusy] = useState(false);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);

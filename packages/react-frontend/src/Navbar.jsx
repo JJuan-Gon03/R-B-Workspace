@@ -23,8 +23,8 @@ export default function Navbar({ setUserId, userId }) {
           <NavLink to="/">
             <div className="topbar-brand">THRIFTR</div>
           </NavLink>
-          
-          {userId && 
+
+          {userId && (
             <nav className="topbar-links" aria-label="Primary">
               <NavLink
                 to="/wardrobe"
@@ -44,7 +44,7 @@ export default function Navbar({ setUserId, userId }) {
                 Saved
               </NavLink>
             </nav>
-          }
+          )}
 
           <div className="topbar-actions">
             <button

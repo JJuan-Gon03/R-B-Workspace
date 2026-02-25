@@ -6,7 +6,7 @@
   "scripts": {
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "npm run -w react-frontend lint && npm run format:check",
+    "lint": "npm run -w react-frontend lint && npm run -w express-backend lint && npm run format:check",
     "test": "npm run -w react-frontend test:run"
   },
   "repository": {

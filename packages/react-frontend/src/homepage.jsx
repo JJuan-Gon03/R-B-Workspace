@@ -3,7 +3,7 @@ import "./homepage.css";
 import { useState } from "react";
 import AuthModal from "./AuthModal";
 
-const Homepage = () => {
+const Homepage = ({ setUserId }) => {
   const images = [
     "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=300",
     "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300",
@@ -109,7 +109,11 @@ const Homepage = () => {
         </footer>
       </div>
       {authOpen && (
-        <AuthModal variant={authVariant} onClose={() => setAuthOpen(false)} setUserId={setUserId} />
+        <AuthModal
+          variant={authVariant}
+          onClose={() => setAuthOpen(false)}
+          setUserId={setUserId}
+        />
       )}
     </>
   );

@@ -11,7 +11,7 @@ const CATEGORIES = [
   "Accessories",
 ];
 
-export default function Wardrobe({userId}) {
+export default function Wardrobe({ userId }) {
   const [selected, setSelected] = useState(null);
   const [activeCategory, setActiveCategory] = useState("All");
   const [clothes, setClothes] = useState([]);
@@ -28,7 +28,8 @@ export default function Wardrobe({userId}) {
     document.body.classList.add("wardrobe-page");
 
     fetch(
-      "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/wardrobe/"+userId
+      "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/wardrobe/" +
+        userId
     )
       .then((res) => {
         if (!res.ok) {
@@ -53,7 +54,7 @@ export default function Wardrobe({userId}) {
       document.body.style.height = "";
       document.body.classList.remove("wardrobe-page");
     };
-  }, []);
+  }, [userId]);
 
   const toggleSelect = (url) => {
     setSelected((prev) => (prev === url ? null : url));
