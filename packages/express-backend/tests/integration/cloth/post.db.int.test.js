@@ -57,5 +57,14 @@ test("POST /clothes", async () => {
 
   const docs = await Cloth.find({ user_id: userId }).lean();
   expect(docs).toHaveLength(1);
-  expect(docs[0]).toMatchObject(resBody);
+  expect(docs[0]).toMatchObject({
+    user_id: userId,
+    name: "name",
+    color: "color",
+    type: "type",
+    tags: [],
+    img_url: "img_url",
+    public_id: "public_id",
+    description: "description",
+  });
 });
