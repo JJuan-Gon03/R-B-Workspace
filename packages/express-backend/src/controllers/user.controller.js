@@ -1,4 +1,4 @@
-import { getByUsername, addUser } from "../services/user.service";
+import { getByUsername, addUser } from "../services/user.service.js";
 import { handleMongoDBError } from "../db";
 import bcrypt from "bcrypt";
 
