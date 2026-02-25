@@ -9,7 +9,7 @@ export default function Navbar() {
 
   const API_BASE =
     import.meta.env.VITE_API_BASE ||
-    "thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
+    "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
 
   async (variant) => {
     window.location.href = `${API_BASE}/auth/google?mode=${encodeURIComponent(variant)}`;
@@ -20,9 +20,9 @@ export default function Navbar() {
     <>
       <header className="topbar">
         <div className="topbar-inner">
-          <a href="/homepage">
+          <NavLink to="/homepage">
             <div className="topbar-brand">THRIFTR</div>
-          </a>
+          </NavLink>
           <nav className="topbar-links" aria-label="Primary">
             <NavLink
               to="/wardrobe"

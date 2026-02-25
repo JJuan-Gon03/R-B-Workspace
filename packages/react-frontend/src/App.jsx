@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 import Saved from "./Saved";
 import Wardrobe from "./Wardrobe";
 import Assistant from "./Assistant";
-import Homepage from "./Homepage";
+import Homepage from "./homepage";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -14,11 +14,10 @@ function App() {
     <div className="app">
       <Navbar />
       <Assistant />
-      <Routes>
-        <Route path="/homepage" element={<Homepage />} />
-      </Routes>
+
       <main className="page-wrap">
         <Routes>
+          <Route path="/homepage" element={<Homepage />} />
           <Route
             path="/"
             element={
@@ -38,6 +37,7 @@ function App() {
               />
             }
           />
+          <Route path="*" element={<div>Not found</div>} />
         </Routes>
       </main>
     </div>
