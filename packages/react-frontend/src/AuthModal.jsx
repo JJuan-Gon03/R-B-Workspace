@@ -52,7 +52,9 @@ export default function AuthModal({ variant = "signin", onClose, setUserId }) {
         throw new Error(err.message || "Something went wrong");
       }
 
-      const userId = await res.text();
+      const raw = await res.text();
+      const userId =
+        raw.startsWith('"') && raw.endsWith('"') ? raw.slice(1, -1) : raw;
       setUserId(userId);
       onClose?.();
     } catch (err) {

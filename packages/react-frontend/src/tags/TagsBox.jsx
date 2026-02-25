@@ -43,6 +43,7 @@ export default function TagsBox({
         unselectedTags={unselectedTags}
         setUnselectedTags={setUnselectedTags}
         setSelectedTags={setSelectedTags}
+        userId={userId}
       />
     </div>
   );

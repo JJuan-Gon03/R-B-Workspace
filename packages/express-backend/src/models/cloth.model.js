@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const ClothSchema = new mongoose.Schema(
   {
-    user_id: { type: Number, required: true },
+    user_id: { type: mongoose.Schema.Types.ObjectId, required: true },
     name: { type: String, required: true },
     color: { type: String, required: true },
     type: { type: String, required: true },

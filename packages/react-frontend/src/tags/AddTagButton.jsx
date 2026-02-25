@@ -1,7 +1,11 @@
 import { useState } from "react";
 import "./AddTagButton.css";
 
-export default function AddTagButton({ setUnselectedTags, setSearchPrefix }) {
+export default function AddTagButton({
+  setUnselectedTags,
+  setSearchPrefix,
+  userId,
+}) {
   const [newTag, setNewTag] = useState("");
   const [busyPostingNewTag, setBusyPostingNewTag] = useState(false);
   const [typingNewTag, setTypingNewTag] = useState(false);
@@ -19,7 +23,7 @@ export default function AddTagButton({ setUnselectedTags, setSearchPrefix }) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            user_id: 123,
+            user_id: userId,
             name: newTag.trim(),
           }),
         }

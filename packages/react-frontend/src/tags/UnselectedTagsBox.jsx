@@ -5,6 +5,7 @@ export default function UnselectedTagsBox({
   unselectedTags,
   setUnselectedTags,
   setSelectedTags,
+  userId,
 }) {
   const [searchPrefix, setSearchPrefix] = useState("");
 
@@ -72,6 +73,7 @@ export default function UnselectedTagsBox({
       <AddTagButton
         setUnselectedTags={setUnselectedTags}
         setSearchPrefix={setSearchPrefix}
+        userId={userId}
       />
     </div>
   );

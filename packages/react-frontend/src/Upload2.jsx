@@ -51,7 +51,7 @@ export default function Upload({ setClothes, userId }) {
             name: name,
             color: color,
             type: type,
-            tags: selectedTags,
+            tags: selectedTags.map((t) => t._id),
             img_url: result.img_url,
             public_id: result.public_id,
           }),
