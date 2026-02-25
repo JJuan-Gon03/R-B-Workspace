@@ -27,12 +27,15 @@
 }
 
 .wardrobe-sidebar {
-  flex: 0 0 240;
+  flex: 0 0 240px;
   width: 240px;
   background: #1b1b1b;
   color: #fff;
   padding: 18px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: calc(100vh - 100px);
 }
 
 .sidebar-search-wrap {
@@ -118,10 +121,14 @@
 }
 
 .sidebar-upload {
-  position: absolute;
-  left: 18px;
-  right: 18px;
-  bottom: 18px;
+  margin-top: auto;
+  flex-shrink: 0;
+  padding-top: 0;
+  width: 100%;
+}
+
+.sidebar-upload button {
+  width: 100%;
 }
 
 .wardrobe-main {
@@ -156,7 +163,7 @@
   gap: 24px;
   max-height: calc(100vh - 220px);
   overflow-y: auto;
-  padding-right: 4px;
+  padding: 5px;
 }
 
 .wardrobe-card {
