@@ -40,7 +40,7 @@ test("POST /clothes", async () => {
     public_id: "public_id",
   };
   const resBody = {
-    user_id: userId,
+    user_id: userId.toString(),
     name: "name",
     color: "color",
     type: "type",
