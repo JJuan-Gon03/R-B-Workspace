@@ -20,8 +20,11 @@ export default function Wardrobe() {
     const prevOverflow = document.body.style.overflow;
     const prevOverscroll = document.body.style.overscrollBehavior;
 
+    document.documentElement.style.overflow = "hidden";
+    document.documentElement.style.height = "100%";
     document.body.style.overflow = "hidden";
     document.body.style.overscrollBehavior = "none";
+    document.body.style.height = "100%";
     document.body.classList.add("wardrobe-page");
 
     fetch(
@@ -43,8 +46,11 @@ export default function Wardrobe() {
       });
 
     return () => {
+      document.documentElement.style.overflow = "";
+      document.documentElement.style.height = "";
       document.body.style.overflow = prevOverflow;
       document.body.style.overscrollBehavior = prevOverscroll;
+      document.body.style.height = "";
       document.body.classList.remove("wardrobe-page");
     };
   }, []);
