@@ -1,8 +1,44 @@
-import { useEffect } from "react";
+import { useEffect, useState, createContext, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "./AuthModal.css";
 
+const AuthContext = createContext(null);
+
+export function AuthProvider({ children }) {
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem("isAuthenticated") === "true";
+  });
+
+  const login = () => {
+    setIsAuthenticated(true);
+    localStorage.setItem("isAuthenticated", "true");
+  };
+
+  const logout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem("isAuthenticated");
+  };
+
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  const ctx = useContext(AuthContext);
+  if (!ctx) {
+    throw new Error("useAuth must be used inside <AuthProvider>");
+  }
+  return ctx;
+}
+
 export default function AuthModal({ variant = "signin", onClose }) {
-  const isRegister = variant === "register";
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const isRegister = variant === "register" || variant === "signup";
 
   useEffect(() => {
     const onKeyDown = (e) => e.key === "Escape" && onClose?.();
@@ -15,6 +51,19 @@ export default function AuthModal({ variant = "signin", onClose }) {
     document.body.style.overflow = "hidden";
     return () => (document.body.style.overflow = prev);
   }, []);
+
+  const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000";
+  const mode = isRegister ? "register" : "signin";
+
+  const handleGoogleAuth = () => {
+    // Mark login before redirect (temporary dev solution)
+    localStorage.setItem("isAuthenticated", "true");
+    login();
+
+    window.location.href = `${API_BASE}/auth/google?mode=${encodeURIComponent(
+      mode
+    )}`;
+  };
 
   return (
     <div
@@ -55,7 +104,7 @@ export default function AuthModal({ variant = "signin", onClose }) {
           </div>
 
           <form className="modal-form" onSubmit={(e) => e.preventDefault()}>
-            {/* Google sign-in */}
+            {/* Google sign-in/register */}
             <button
               className="google-btn"
               type="button"
@@ -119,7 +168,15 @@ export default function AuthModal({ variant = "signin", onClose }) {
               <button className="modal-btn" type="button" onClick={onClose}>
                 Cancel
               </button>
-              <button className="modal-btn primary" type="submit">
+              <button
+                className="modal-btn primary"
+                type="button"
+                onClick={() => {
+                  login();
+                  navigate("/wardrobe");
+                  onClose?.();
+                }}
+              >
                 {isRegister ? "Create account" : "Sign in"}
               </button>
             </div>

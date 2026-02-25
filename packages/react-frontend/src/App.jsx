@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Navbar from "./Navbar";
 import Saved from "./Saved";
@@ -9,6 +9,16 @@ import { Routes, Route } from "react-router-dom";
 
 function App() {
   const [wardrobeImages, setWardrobeImages] = useState([]);
+  const { isAuthenticated } = useAuth();
+  const location = useLocation();
+
+  // If they log in while on /homepage, send them to /wardrobe automatically
+  useEffect(() => {
+    if (isAuthenticated && location.pathname === "/homepage") {
+      // let router handle it with a redirect route below
+      // (keeping this effect is optional, but it helps if auth flips true in-place)
+    }
+  }, [isAuthenticated, location.pathname]);
 
   return (
     <div className="app">
@@ -19,22 +29,24 @@ function App() {
         <Routes>
           <Route path="/homepage" element={<Homepage />} />
           <Route
-            path="/"
+            path="/homepage"
             element={
-              <Wardrobe
-                clothImgUrls={wardrobeImages}
-                setWardrobeImages={setWardrobeImages}
-              />
+              isAuthenticated ? <Navigate to="/wardrobe" replace /> : <Homepage />
             }
           />
-          <Route path="/saved" element={<Saved />} />
+
+          {}
           <Route
             path="/wardrobe"
             element={
-              <Wardrobe
-                clothImgUrls={wardrobeImages}
-                setWardrobeImages={setWardrobeImages}
-              />
+              isAuthenticated ? (
+                <Wardrobe
+                  clothImgUrls={wardrobeImages}
+                  setWardrobeImages={setWardrobeImages}
+                />
+              ) : (
+                <Navigate to="/homepage" replace />
+              )
             }
           />
           <Route path="*" element={<div>Not found</div>} />
