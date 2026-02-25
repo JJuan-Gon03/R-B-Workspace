@@ -7,15 +7,6 @@ export default function Navbar({ setUserId, userId }) {
   const [authOpen, setAuthOpen] = useState(false);
   const [authVariant, setAuthVariant] = useState("signin");
 
-  const API_BASE =
-    import.meta.env.VITE_API_BASE ||
-    "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
-
-  async (variant) => {
-    window.location.href = `${API_BASE}/auth/google?mode=${encodeURIComponent(variant)}`;
-    console.log("Google auth clicked for:", variant);
-  };
-
   return (
     <>
       <header className="topbar">
@@ -47,30 +38,37 @@ export default function Navbar({ setUserId, userId }) {
           )}
 
           <div className="topbar-actions">
-            <button
-              className="topbar-btn"
-              type="button"
-              onClick={() => {
-                setAuthVariant("signin");
-                setAuthOpen(true);
-              }}
-            >
-              Sign in
-            </button>
+            {userId ? (
+              <span className="topbar-userid">{userId}</span>
+            ) : (
+              <>
+                <button
+                  className="topbar-btn"
+                  type="button"
+                  onClick={() => {
+                    setAuthVariant("signin");
+                    setAuthOpen(true);
+                  }}
+                >
+                  Sign in
+                </button>
 
-            <button
-              className="topbar-btn"
-              type="button"
-              onClick={() => {
-                setAuthVariant("register");
-                setAuthOpen(true);
-              }}
-            >
-              Register
-            </button>
+                <button
+                  className="topbar-btn"
+                  type="button"
+                  onClick={() => {
+                    setAuthVariant("register");
+                    setAuthOpen(true);
+                  }}
+                >
+                  Register
+                </button>
+              </>
+            )}
           </div>
         </div>
       </header>
+
       {authOpen && (
         <AuthModal
           variant={authVariant}
