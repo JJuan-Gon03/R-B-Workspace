@@ -32,12 +32,12 @@ function App() {
       <main className="page-wrap">
         <Routes>
           <Route path="/" element={<Homepage setUserId={setUserId} />} />
-
           <Route path="/saved" element={<Saved />} />
           <Route
             path="/wardrobe"
             element={
               <Wardrobe
+                userId={userId}
                 clothImgUrls={wardrobeImages}
                 setWardrobeImages={setWardrobeImages}
               />
