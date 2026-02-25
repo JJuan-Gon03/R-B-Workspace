@@ -13,7 +13,9 @@ export default function TagsBox({
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch("http://localhost:8000/tags/123");
+        const res = await fetch(
+          "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/tags/123"
+        );
         const tags = await res.json();
 
         if (!res.ok) {

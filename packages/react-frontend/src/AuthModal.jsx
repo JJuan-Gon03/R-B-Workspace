@@ -108,7 +108,10 @@ export default function AuthModal({ variant = "signin", onClose }) {
             <button
               className="google-btn"
               type="button"
-              onClick={handleGoogleAuth}
+              onClick={() => {
+                window.location.href =
+                  "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/auth/google?mode=signin";
+              }}
             >
               Continue with Google
             </button>

@@ -10,8 +10,9 @@ export default function Navbar() {
   const [authOpen, setAuthOpen] = useState(false);
   const [authVariant, setAuthVariant] = useState("signin");
 
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef(null);
+  const API_BASE =
+    import.meta.env.VITE_API_BASE ||
+    "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
 
   const handleLogout = () => {
     logout();
@@ -35,23 +36,18 @@ export default function Navbar() {
     <>
       <header className="topbar">
         <div className="topbar-inner">
-          {/* Logo */}
-          <Link to="/homepage" className="topbar-brand">
-            THRIFTR
-          </Link>
-
-          {/* Logged OUT */}
-          {!isAuthenticated && (
-            <div className="topbar-actions">
-              <button
-                className="topbar-btn"
-                onClick={() => {
-                  setAuthVariant("signin");
-                  setAuthOpen(true);
-                }}
-              >
-                Sign In
-              </button>
+          <NavLink to="/homepage">
+            <div className="topbar-brand">THRIFTR</div>
+          </NavLink>
+          <nav className="topbar-links" aria-label="Primary">
+            <NavLink
+              to="/wardrobe"
+              className={({ isActive }) =>
+                `topbar-link${isActive ? " active" : ""}`
+              }
+            >
+              Closet
+            </NavLink>
 
               <button
                 className="topbar-btn"
