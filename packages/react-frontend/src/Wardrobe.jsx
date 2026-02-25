@@ -11,7 +11,7 @@ const CATEGORIES = [
   "Accessories",
 ];
 
-export default function Wardrobe() {
+export default function Wardrobe({userId}) {
   const [selected, setSelected] = useState(null);
   const [activeCategory, setActiveCategory] = useState("All");
   const [clothes, setClothes] = useState([]);
@@ -25,7 +25,7 @@ export default function Wardrobe() {
     document.body.classList.add("wardrobe-page");
 
     fetch(
-      "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/wardrobe/123"
+      "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/wardrobe/"+userId
     )
       .then((res) => {
         if (!res.ok) {
@@ -97,7 +97,7 @@ export default function Wardrobe() {
         </div>
 
         <div className="sidebar-upload">
-          <Upload2 setClothes={setClothes} />
+          <Upload2 setClothes={setClothes} userId={userId} />
         </div>
       </aside>
 

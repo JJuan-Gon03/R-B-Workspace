@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Assistant.css";
 
-export default function Assistant() {
+export default function Assistant({userId}) {
   const [text, setText] = useState("");
   const [chat, setChat] = useState([]);
   const [ready, setReady] = useState(true);
@@ -15,7 +15,7 @@ export default function Assistant() {
 
     try {
       const res = await fetch(
-        "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/gemini/response/123/" +
+        "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/gemini/response/"+userId+"/" +
           encodeURIComponent(text)
       );
 

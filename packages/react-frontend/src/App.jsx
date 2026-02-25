@@ -9,15 +9,29 @@ import { Routes, Route } from "react-router-dom";
 
 function App() {
   const [wardrobeImages, setWardrobeImages] = useState([]);
+  const [userId, setUserId] = useState("");
+
+  if (!userId) {
+    return (
+      <div className="app">
+        <Navbar setUserId={setUserId} userId={userId} />
+        <main className="page-wrap">
+          <Routes>
+            <Route path="/" element={<Homepage setUserId={setUserId} />} />
+            <Route path="*" element={<div>Not found</div>} />
+          </Routes>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="app">
-      <Navbar />
-      <Assistant />
-
+      <Navbar setUserId={setUserId} userId={userId} />
+      <Assistant userId={userId} />
       <main className="page-wrap">
         <Routes>
-          <Route path="/" element={<Homepage />} />
+          <Route path="/" element={<Homepage setUserId={setUserId} />} />
 
           <Route path="/saved" element={<Saved />} />
           <Route

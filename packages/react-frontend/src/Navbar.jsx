@@ -3,7 +3,7 @@ import { useState } from "react";
 import "./Navbar.css";
 import AuthModal from "./AuthModal";
 
-export default function Navbar() {
+export default function Navbar({ setUserId, userId }) {
   const [authOpen, setAuthOpen] = useState(false);
   const [authVariant, setAuthVariant] = useState("signin");
 
@@ -20,28 +20,31 @@ export default function Navbar() {
     <>
       <header className="topbar">
         <div className="topbar-inner">
-          <NavLink to="/homepage">
+          <NavLink to="/">
             <div className="topbar-brand">THRIFTR</div>
           </NavLink>
-          <nav className="topbar-links" aria-label="Primary">
-            <NavLink
-              to="/wardrobe"
-              className={({ isActive }) =>
-                `topbar-link${isActive ? " active" : ""}`
-              }
-            >
-              Closet
-            </NavLink>
+          
+          {userId && 
+            <nav className="topbar-links" aria-label="Primary">
+              <NavLink
+                to="/wardrobe"
+                className={({ isActive }) =>
+                  `topbar-link${isActive ? " active" : ""}`
+                }
+              >
+                Closet
+              </NavLink>
 
-            <NavLink
-              to="/saved"
-              className={({ isActive }) =>
-                `topbar-link${isActive ? " active" : ""}`
-              }
-            >
-              Saved
-            </NavLink>
-          </nav>
+              <NavLink
+                to="/saved"
+                className={({ isActive }) =>
+                  `topbar-link${isActive ? " active" : ""}`
+                }
+              >
+                Saved
+              </NavLink>
+            </nav>
+          }
 
           <div className="topbar-actions">
             <button
@@ -69,7 +72,11 @@ export default function Navbar() {
         </div>
       </header>
       {authOpen && (
-        <AuthModal variant={authVariant} onClose={() => setAuthOpen(false)} />
+        <AuthModal
+          variant={authVariant}
+          onClose={() => setAuthOpen(false)}
+          setUserId={setUserId}
+        />
       )}
     </>
   );

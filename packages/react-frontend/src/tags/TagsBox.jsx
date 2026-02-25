@@ -7,6 +7,7 @@ export default function TagsBox({
   selectedTags,
   setSelectedTags,
   refreshTrigger,
+  userId
 }) {
   const [unselectedTags, setUnselectedTags] = useState([]);
 
@@ -14,7 +15,7 @@ export default function TagsBox({
     async function fetchData() {
       try {
         const res = await fetch(
-          "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/tags/123"
+          "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/tags/"+userId
         );
         const tags = await res.json();
 

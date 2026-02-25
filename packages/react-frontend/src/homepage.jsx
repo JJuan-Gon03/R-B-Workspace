@@ -109,7 +109,7 @@ const Homepage = () => {
         </footer>
       </div>
       {authOpen && (
-        <AuthModal variant={authVariant} onClose={() => setAuthOpen(false)} />
+        <AuthModal variant={authVariant} onClose={() => setAuthOpen(false)} setUserId={setUserId} />
       )}
     </>
   );

@@ -3,7 +3,7 @@ import { useState } from "react";
 import TagsBox from "./tags/TagsBox.jsx";
 import "./Upload2.css";
 
-export default function Upload({ setClothes }) {
+export default function Upload({ setClothes,userId }) {
   const [busy, setBusy] = useState(false);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
@@ -47,7 +47,7 @@ export default function Upload({ setClothes }) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            user_id: 123,
+            user_id: userId,
             name: name,
             color: color,
             type: type,
@@ -179,6 +179,7 @@ export default function Upload({ setClothes }) {
             selectedTags={selectedTags}
             setSelectedTags={setSelectedTags}
             refreshTrigger={refreshTrigger}
+            userId={userId}
           />
 
           <label className="upload-form-label">Item Image</label>
