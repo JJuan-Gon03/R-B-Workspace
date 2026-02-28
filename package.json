@@ -24,6 +24,7 @@
     "packages/*"
   ],
   "devDependencies": {
+    "cypress": "^15.11.0",
     "gh-pages": "^6.3.0",
     "prettier": "^3.6.2"
   },

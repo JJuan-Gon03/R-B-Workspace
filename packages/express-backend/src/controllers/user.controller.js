@@ -54,15 +54,17 @@ const login = async (req, res) => {
   }
 
   if (!user) {
-    return res.status(400).json({ name: "invalid username", message: "username not associated with an account" });
+    return res.status(400).json({
+      name: "invalid username",
+      message: "username not associated with an account",
+    });
   }
 
   const valid = await bcrypt.compare(req.body.password, user.password);
   if (!valid) {
     return res.status(400).json({
-      name:"invalid password",
-      message:
-        "wrong password",
+      name: "invalid password",
+      message: "wrong password",
     });
   }
 
