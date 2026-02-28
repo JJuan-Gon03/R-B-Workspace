@@ -5,8 +5,8 @@ import bcrypt from "bcrypt";
 const postUser = async (req, res) => {
   if (!req.body.password || !req.body.username) {
     return res.status(400).json({
-      message:
-        "yo you need to have username:??? and password:??? in your request",
+      name: "invalid request",
+      message: "request body: {username: String, password: String}",
     });
   }
 
@@ -19,7 +19,8 @@ const postUser = async (req, res) => {
 
   if (user) {
     return res.status(409).json({
-      message: "yo this username is taken lil bro",
+      name: "invalud username",
+      message: "username has already been taken",
     });
   }
 
@@ -40,8 +41,8 @@ const postUser = async (req, res) => {
 const login = async (req, res) => {
   if (!req.body.password || !req.body.username) {
     return res.status(400).json({
-      message:
-        "yo you need to have username:??? and password:??? in your request",
+      name: "invalid request",
+      message: "request body: {username: String, password: String}",
     });
   }
 
@@ -53,14 +54,15 @@ const login = async (req, res) => {
   }
 
   if (!user) {
-    return res.status(400).json({ message: "user doesn't even exist LOL" });
+    return res.status(400).json({ name: "invalid username", message: "username not associated with an account" });
   }
 
   const valid = await bcrypt.compare(req.body.password, user.password);
   if (!valid) {
     return res.status(400).json({
+      name:"invalid password",
       message:
-        "brother if this is really ur account how do u no tknow ur password lmao",
+        "wrong password",
     });
   }
 
