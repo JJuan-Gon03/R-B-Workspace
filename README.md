@@ -59,6 +59,9 @@ npm run dev in respective workspace
 Tests on backend via jest
 Tests on frontend via vite
 
+Coverage report:
+<img width="794" height="609" alt="image" src="https://github.com/user-attachments/assets/b9cd7951-bf4e-440a-8a6a-dc8aae416d67" />
+
 **Current Working Link**
 Here is our website's current working link.
 https://jjuan-gon03.github.io/R-B-Workspace/
