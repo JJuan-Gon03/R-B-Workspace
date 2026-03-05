@@ -7,7 +7,8 @@
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
     "dev": "npx nodemon src/server.js",
     "start": "node src/server.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "coverage": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --coverage --forceExit"
   },
   "author": "",
   "license": "ISC",
