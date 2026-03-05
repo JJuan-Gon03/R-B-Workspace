@@ -33,7 +33,6 @@ When editing a file enter ctrl + S to format code.
 
 For more information about using Prettier go to https://prettier.io/docs/install
 
-
 **!!!IMPORTANT!!!**
 
 For linting: npm run lint in respective frontend/backend workspaces.
