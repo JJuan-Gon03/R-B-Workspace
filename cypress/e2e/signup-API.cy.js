@@ -1,3 +1,11 @@
+/**
+Functionality #1: Sign-up	
+Scenario #1: Successful signup.
+Given: User submits a POST request to “/users” is created with a unique username and password
+When: The request is received by the server
+Then: The user’s password gets hashed, stores the user information, and returns a 201 created status.
+ */
+
 describe("Sign up", () => {
   context("Successful Sign up", () => {
     before(() => {});
