@@ -7,6 +7,17 @@ https://www.figma.com/design/HHZdmDne6xKOU7ByGOceui/R-and-B-Draft-1-design?node-
 
 **Tech Spec**: https://docs.google.com/document/d/1KV_gmDjXDH_APVD4Cr4z7WUGW1sjlT35H7f8GYYq-uQ/edit?tab=t.0#heading=h.9b0i6jpuww9w
 
+# How to Collaborate
+
+**Installing Packages**
+Run npm install in the root directory
+This will install @google/genai, Express, CORS, Mongoose, and set up the React dependencies.
+
+Create a new branch with your changes.
+
+Create a pull request.
+
+**Prettier**
 We are using _Prettier_ for formatting.
 If using VS Code, go to extensions and type _Prettier_, click install.
 
@@ -22,15 +33,32 @@ When editing a file enter ctrl + S to format code.
 
 For more information about using Prettier go to https://prettier.io/docs/install
 
-# How to Collaborate
 
-**Installing Packages**
-Run npm install in the root directory
-This will install @google/genai, Express, CORS, Mongoose, and set up the React dependencies.
+**!!!IMPORTANT!!!**
 
-Create a new branch with your changes.
+For linting: npm run lint in respective frontend/backend workspaces.
+For testing: run npm test in respective frontend/backend workspaces.
+For checking formatting: npm run format:check in root directory.
+For formatting: npm run format in root directory
 
-Create a pull request.
+Make sure there are no linting/formatting issues, and all tests pass in your code before attempting a merge.
+
+**Environments**
+Frontend ENV:
+VITE_API_BASE //for running local frontend
+
+Backend ENV:
+GEMINI_API_KEY, //for ai assistant/clothing upload, easy to create gemini account
+CLOUDINARY_CLOUD_NAME, //CLOUDINARY only for delete cloths, easy to create a cloudinary account
+CLOUDINARY_API_KEY,
+CLOUDINARY_API_SECRET,
+PORT //for running local backend
+
+npm run dev in respective workspace
+
+**Testing**
+Tests on backend via jest
+Tests on frontend via vite
 
 **Current Working Link**
 Here is our website's current working link.
