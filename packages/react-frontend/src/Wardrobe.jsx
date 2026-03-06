@@ -154,12 +154,12 @@ export default function Wardrobe({ userId }) {
       </main>
 
       <button
-        className={`del-button ${selected ? "active" : ""}`}
+        className={`del-button ${selected ? "active" : ""} ${deleting ? "loading" : ""}`}
         type="button"
-        disabled={!selected}
+        disabled={!selected || deleting}
         onClick={handleDelete}
       >
-        Delete
+        {deleting ? <span className="spinner" /> : "Delete"}
       </button>
     </div>
   );
