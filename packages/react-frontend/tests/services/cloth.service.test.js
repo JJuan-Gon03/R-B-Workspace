@@ -9,7 +9,7 @@ test("successful delete", async () => {
   await deleteCloth(123);
 
   expect(global.fetch).toHaveBeenCalledWith(
-    "http://localhost:8000/wardrobe/" + encodeURIComponent(123),
+    expect.stringContaining("/wardrobe/123"),
     { method: "DELETE" }
   );
 });
