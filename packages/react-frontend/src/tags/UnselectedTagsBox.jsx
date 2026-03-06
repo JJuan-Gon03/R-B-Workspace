@@ -21,7 +21,7 @@ export default function UnselectedTagsBox({
     event.preventDefault();
     try {
       const res = await fetch(
-        "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/tags/" +
+        import.meta.env.VITE_API_BASE+"/tags/" +
           tagJsonToDelete._id,
         { method: "DELETE" }
       );

@@ -18,7 +18,7 @@ export default function AddTagButton({
     setBusyPostingNewTag(true);
     try {
       const res = await fetch(
-        "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/tags",
+        import.meta.env.VITE_API_BASE+"/tags",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

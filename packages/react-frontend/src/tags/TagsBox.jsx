@@ -15,7 +15,7 @@ export default function TagsBox({
     async function fetchData() {
       try {
         const res = await fetch(
-          "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/tags/" +
+          import.meta.env.VITE_API_BASE+"/tags/" +
             userId
         );
         const tags = await res.json();

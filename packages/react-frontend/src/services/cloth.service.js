@@ -1,6 +1,6 @@
 async function deleteCloth(clothId) {
   const res = await fetch(
-    "http://localhost:8000/wardrobe/" + encodeURIComponent(clothId),
+    import.meta.env.VITE_API_BASE + "/wardrobe/" + encodeURIComponent(clothId),
     {
       method: "DELETE",
     }

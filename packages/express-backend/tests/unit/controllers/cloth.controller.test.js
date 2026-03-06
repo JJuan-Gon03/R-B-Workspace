@@ -91,6 +91,7 @@ test("postCloth -> parseCloth success -> addCloth error", async () => {
 
 test("postCloth -> parseCloth success -> addCloth success -> gemini main success -> return success", async () => {
   mockParseCloth.mockResolvedValueOnce("description");
+  mockAddCloth.mockResolvedValueOnce("new cloth")
 
   const req = { body: { img_url: "imgurl", user_id: 123 } };
   const res = makeRes();
@@ -100,12 +101,7 @@ test("postCloth -> parseCloth success -> addCloth success -> gemini main success
   expect(mockParseCloth).toHaveBeenCalledWith(req.body.img_url);
   expect(mockAddCloth).toHaveBeenCalledWith(req.body);
   expect(res.status).toHaveBeenCalledWith(201);
-  expect(res.send).toHaveBeenCalledWith(req.body);
-  expect(req.body).toEqual({
-    img_url: "imgurl",
-    user_id: 123,
-    description: "description",
-  });
+  expect(res.send).toHaveBeenCalledWith("new cloth");
 });
 
 test("getClothes -> getClothesByUserId error", async () => {

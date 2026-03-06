@@ -42,7 +42,7 @@ export default function Upload({ setClothes, userId }) {
     try {
       const result = await cloudinary.getImgURL(img);
       const res = await fetch(
-        "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/wardrobe",
+        import.meta.env.VITE_API_BASE+"/wardrobe",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

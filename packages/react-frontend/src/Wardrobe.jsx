@@ -1,6 +1,7 @@
 import Upload2 from "./Upload2.jsx";
 import { useEffect, useMemo, useState } from "react";
 import "./Wardrobe.css";
+import { deleteCloth } from "./services/cloth.service.js";
 
 const CATEGORIES = [
   "All",
@@ -12,7 +13,8 @@ const CATEGORIES = [
 ];
 
 export default function Wardrobe({ userId }) {
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState("");
+  const [deleting, setDeleting] = useState(false);
   const [activeCategory, setActiveCategory] = useState("All");
   const [clothes, setClothes] = useState([]);
 
@@ -27,10 +29,7 @@ export default function Wardrobe({ userId }) {
     document.body.style.height = "100%";
     document.body.classList.add("wardrobe-page");
 
-    fetch(
-      "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/wardrobe/" +
-        userId
-    )
+    fetch(import.meta.env.VITE_API_BASE + "/wardrobe/" + userId)
       .then((res) => {
         if (!res.ok) {
           return res.json().then((err) => {
@@ -56,9 +55,21 @@ export default function Wardrobe({ userId }) {
     };
   }, [userId]);
 
-  const toggleSelect = (url) => {
-    setSelected((prev) => (prev === url ? null : url));
+  const toggleSelect = (clothId) => {
+    setSelected((prev) => (prev === clothId ? "" : clothId));
   };
+
+  async function handleDelete() {
+    setDeleting(true);
+    try {
+      await deleteCloth(selected);
+      setClothes((prev) => prev.filter((c) => c._id !== selected));
+      setSelected("");
+    } catch (err) {
+      console.log(err);
+    }
+    setDeleting(false);
+  }
 
   const normalizeCategory = (v) =>
     String(v || "")
@@ -73,8 +84,8 @@ export default function Wardrobe({ userId }) {
 
   useEffect(() => {
     if (!selected) return;
-    const stillVisible = filteredClothes.some((c) => c.img_url === selected);
-    if (!stillVisible) setSelected(null);
+    const stillVisible = filteredClothes.some((c) => c._id === selected);
+    if (!stillVisible) setSelected("");
   }, [activeCategory, filteredClothes, selected]);
 
   return (
@@ -130,11 +141,11 @@ export default function Wardrobe({ userId }) {
         <div className="wardrobe-grid">
           {filteredClothes.map((cloth, i) => (
             <div
-              key={cloth.img_url + i}
+              key={String(cloth._id) + i}
               className={`wardrobe-card ${
-                selected === cloth.img_url ? "selected" : ""
+                selected === String(cloth._id) ? "selected" : ""
               }`}
-              onClick={() => toggleSelect(cloth.img_url)}
+              onClick={() => toggleSelect(String(cloth._id))}
             >
               <img src={cloth.img_url} alt={`Wardrobe item ${i + 1}`} />
             </div>
@@ -143,11 +154,12 @@ export default function Wardrobe({ userId }) {
       </main>
 
       <button
-        className={`sell-button ${selected ? "active" : ""}`}
+        className={`del-button ${selected ? "active" : ""}`}
         type="button"
         disabled={!selected}
+        onClick={handleDelete}
       >
-        Sell
+        Delete
       </button>
     </div>
   );

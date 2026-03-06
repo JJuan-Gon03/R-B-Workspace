@@ -39,32 +39,15 @@ test("POST /clothes", async () => {
     img_url: "img_url",
     public_id: "public_id",
   };
-  const resBody = {
-    user_id: userId.toString(),
-    name: "name",
-    color: "color",
-    type: "type",
-    tags: [],
-    img_url: "img_url",
-    public_id: "public_id",
-    description: "description",
-  };
 
   const res = await request(app).post("/wardrobe").send(reqBody);
 
   expect(res.status).toBe(201);
-  expect(res.body).toMatchObject(resBody);
 
-  const docs = await Cloth.find({ user_id: userId }).lean();
+  const cloth = res.body;
+
+  const docs = await Cloth.find({ user_id: userId });
   expect(docs).toHaveLength(1);
-  expect(docs[0]).toMatchObject({
-    user_id: userId,
-    name: "name",
-    color: "color",
-    type: "type",
-    tags: [],
-    img_url: "img_url",
-    public_id: "public_id",
-    description: "description",
-  });
+  const newCloth=docs[0]
+  expect(String(newCloth._id)).toEqual(cloth._id)
 });

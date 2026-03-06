@@ -20,13 +20,15 @@ const postCloth = async (req, res) => {
     return res.status(500).json({ message: "server error" });
   }
 
+  let cloth;
+
   try {
-    await addCloth(req.body);
+    cloth=await addCloth(req.body);
   } catch (err) {
     return handleMongoDBError(res, err);
   }
 
-  return res.status(201).send(req.body);
+  return res.status(201).send(cloth);
 };
 
 const getClothes = async (req, res) => {

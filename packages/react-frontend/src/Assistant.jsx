@@ -15,7 +15,8 @@ export default function Assistant({ userId }) {
 
     try {
       const res = await fetch(
-        "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/gemini/response/" +
+        import.meta.env.VITE_API_BASE+
+        "/gemini/response/" +
           userId +
           "/" +
           encodeURIComponent(text)
