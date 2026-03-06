@@ -47,10 +47,10 @@ Frontend ENV:
 VITE_API_BASE //for running local frontend
 
 Backend ENV:
-GEMINI_API_KEY, //for ai assistant/clothing upload, easy to create gemini account
-CLOUDINARY_CLOUD_NAME, //CLOUDINARY only for delete cloths, easy to create a cloudinary account
-CLOUDINARY_API_KEY,
-CLOUDINARY_API_SECRET,
+GEMINI_API_KEY //for ai assistant/clothing upload, easy to create gemini account
+CLOUDINARY_CLOUD_NAME //CLOUDINARY only for delete cloths, easy to create a cloudinary account
+CLOUDINARY_API_KEY
+CLOUDINARY_API_SECRET
 PORT //for running local backend
 
 npm run dev in respective workspace
@@ -64,6 +64,5 @@ Coverage report:
 
 **Current Working Link**
 Here is our website's current working link.
-https://jjuan-gon03.github.io/R-B-Workspace/
-
-Then we'll merge.
+Frontend: https://jjuan-gon03.github.io/R-B-Workspace/
+Backend: https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/
