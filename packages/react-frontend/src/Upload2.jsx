@@ -41,22 +41,19 @@ export default function Upload({ setClothes, userId }) {
 
     try {
       const result = await cloudinary.getImgURL(img);
-      const res = await fetch(
-        import.meta.env.VITE_API_BASE+"/wardrobe",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            user_id: userId,
-            name: name,
-            color: color,
-            type: type,
-            tags: selectedTags.map((t) => t._id),
-            img_url: result.img_url,
-            public_id: result.public_id,
-          }),
-        }
-      );
+      const res = await fetch(import.meta.env.VITE_API_BASE + "/wardrobe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: userId,
+          name: name,
+          color: color,
+          type: type,
+          tags: selectedTags.map((t) => t._id),
+          img_url: result.img_url,
+          public_id: result.public_id,
+        }),
+      });
 
       if (!res.ok) {
         const err = await res.json();

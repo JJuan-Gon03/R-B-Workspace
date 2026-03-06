@@ -17,17 +17,14 @@ export default function AddTagButton({
     }
     setBusyPostingNewTag(true);
     try {
-      const res = await fetch(
-        import.meta.env.VITE_API_BASE+"/tags",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            user_id: userId,
-            name: newTag.trim(),
-          }),
-        }
-      );
+      const res = await fetch(import.meta.env.VITE_API_BASE + "/tags", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: userId,
+          name: newTag.trim(),
+        }),
+      });
       if (!res.ok) {
         const err = await res.json();
         throw new Error(err?.message);

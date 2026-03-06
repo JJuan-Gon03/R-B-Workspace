@@ -15,8 +15,7 @@ export default function TagsBox({
     async function fetchData() {
       try {
         const res = await fetch(
-          import.meta.env.VITE_API_BASE+"/tags/" +
-            userId
+          import.meta.env.VITE_API_BASE + "/tags/" + userId
         );
         const tags = await res.json();
 

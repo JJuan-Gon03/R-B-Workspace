@@ -23,7 +23,7 @@ const postCloth = async (req, res) => {
   let cloth;
 
   try {
-    cloth=await addCloth(req.body);
+    cloth = await addCloth(req.body);
   } catch (err) {
     return handleMongoDBError(res, err);
   }

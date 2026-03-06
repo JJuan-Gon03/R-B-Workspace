@@ -15,8 +15,8 @@ export default function Assistant({ userId }) {
 
     try {
       const res = await fetch(
-        import.meta.env.VITE_API_BASE+
-        "/gemini/response/" +
+        import.meta.env.VITE_API_BASE +
+          "/gemini/response/" +
           userId +
           "/" +
           encodeURIComponent(text)

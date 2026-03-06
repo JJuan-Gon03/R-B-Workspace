@@ -21,8 +21,7 @@ export default function UnselectedTagsBox({
     event.preventDefault();
     try {
       const res = await fetch(
-        import.meta.env.VITE_API_BASE+"/tags/" +
-          tagJsonToDelete._id,
+        import.meta.env.VITE_API_BASE + "/tags/" + tagJsonToDelete._id,
         { method: "DELETE" }
       );
       if (!res.ok) {

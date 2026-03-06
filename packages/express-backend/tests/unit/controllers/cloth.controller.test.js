@@ -91,7 +91,7 @@ test("postCloth -> parseCloth success -> addCloth error", async () => {
 
 test("postCloth -> parseCloth success -> addCloth success -> gemini main success -> return success", async () => {
   mockParseCloth.mockResolvedValueOnce("description");
-  mockAddCloth.mockResolvedValueOnce("new cloth")
+  mockAddCloth.mockResolvedValueOnce("new cloth");
 
   const req = { body: { img_url: "imgurl", user_id: 123 } };
   const res = makeRes();

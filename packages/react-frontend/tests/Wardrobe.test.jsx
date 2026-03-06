@@ -13,10 +13,10 @@ vi.mock("../src/Upload2.jsx", () => ({
 }));
 
 const MOCK_DATA = [
-  { img_url: "shirt1.png", type: "Shirts" },
-  { img_url: "shirt2.png", type: " shirts " },
-  { img_url: "pants1.png", type: "Pants" },
-  { img_url: "jacket1.png", type: "JACKETS" },
+  { _id: "123", img_url: "shirt1.png", type: "Shirts" },
+  { _id: "124", img_url: "shirt2.png", type: " shirts " },
+  { _id: "125", img_url: "pants1.png", type: "Pants" },
+  { _id: "126", img_url: "jacket1.png", type: "JACKETS" },
 ];
 
 function mockFetchOk(data) {
@@ -81,7 +81,7 @@ describe("Wardrobe - 100% coverage", () => {
     );
 
     const firstImg = screen.getAllByRole("img")[0];
-    const sellBtn = screen.getByRole("button", { name: "Sell" });
+    const sellBtn = screen.getByRole("button", { name: "Delete" });
 
     expect(sellBtn).toBeDisabled();
 
@@ -106,7 +106,7 @@ describe("Wardrobe - 100% coverage", () => {
 
     fireEvent.click(pantsImg);
 
-    const sellBtn = screen.getByRole("button", { name: "Sell" });
+    const sellBtn = screen.getByRole("button", { name: "Delete" });
     expect(sellBtn).not.toBeDisabled();
 
     fireEvent.click(screen.getAllByRole("button", { name: "Shirts" })[0]);

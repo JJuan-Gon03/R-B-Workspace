@@ -48,6 +48,6 @@ test("POST /clothes", async () => {
 
   const docs = await Cloth.find({ user_id: userId });
   expect(docs).toHaveLength(1);
-  const newCloth=docs[0]
-  expect(String(newCloth._id)).toEqual(cloth._id)
+  const newCloth = docs[0];
+  expect(String(newCloth._id)).toEqual(cloth._id);
 });
