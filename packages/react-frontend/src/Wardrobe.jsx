@@ -3,6 +3,10 @@ import { useEffect, useMemo, useState } from "react";
 import "./Wardrobe.css";
 import { deleteCloth } from "./services/cloth.service.js";
 
+const API_BASE =
+  import.meta.env.VITE_API_BASE ||
+  "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
+
 const CATEGORIES = [
   "All",
   "Shirts",
@@ -29,7 +33,7 @@ export default function Wardrobe({ userId }) {
     document.body.style.height = "100%";
     document.body.classList.add("wardrobe-page");
 
-    fetch(import.meta.env.VITE_API_BASE + "/wardrobe/" + userId)
+    fetch(API_BASE + "/wardrobe/" + userId)
       .then((res) => {
         if (!res.ok) {
           return res.json().then((err) => {

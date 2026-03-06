@@ -1,6 +1,10 @@
 import { useState } from "react";
 import "./AddTagButton.css";
 
+const API_BASE =
+  import.meta.env.VITE_API_BASE ||
+  "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
+
 export default function AddTagButton({
   setUnselectedTags,
   setSearchPrefix,
@@ -17,7 +21,7 @@ export default function AddTagButton({
     }
     setBusyPostingNewTag(true);
     try {
-      const res = await fetch(import.meta.env.VITE_API_BASE + "/tags", {
+      const res = await fetch(API_BASE + "/tags", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -3,6 +3,10 @@ import UnselectedTagsBox from "./UnselectedTagsBox";
 import SelectedTagsBox from "./SelectedTagsBox";
 import "./TagBoxSelections.css";
 
+const API_BASE =
+  import.meta.env.VITE_API_BASE ||
+  "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
+
 export default function TagsBox({
   selectedTags,
   setSelectedTags,
@@ -14,9 +18,7 @@ export default function TagsBox({
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(
-          import.meta.env.VITE_API_BASE + "/tags/" + userId
-        );
+        const res = await fetch(API_BASE + "/tags/" + userId);
         const tags = await res.json();
 
         if (!res.ok) {

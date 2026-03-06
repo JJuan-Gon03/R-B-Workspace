@@ -3,6 +3,10 @@ import { useState } from "react";
 import TagsBox from "./tags/TagsBox.jsx";
 import "./Upload2.css";
 
+const API_BASE =
+  import.meta.env.VITE_API_BASE ||
+  "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
+
 export default function Upload({ setClothes, userId }) {
   const [busy, setBusy] = useState(false);
   const [open, setOpen] = useState(false);
@@ -41,7 +45,7 @@ export default function Upload({ setClothes, userId }) {
 
     try {
       const result = await cloudinary.getImgURL(img);
-      const res = await fetch(import.meta.env.VITE_API_BASE + "/wardrobe", {
+      const res = await fetch(API_BASE + "/wardrobe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

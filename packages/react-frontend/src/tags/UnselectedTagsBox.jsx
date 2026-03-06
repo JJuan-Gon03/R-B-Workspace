@@ -1,6 +1,10 @@
 import AddTagButton from "./AddTagButton";
 import { useState } from "react";
 
+const API_BASE =
+  import.meta.env.VITE_API_BASE ||
+  "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
+
 export default function UnselectedTagsBox({
   unselectedTags,
   setUnselectedTags,
@@ -20,10 +24,9 @@ export default function UnselectedTagsBox({
   async function deleteTag(event, tagJsonToDelete) {
     event.preventDefault();
     try {
-      const res = await fetch(
-        import.meta.env.VITE_API_BASE + "/tags/" + tagJsonToDelete._id,
-        { method: "DELETE" }
-      );
+      const res = await fetch(API_BASE + "/tags/" + tagJsonToDelete._id, {
+        method: "DELETE",
+      });
       if (!res.ok) {
         const err = await res.json();
         throw new Error(err?.message);

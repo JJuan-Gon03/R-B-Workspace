@@ -1,6 +1,10 @@
 import { useState } from "react";
 import "./Assistant.css";
 
+const API_BASE =
+  import.meta.env.VITE_API_BASE ||
+  "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
+
 export default function Assistant({ userId }) {
   const [text, setText] = useState("");
   const [chat, setChat] = useState([]);
@@ -15,11 +19,7 @@ export default function Assistant({ userId }) {
 
     try {
       const res = await fetch(
-        import.meta.env.VITE_API_BASE +
-          "/gemini/response/" +
-          userId +
-          "/" +
-          encodeURIComponent(text)
+        API_BASE + "/gemini/response/" + userId + "/" + encodeURIComponent(text)
       );
 
       if (!res.ok) {
