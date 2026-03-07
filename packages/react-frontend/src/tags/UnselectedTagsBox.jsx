@@ -46,6 +46,7 @@ export default function UnselectedTagsBox({
         type="text"
         value={searchPrefix}
         onChange={(e) => setSearchPrefix(e.target.value)}
+        placeholder="Search for tag to add..."
       />
       {unselectedTags
         .filter((tagJson) => {

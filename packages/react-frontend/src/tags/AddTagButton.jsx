@@ -16,6 +16,7 @@ export default function AddTagButton({
 
   async function postNewTag(event) {
     event.preventDefault();
+    setTypingNewTag(false);
     if (!newTag.trim()) {
       return;
     }
@@ -37,7 +38,6 @@ export default function AddTagButton({
 
       setUnselectedTags((prev) => [...prev, tag]);
       setNewTag("");
-      setTypingNewTag(false);
       setSearchPrefix("");
     } catch (err) {
       console.log(err?.message || err);
@@ -48,7 +48,7 @@ export default function AddTagButton({
   if (!typingNewTag) {
     return (
       <button className="addTag" onClick={() => setTypingNewTag(true)}>
-        +
+        Add tag
       </button>
     );
   }
@@ -70,6 +70,7 @@ export default function AddTagButton({
       onKeyDown={(e) => {
         if (e.key === "Enter") postNewTag(e);
       }}
+      placeholder="enter tag name..."
     />
   );
 }
