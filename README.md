@@ -47,10 +47,10 @@ Frontend ENV:
 VITE_API_BASE //for running local frontend
 
 Backend ENV:
-GEMINI_API_KEY //for ai assistant/clothing upload, easy to create gemini account
-CLOUDINARY_CLOUD_NAME //CLOUDINARY only for delete cloths, easy to create a cloudinary account
-CLOUDINARY_API_KEY
-CLOUDINARY_API_SECRET
+GEMINI_API_KEY, //for ai assistant/clothing upload, easy to create gemini account
+CLOUDINARY_CLOUD_NAME, //CLOUDINARY only for delete cloths, easy to create a cloudinary account
+CLOUDINARY_API_KEY,
+CLOUDINARY_API_SECRET,
 PORT //for running local backend
 
 npm run dev in respective workspace
