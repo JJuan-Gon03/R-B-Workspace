@@ -10,6 +10,7 @@ jest.unstable_mockModule("../../../src/services/cloth.service.js", () => ({
   addCloth: mockAddCloth,
   removeClothById: mockRemoveClothById,
   getPublicId: mockGetPublicId,
+  findClothByIdAndUpdate: jest.fn(),
 }));
 
 const mockHandleMongoDBError = jest.fn();

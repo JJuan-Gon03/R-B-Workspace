@@ -3,6 +3,7 @@ import {
   addCloth,
   removeClothById,
   getPublicId,
+  findClothByIdAndUpdate,
 } from "../services/cloth.service.js";
 import { parse_cloth } from "../services/gemini.service.js";
 import { handleMongoDBError } from "../db.js";
@@ -68,4 +69,14 @@ const deleteCloth = async (req, res) => {
   res.status(200).send();
 };
 
-export { postCloth, getClothes, deleteCloth };
+const updateCloth = async (req, res) => {
+  let cloth;
+  try {
+    cloth = await findClothByIdAndUpdate(req.params.clothId, req.body);
+  } catch (err) {
+    return handleMongoDBError(res, err);
+  }
+  res.status(200).json(cloth);
+};
+
+export { postCloth, getClothes, deleteCloth, updateCloth };

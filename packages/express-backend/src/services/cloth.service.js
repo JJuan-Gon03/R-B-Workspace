@@ -21,10 +21,18 @@ async function getPublicId(clothId) {
   return cloth.public_id;
 }
 
+async function findClothByIdAndUpdate(clothId, newVals) {
+  return Cloth.findByIdAndUpdate(clothId, newVals, {
+    new: true,
+    runValidators: true,
+  });
+}
+
 export {
   getPublicId,
   getClothesByUserId,
   addCloth,
   removeClothById,
   removeTagFromClothes,
+  findClothByIdAndUpdate,
 };
