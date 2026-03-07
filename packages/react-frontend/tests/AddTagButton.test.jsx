@@ -42,6 +42,6 @@ test("basic error", async () => {
   fireEvent.keyDown(textbox, { key: "Enter", code: "Enter", charCode: 13 });
 
   await waitFor(() => {
-    expect(screen.getByRole("textbox")).toBeInTheDocument();
+    expect(screen.getByText("Add tag")).toBeInTheDocument();
   });
 });
