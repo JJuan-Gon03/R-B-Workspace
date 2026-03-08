@@ -55,7 +55,10 @@ export default function AuthModal({ variant = "signin", onClose, setUserId }) {
       const raw = await res.text();
       const userId =
         raw.startsWith('"') && raw.endsWith('"') ? raw.slice(1, -1) : raw;
+
       setUserId(userId);
+      localStorage.setItem("userId", userId);
+
       onClose?.();
     } catch (err) {
       setError(err.message || "Request failed");
@@ -103,7 +106,6 @@ export default function AuthModal({ variant = "signin", onClose, setUserId }) {
           </div>
 
           <form className="modal-form" onSubmit={handleSubmit}>
-            {/* Google sign-in */}
             <button
               className="google-btn"
               type="button"
@@ -180,8 +182,8 @@ export default function AuthModal({ variant = "signin", onClose, setUserId }) {
                 {busy
                   ? "Please wait…"
                   : isRegister
-                    ? "Create account"
-                    : "Sign in"}
+                  ? "Create account"
+                  : "Sign in"}
               </button>
             </div>
           </form>

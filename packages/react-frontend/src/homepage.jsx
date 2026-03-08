@@ -1,9 +1,12 @@
 import React from "react";
 import "./homepage.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthModal from "./AuthModal";
 
-const Homepage = ({ setUserId }) => {
+const Homepage = ({ setUserId, userId }) => {
+  const navigate = useNavigate();
+
   const images = [
     "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=300",
     "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300",
@@ -11,18 +14,18 @@ const Homepage = ({ setUserId }) => {
     "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=300",
     "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300",
   ];
+
   const [authOpen, setAuthOpen] = useState(false);
   const [authVariant, setAuthVariant] = useState("signin");
 
   return (
     <>
       <div className="thriftr-container">
-        {/* Hero Section */}
         <section className="hero-section">
           <h1>
-            Find Clothes
+            Find Clothes,
             <br />
-            You Want.
+            You Need.
           </h1>
           <div className="image-row">
             {images.map((url, index) => (
@@ -39,7 +42,6 @@ const Homepage = ({ setUserId }) => {
           </div>
         </section>
 
-        {/* How It Works Section */}
         <section className="how-it-works">
           <div className="content-wrapper">
             <h2>How It Works</h2>
@@ -83,31 +85,51 @@ const Homepage = ({ setUserId }) => {
           </div>
         </section>
 
-        {/* CTA Section */}
         <section className="cta-section">
           <h2>Ready To Start on THRIFTR?</h2>
-          <p>Sign up to swipe, save, sell and simplify your closet.</p>
+          <p>
+            {userId
+              ? "Jump back into your wardrobe and keep building your style."
+              : "Sign up to swipe, save, sell and simplify your closet."}
+          </p>
           <button
             className="get-started-btn"
             type="button"
             onClick={() => {
-              setAuthVariant("register");
-              setAuthOpen(true);
+              if (!userId) {
+                setAuthVariant("register");
+                setAuthOpen(true);
+              } else {
+                navigate("/wardrobe");
+              }
             }}
           >
-            Get Started
+            {userId ? "Go to Wardrobe" : "Get Started"}
           </button>
         </section>
 
-        {/* Footer */}
         <footer className="footer">
-          <span>©2025 THRIFTR</span>
+          <span>©2025 THRIFTR — Made by R&B</span>
           <div className="footer-links">
-            <a href="#signup">Sign up</a> | <a href="#contact">Contact</a> |{" "}
-            <a href="#about">About</a>
+            <button
+              type="button"
+              onClick={() => navigate("/contact")}
+              className="footer-link-btn"
+            >
+              Contact
+            </button>
+            {" | "}
+            <button
+              type="button"
+              onClick={() => navigate("/about")}
+              className="footer-link-btn"
+            >
+              About
+            </button>
           </div>
         </footer>
       </div>
+
       {authOpen && (
         <AuthModal
           variant={authVariant}
