@@ -105,15 +105,29 @@ export default function Upload({ setClothes, userId }) {
         </button>
 
         <form className="upload-form" onSubmit={onSubmit}>
-          <label className="upload-form-label">Item Name</label>
+          {/* NAME */}
+          <label
+            className="upload-form-label"
+            htmlFor="name-select"
+          >
+            name-select
+          </label>
           <input
+            id="name-select"
             className="upload-form-field"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
-          <label className="upload-form-label">Color</label>
+          {/* COLOR */}
+          <label
+            className="upload-form-label"
+            htmlFor="color-select"
+          >
+            color-select
+          </label>
           <select
+            id="color-select"
             className="upload-form-field"
             value={color}
             onChange={(e) => setColor(e.target.value)}
@@ -134,8 +148,15 @@ export default function Upload({ setClothes, userId }) {
             <option value="Multi">Multi</option>
           </select>
 
-          <label className="upload-form-label">Type</label>
+          {/* TYPE */}
+          <label
+            className="upload-form-label"
+            htmlFor="type-select"
+          >
+            type-select
+          </label>
           <select
+            id="type-select"
             className="upload-form-field"
             value={type}
             onChange={(e) => setType(e.target.value)}
@@ -217,7 +238,11 @@ export default function Upload({ setClothes, userId }) {
             Clear All
           </button>
 
-          <button className="upload-form-submit" type="submit" disabled={busy}>
+          <button
+            className="upload-form-submit"
+            type="submit"
+            disabled={busy}
+          >
             Upload
           </button>
         </form>
@@ -233,7 +258,9 @@ export default function Upload({ setClothes, userId }) {
                 <input
                   type="checkbox"
                   checked={skipClearConfirm}
-                  onChange={(e) => setSkipClearConfirm(e.target.checked)}
+                  onChange={(e) =>
+                    setSkipClearConfirm(e.target.checked)
+                  }
                 />
                 Don’t ask again
               </label>
