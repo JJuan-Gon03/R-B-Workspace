@@ -59,16 +59,19 @@
 }
 
 /* search input (first child in second .tags) */
-.tags > input[type="text"] {
+.tag-search {
   width: 100%;
   height: 38px;
   padding: 0 12px;
-
   border-radius: 10px;
   border: 1px solid #cfcfcf;
   outline: none;
-
   font-size: 14px;
+}
+
+.tag-search:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
 }
 
 /* hover/focus to match the purple accent */
