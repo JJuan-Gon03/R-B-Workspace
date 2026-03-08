@@ -182,8 +182,8 @@ export default function AuthModal({ variant = "signin", onClose, setUserId }) {
                 {busy
                   ? "Please wait…"
                   : isRegister
-                  ? "Create account"
-                  : "Sign in"}
+                    ? "Create account"
+                    : "Sign in"}
               </button>
             </div>
           </form>

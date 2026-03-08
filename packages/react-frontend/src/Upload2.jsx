@@ -120,7 +120,9 @@ export default function Upload({ setClothes, userId }) {
             value={color}
             onChange={(e) => setColor(e.target.value)}
           >
-            <option value="" disabled>Select color</option>
+            <option value="" disabled>
+              Select color
+            </option>
             <option value="Red">Red</option>
             <option value="Orange">Orange</option>
             <option value="Yellow">Yellow</option>
@@ -140,7 +142,9 @@ export default function Upload({ setClothes, userId }) {
             value={type}
             onChange={(e) => setType(e.target.value)}
           >
-            <option value="" disabled>Select type</option>
+            <option value="" disabled>
+              Select type
+            </option>
             <option value="Shirts">Shirts</option>
             <option value="Pants">Pants</option>
             <option value="Jackets">Jackets</option>
@@ -215,11 +219,7 @@ export default function Upload({ setClothes, userId }) {
             Clear All
           </button>
 
-          <button
-            className="upload-form-submit"
-            type="submit"
-            disabled={busy}
-          >
+          <button className="upload-form-submit" type="submit" disabled={busy}>
             Upload
           </button>
         </form>
@@ -235,9 +235,7 @@ export default function Upload({ setClothes, userId }) {
                 <input
                   type="checkbox"
                   checked={skipClearConfirm}
-                  onChange={(e) =>
-                    setSkipClearConfirm(e.target.checked)
-                  }
+                  onChange={(e) => setSkipClearConfirm(e.target.checked)}
                 />
                 Don’t ask again
               </label>

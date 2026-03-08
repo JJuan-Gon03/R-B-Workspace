@@ -1,4 +1,3 @@
-
 function Contact() {
   return (
     <div className="contact-page">
@@ -9,9 +8,7 @@ function Contact() {
       <p>Discord: creeperboss6000</p>
       <p>Email: thrifter@isaiah.mozmail.com</p>
       <p>GitHub: github.com/JJuan-Gon03</p>
-      <p>
-        We will try our best to respond as soon as possible.
-      </p>
+      <p>We will try our best to respond as soon as possible.</p>
     </div>
   );
 }
