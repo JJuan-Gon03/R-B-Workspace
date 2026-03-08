@@ -10,7 +10,6 @@ const API_BASE =
 export default function Upload({ setClothes, userId }) {
   const [busy, setBusy] = useState(false);
   const [open, setOpen] = useState(false);
-  const [error, setError] = useState(false);
 
   const [confirmClear, setConfirmClear] = useState(false);
   const [skipClearConfirm, setSkipClearConfirm] = useState(false);
@@ -78,7 +77,6 @@ export default function Upload({ setClothes, userId }) {
       resetData();
       setOpen(false);
     } catch (err) {
-      setError(true);
       console.log(err?.message || err);
     }
 
