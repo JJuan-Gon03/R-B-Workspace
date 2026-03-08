@@ -1,5 +1,5 @@
 import cloudinary from "./services/cloudinary.js";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import TagsBox from "./tags/TagsBox.jsx";
 import "./Upload2.css";
 
@@ -12,10 +12,6 @@ export default function Upload({ setClothes, userId }) {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
 
-  const [confirmClear, setConfirmClear] = useState(false);
-  const [skipClearConfirm, setSkipClearConfirm] = useState(false);
-  const [dragActive, setDragActive] = useState(false);
-
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const [type, setType] = useState("");
@@ -25,8 +21,6 @@ export default function Upload({ setClothes, userId }) {
 
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  const fileInputRef = useRef(null);
-
   function resetData() {
     setImg(null);
     setPreview("");
@@ -35,33 +29,30 @@ export default function Upload({ setClothes, userId }) {
     setColor("");
     setName("");
     setRefreshTrigger((x) => x + 1);
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
   }
 
   function onClose() {
     setOpen(false);
+    resetData();
   }
 
   async function onSubmit(event) {
     event.preventDefault();
+
     if (busy || !name || !color || !type || !img) return;
 
     setBusy(true);
 
     try {
       const result = await cloudinary.getImgURL(img);
-
       const res = await fetch(API_BASE + "/wardrobe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           user_id: userId,
-          name,
-          color,
-          type,
+          name: name,
+          color: color,
+          type: type,
           tags: selectedTags.map((t) => t._id),
           img_url: result.img_url,
           public_id: result.public_id,
@@ -74,9 +65,10 @@ export default function Upload({ setClothes, userId }) {
       }
 
       const new_cloth = await res.json();
+
       setClothes((prev) => [...prev, new_cloth]);
+
       resetData();
-      setOpen(false);
     } catch (err) {
       setError(true);
       console.log(err?.message || err);
@@ -85,11 +77,12 @@ export default function Upload({ setClothes, userId }) {
     setBusy(false);
   }
 
-  function handleFile(file) {
+  const fileSelected = (e) => {
+    const file = e.target.files?.[0] ?? null;
     if (!file) return;
     setImg(file);
     setPreview(URL.createObjectURL(file));
-  }
+  };
 
   if (!open) {
     return (
@@ -99,12 +92,48 @@ export default function Upload({ setClothes, userId }) {
     );
   }
 
-  return (
-    <div className="upload-overlay" onClick={onClose}>
-      <div className="upload" onClick={(e) => e.stopPropagation()}>
-        <button className="upload-close" onClick={onClose}>
+  if (error) {
+    return (
+      <div className="upload-error">
+        <button
+          className="upload-close"
+          onClick={() => {
+            setError(false);
+          }}
+        >
           ✕
         </button>
+
+        <div className="upload-error-message">Upload failed</div>
+
+        <button
+          className="upload-error-tryAgain"
+          onClick={() => {
+            setError(false);
+          }}
+        >
+          Try again
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="upload-overlay">
+      <div className="upload">
+        {busy && (
+          <div className="upload-loading-overlay">
+            <div className="upload-loading-spinner" />
+            <div className="upload-loading-text">Uploading…</div>
+          </div>
+        )}
+
+        <div className="upload-header">
+          <h2 className="upload-title">Upload Item</h2>
+          <button className="upload-close" onClick={() => onClose()}>
+            ✕
+          </button>
+        </div>
 
         <form className="upload-form" onSubmit={onSubmit}>
           <label className="upload-form-label">Item Name</label>
@@ -112,6 +141,7 @@ export default function Upload({ setClothes, userId }) {
             className="upload-form-field"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            aria-label="name-select"
           />
 
           <label className="upload-form-label">Color</label>
@@ -119,6 +149,7 @@ export default function Upload({ setClothes, userId }) {
             className="upload-form-field"
             value={color}
             onChange={(e) => setColor(e.target.value)}
+            aria-label="color-select"
           >
             <option value="" disabled>
               Select color
@@ -141,6 +172,7 @@ export default function Upload({ setClothes, userId }) {
             className="upload-form-field"
             value={type}
             onChange={(e) => setType(e.target.value)}
+            aria-label="type-select"
           >
             <option value="" disabled>
               Select type
@@ -160,107 +192,25 @@ export default function Upload({ setClothes, userId }) {
           />
 
           <label className="upload-form-label">Item Image</label>
-
-          {!preview && (
-            <div
-              className={`upload-dropzone ${dragActive ? "active" : ""}`}
-              onClick={() => fileInputRef.current?.click()}
-              onDragOver={(e) => {
-                e.preventDefault();
-                setDragActive(true);
-              }}
-              onDragLeave={() => setDragActive(false)}
-              onDrop={(e) => {
-                e.preventDefault();
-                setDragActive(false);
-                handleFile(e.dataTransfer.files?.[0]);
-              }}
-            >
-              <div className="upload-dropzone-icon">⬆</div>
-              <div className="upload-dropzone-text">
-                <strong>Drag & drop image here</strong>
-                <span>or click to browse</span>
-              </div>
-            </div>
-          )}
-
           <input
-            ref={fileInputRef}
+            className="upload-form-field"
             type="file"
             accept="image/*"
-            style={{ display: "none" }}
-            onChange={(e) => handleFile(e.target.files?.[0])}
+            onChange={(e) => fileSelected(e)}
+            aria-label="file-select"
           />
-
           {preview && (
-            <div className="upload-image-wrapper">
-              <button
-                type="button"
-                className="upload-image-remove"
-                onClick={resetData}
-              >
-                ✕
-              </button>
-              <img
-                className="upload-form-imagePreview"
-                src={preview}
-                alt="preview"
-              />
-            </div>
+            <img
+              className="upload-form-imagePreview"
+              src={preview}
+              aria-label="preview"
+            />
           )}
-
-          <button
-            type="button"
-            className="upload-form-clear"
-            onClick={() =>
-              skipClearConfirm ? resetData() : setConfirmClear(true)
-            }
-          >
-            Clear All
-          </button>
 
           <button className="upload-form-submit" type="submit" disabled={busy}>
             Upload
           </button>
         </form>
-
-        {confirmClear && (
-          <div className="clear-confirm-overlay">
-            <div className="clear-confirm-box">
-              <div className="clear-confirm-title">
-                Are you sure you want to clear everything?
-              </div>
-
-              <label className="clear-confirm-checkbox">
-                <input
-                  type="checkbox"
-                  checked={skipClearConfirm}
-                  onChange={(e) => setSkipClearConfirm(e.target.checked)}
-                />
-                Don’t ask again
-              </label>
-
-              <div className="clear-confirm-actions">
-                <button
-                  className="clear-confirm-cancel"
-                  onClick={() => setConfirmClear(false)}
-                >
-                  No
-                </button>
-
-                <button
-                  className="clear-confirm-yes"
-                  onClick={() => {
-                    resetData();
-                    setConfirmClear(false);
-                  }}
-                >
-                  Yes, Clear
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -43,6 +43,7 @@ export default function UnselectedTagsBox({
   return (
     <div className="tags">
       <input
+        className="tag-search"
         type="text"
         value={searchPrefix}
         onChange={(e) => setSearchPrefix(e.target.value)}
