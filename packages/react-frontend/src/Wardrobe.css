@@ -22,8 +22,8 @@
   margin-top: -28px;
   margin-left: calc(50% - 50vw); /* far left */
   display: flex;
+  align-items: flex-start;
   min-height: calc(100vh - 100px); /* 100vh - navbar height */
-  overflow: hidden;
 }
 
 .wardrobe-sidebar {
@@ -35,7 +35,11 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  position: sticky;
+  top: 100px; /* navbar height */
   height: calc(100vh - 100px);
+  overflow-y: auto;
+  align-self: flex-start;
 }
 
 .sidebar-search-wrap {
@@ -161,8 +165,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 24px;
-  max-height: calc(100vh - 220px);
-  overflow-y: auto;
   padding: 5px;
 }
 

@@ -33,6 +33,15 @@ export default function Navbar({ setUserId, userId }) {
               </NavLink>
 
               <NavLink
+                to="/shop"
+                className={({ isActive }) =>
+                  `topbar-link${isActive ? " active" : ""}`
+                }
+              >
+                Shop
+              </NavLink>
+
+              <NavLink
                 to="/saved"
                 className={({ isActive }) =>
                   `topbar-link${isActive ? " active" : ""}`

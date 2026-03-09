@@ -1,0 +1,36 @@
+.create-listing-modal.upload::before {
+  content: "Create Listing";
+}
+
+.color-swatch-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  outline: 1px solid rgba(0, 0, 0, 0.15);
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+.color-swatch:hover {
+  transform: scale(1.12);
+}
+
+.color-swatch.selected {
+  border-color: #5d5fef;
+  transform: scale(1.18);
+  outline-color: #5d5fef;
+}
+
+.cl-error {
+  color: #d32f2f;
+  font-size: 0.85rem;
+  margin: -8px 0 12px;
+}

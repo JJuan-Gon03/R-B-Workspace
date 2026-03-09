@@ -3,6 +3,8 @@ import "./App.css";
 import Navbar from "./Navbar";
 import Saved from "./Saved";
 import Wardrobe from "./Wardrobe";
+import Shop from "./Shop";
+import CreateListing from "./CreateListing";
 import Assistant from "./Assistant";
 import Homepage from "./homepage";
 import About from "./About";
@@ -49,6 +51,26 @@ function App() {
                   clothImgUrls={wardrobeImages}
                   setWardrobeImages={setWardrobeImages}
                 />
+              ) : (
+                <Homepage setUserId={setUserId} userId={userId} />
+              )
+            }
+          />
+          <Route
+            path="/shop"
+            element={
+              userId ? (
+                <Shop userId={userId} />
+              ) : (
+                <Homepage setUserId={setUserId} userId={userId} />
+              )
+            }
+          />
+          <Route
+            path="/shop/new"
+            element={
+              userId ? (
+                <CreateListing userId={userId} />
               ) : (
                 <Homepage setUserId={setUserId} userId={userId} />
               )

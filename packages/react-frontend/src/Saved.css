@@ -1,0 +1,176 @@
+@import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&display=swap");
+
+.saved-page {
+  background: #0a0a0a;
+  min-height: calc(100vh - 100px);
+  padding: 40px;
+  color: #fff;
+  margin-top: -28px;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  box-sizing: border-box;
+}
+
+.saved-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.saved-title {
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  margin: 0;
+  color: #fff;
+}
+
+.saved-count {
+  color: #555;
+  font-size: 1rem;
+}
+
+.saved-loading,
+.saved-error {
+  color: #666;
+  font-size: 1rem;
+  margin-top: 20px;
+}
+
+.saved-error {
+  color: #d32f2f;
+}
+
+/* ── Grid ── */
+.saved-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* ── Card ── */
+.saved-card {
+  background: #111;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.saved-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(91, 70, 217, 0.15);
+}
+
+.saved-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.saved-card-info {
+  padding: 14px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.saved-card-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #fff;
+}
+
+.saved-card-price {
+  color: #5b46d9;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.saved-unsave-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 14px 14px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(91, 70, 217, 0.35);
+  background: transparent;
+  color: #5b46d9;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  width: calc(100% - 28px);
+  transition: background 0.15s ease, border-color 0.15s ease;
+  box-sizing: border-box;
+}
+
+.saved-unsave-btn:hover {
+  background: rgba(91, 70, 217, 0.15);
+  border-color: #5b46d9;
+}
+
+/* ── Empty state ── */
+.saved-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 18px;
+  text-align: center;
+}
+
+.saved-empty-icon {
+  color: #5b46d9;
+  opacity: 0.85;
+  animation: saved-float 3s ease-in-out infinite;
+}
+
+.saved-empty-heading {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.saved-empty-sub {
+  color: #555;
+  font-size: 1rem;
+  max-width: 320px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.saved-empty-btn {
+  background: #5b46d9;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 12px 28px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  margin-top: 4px;
+}
+
+.saved-empty-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+@keyframes saved-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
