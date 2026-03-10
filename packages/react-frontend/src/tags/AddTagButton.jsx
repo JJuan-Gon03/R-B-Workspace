@@ -11,17 +11,15 @@ export default function AddTagButton({
   userId,
 }) {
   const [newTag, setNewTag] = useState("");
-  const [busyPostingNewTag, setBusyPostingNewTag] = useState(false);
-  const [typingNewTag, setTypingNewTag] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function postNewTag(event) {
-    event.preventDefault();
-    setTypingNewTag(false);
-    if (!newTag.trim()) {
-      return;
-    }
-    setBusyPostingNewTag(true);
+  async function postNewTag() {
+    if (!newTag.trim()) return;
+
     try {
+      setIsSubmitting(true);
+
       const res = await fetch(API_BASE + "/tags", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -30,47 +28,65 @@ export default function AddTagButton({
           name: newTag.trim(),
         }),
       });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err?.message);
-      }
-      const tag = await res.json();
 
+      if (!res.ok) throw new Error();
+
+      const tag = await res.json();
       setUnselectedTags((prev) => [...prev, tag]);
+
       setNewTag("");
       setSearchPrefix("");
-    } catch (err) {
-      console.log(err?.message || err);
+      setIsOpen(false);
+    } finally {
+      setIsSubmitting(false);
     }
-    setBusyPostingNewTag(false);
   }
 
-  if (!typingNewTag) {
+  if (!isOpen) {
     return (
-      <button className="addTag" onClick={() => setTypingNewTag(true)}>
-        Add tag
+      <button className="addTag" onClick={() => setIsOpen(true)}>
+        + Add tag
       </button>
     );
   }
 
-  if (busyPostingNewTag) {
-    return (
-      <div className="addTag">
-        <div className="spinner" />
-      </div>
-    );
-  }
-
   return (
-    <input
-      className="addTag"
-      type="text"
-      value={newTag}
-      onChange={(e) => setNewTag(e.target.value)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") postNewTag(e);
-      }}
-      placeholder="enter tag name..."
-    />
+    <div className="addTag-inline">
+      <div className="addTag-bar">
+        <input
+          className="addTag-input"
+          type="text"
+          autoFocus
+          placeholder="New tag..."
+          value={newTag}
+          onChange={(e) => setNewTag(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") postNewTag();
+            if (e.key === "Escape") {
+              setNewTag("");
+              setIsOpen(false);
+            }
+          }}
+        />
+
+        <button
+          className="addTag-confirm"
+          onClick={postNewTag}
+          disabled={isSubmitting}
+        >
+          Add
+        </button>
+
+        <button
+          className="addTag-cancel"
+          onClick={() => {
+            setNewTag("");
+            setIsOpen(false);
+          }}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
   );
 }

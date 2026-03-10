@@ -237,6 +237,12 @@
   margin-bottom: 20px;
 }
 
+.upload-form-validation-error {
+  color: #d32f2f;
+  font-size: 0.85rem;
+  margin: 4px 0 10px;
+}
+
 /* Clear Confirmation */
 .clear-confirm-overlay {
   position: absolute;

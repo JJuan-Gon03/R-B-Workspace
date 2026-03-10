@@ -47,7 +47,7 @@ export default function UnselectedTagsBox({
         type="text"
         value={searchPrefix}
         onChange={(e) => setSearchPrefix(e.target.value)}
-        placeholder="Search for tag to add..."
+        placeholder="Search tags..."
       />
       {unselectedTags
         .filter((tagJson) => {
@@ -62,15 +62,17 @@ export default function UnselectedTagsBox({
           <div key={tagJson._id}>
             <button
               className="tagName"
+              title="Click to select"
               onClick={(event) => addToSelected(event, tagJson)}
             >
               {tagJson.name}
             </button>
             <button
-              className="tagRemove"
+              className="tagDelete"
+              title="Delete tag permanently"
               onClick={(event) => deleteTag(event, tagJson)}
             >
-              x
+              🗑
             </button>
           </div>
         ))}

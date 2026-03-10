@@ -33,19 +33,24 @@ export default function TagsBox({
   }, [refreshTrigger, userId]);
 
   return (
-    <div>
-      <SelectedTagsBox
-        selectedTags={selectedTags}
-        setSelectedTags={setSelectedTags}
-        setUnselectedTags={setUnselectedTags}
-      />
-      <hr />
-      <UnselectedTagsBox
-        unselectedTags={unselectedTags}
-        setUnselectedTags={setUnselectedTags}
-        setSelectedTags={setSelectedTags}
-        userId={userId}
-      />
+    <div className="tags-container">
+      <div className="tags-section">
+        <div className="tags-section-label">Selected Tags</div>
+        <SelectedTagsBox
+          selectedTags={selectedTags}
+          setSelectedTags={setSelectedTags}
+          setUnselectedTags={setUnselectedTags}
+        />
+      </div>
+      <div className="tags-section">
+        <div className="tags-section-label">Available Tags</div>
+        <UnselectedTagsBox
+          unselectedTags={unselectedTags}
+          setUnselectedTags={setUnselectedTags}
+          setSelectedTags={setSelectedTags}
+          userId={userId}
+        />
+      </div>
     </div>
   );
 }

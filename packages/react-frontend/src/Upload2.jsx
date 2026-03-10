@@ -21,6 +21,8 @@ export default function Upload({ setClothes, userId }) {
   const [selectedTags, setSelectedTags] = useState([]);
   const [img, setImg] = useState(null);
   const [preview, setPreview] = useState("");
+  const [error, setError] = useState("");
+  const [submitAttempted, setSubmitAttempted] = useState(false);
 
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
@@ -33,11 +35,17 @@ export default function Upload({ setClothes, userId }) {
     setType("");
     setColor("");
     setName("");
+    setError("");
+    setSubmitAttempted(false);
     setRefreshTrigger((x) => x + 1);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }
 
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
+  // Clears only the image, not the rest of the form
+  function clearImage() {
+    setImg(null);
+    setPreview("");
+    if (fileInputRef.current) fileInputRef.current.value = "";
   }
 
   function onClose() {
@@ -46,6 +54,9 @@ export default function Upload({ setClothes, userId }) {
 
   async function onSubmit(event) {
     event.preventDefault();
+    setSubmitAttempted(true);
+    setError("");
+
     if (busy || !name || !color || !type || !img) return;
 
     setBusy(true);
@@ -69,7 +80,7 @@ export default function Upload({ setClothes, userId }) {
 
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err?.message);
+        throw new Error(err?.message || "Upload failed.");
       }
 
       const new_cloth = await res.json();
@@ -77,7 +88,7 @@ export default function Upload({ setClothes, userId }) {
       resetData();
       setOpen(false);
     } catch (err) {
-      console.log(err?.message || err);
+      setError(err?.message || "Upload failed. Please try again.");
     }
 
     setBusy(false);
@@ -85,6 +96,11 @@ export default function Upload({ setClothes, userId }) {
 
   function handleFile(file) {
     if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      setError("Image must be under 2MB.");
+      return;
+    }
+    setError("");
     setImg(file);
     setPreview(URL.createObjectURL(file));
   }
@@ -97,6 +113,8 @@ export default function Upload({ setClothes, userId }) {
     );
   }
 
+  const missingFields = submitAttempted && (!name || !color || !type || !img);
+
   return (
     <div className="upload-overlay" onClick={onClose}>
       <div className="upload" onClick={(e) => e.stopPropagation()}>
@@ -105,26 +123,19 @@ export default function Upload({ setClothes, userId }) {
         </button>
 
         <form className="upload-form" onSubmit={onSubmit}>
-          {/* NAME */}
-          <label
-            className="upload-form-label"
-            htmlFor="name-select"
-          >
-            name-select
+          <label className="upload-form-label" htmlFor="name-select">
+            Item Name *
           </label>
           <input
             id="name-select"
             className="upload-form-field"
             value={name}
+            placeholder="e.g. Blue Denim Jacket"
             onChange={(e) => setName(e.target.value)}
           />
 
-          {/* COLOR */}
-          <label
-            className="upload-form-label"
-            htmlFor="color-select"
-          >
-            color-select
+          <label className="upload-form-label" htmlFor="color-select">
+            Color *
           </label>
           <select
             id="color-select"
@@ -148,12 +159,8 @@ export default function Upload({ setClothes, userId }) {
             <option value="Multi">Multi</option>
           </select>
 
-          {/* TYPE */}
-          <label
-            className="upload-form-label"
-            htmlFor="type-select"
-          >
-            type-select
+          <label className="upload-form-label" htmlFor="type-select">
+            Type *
           </label>
           <select
             id="type-select"
@@ -178,7 +185,7 @@ export default function Upload({ setClothes, userId }) {
             userId={userId}
           />
 
-          <label className="upload-form-label">Item Image</label>
+          <label className="upload-form-label">Item Image *</label>
 
           {!preview && (
             <div
@@ -197,8 +204,8 @@ export default function Upload({ setClothes, userId }) {
             >
               <div className="upload-dropzone-icon">⬆</div>
               <div className="upload-dropzone-text">
-                <strong>Drag & drop image here</strong>
-                <span>or click to browse</span>
+                <strong>Drag &amp; drop image here</strong>
+                <span>or click to browse · max 2MB</span>
               </div>
             </div>
           )}
@@ -216,7 +223,7 @@ export default function Upload({ setClothes, userId }) {
               <button
                 type="button"
                 className="upload-image-remove"
-                onClick={resetData}
+                onClick={clearImage}
               >
                 ✕
               </button>
@@ -226,6 +233,16 @@ export default function Upload({ setClothes, userId }) {
                 alt="preview"
               />
             </div>
+          )}
+
+          {missingFields && (
+            <p className="upload-form-validation-error">
+              Please fill in all required fields and add an image.
+            </p>
+          )}
+
+          {error && (
+            <p className="upload-form-validation-error">{error}</p>
           )}
 
           <button
@@ -243,7 +260,7 @@ export default function Upload({ setClothes, userId }) {
             type="submit"
             disabled={busy}
           >
-            Upload
+            {busy ? <span className="spinner" /> : "Upload"}
           </button>
         </form>
 
@@ -258,11 +275,9 @@ export default function Upload({ setClothes, userId }) {
                 <input
                   type="checkbox"
                   checked={skipClearConfirm}
-                  onChange={(e) =>
-                    setSkipClearConfirm(e.target.checked)
-                  }
+                  onChange={(e) => setSkipClearConfirm(e.target.checked)}
                 />
-                Don’t ask again
+                Don&apos;t ask again
               </label>
 
               <div className="clear-confirm-actions">

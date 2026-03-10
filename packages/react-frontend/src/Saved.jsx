@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Saved.css";
+import "./Shop.css";
+import "./Upload2.css";
 
 const API_BASE =
   import.meta.env.VITE_API_BASE ||
@@ -37,7 +39,6 @@ function EmptyState() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Hanger hook */}
           <path
             d="M50 12 C50 12 50 6 56 6 C62 6 62 12 56 16"
             stroke="#5B46D9"
@@ -45,14 +46,12 @@ function EmptyState() {
             strokeLinecap="round"
             fill="none"
           />
-          {/* Hanger stem */}
           <path
             d="M50 16 L50 28"
             stroke="#5B46D9"
             strokeWidth="3.5"
             strokeLinecap="round"
           />
-          {/* Hanger shoulders */}
           <path
             d="M50 28 C50 28 20 42 14 48 C10 52 12 56 16 56 L84 56 C88 56 90 52 86 48 C80 42 50 28 50 28Z"
             stroke="#5B46D9"
@@ -61,7 +60,6 @@ function EmptyState() {
             strokeLinejoin="round"
             fill="rgba(91,70,217,0.12)"
           />
-          {/* Tag */}
           <rect
             x="38"
             y="60"
@@ -73,25 +71,8 @@ function EmptyState() {
             fill="rgba(91,70,217,0.08)"
           />
           <circle cx="50" cy="58" r="2.5" fill="#5B46D9" />
-          <line
-            x1="44"
-            y1="70"
-            x2="56"
-            y2="70"
-            stroke="#5B46D9"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          <line
-            x1="44"
-            y1="77"
-            x2="56"
-            y2="77"
-            stroke="#5B46D9"
-            strokeWidth="2"
-            strokeLinecap="round"
-            opacity="0.5"
-          />
+          <line x1="44" y1="70" x2="56" y2="70" stroke="#5B46D9" strokeWidth="2" strokeLinecap="round" />
+          <line x1="44" y1="77" x2="56" y2="77" stroke="#5B46D9" strokeWidth="2" strokeLinecap="round" opacity="0.5" />
         </svg>
       </div>
       <h2 className="saved-empty-heading">Nothing saved yet</h2>
@@ -113,6 +94,7 @@ export default function Saved({ userId }) {
   const [savedListings, setSavedListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [detailListing, setDetailListing] = useState(null);
 
   useEffect(() => {
     fetch(API_BASE + "/saved/" + userId)
@@ -131,6 +113,8 @@ export default function Saved({ userId }) {
 
   function handleUnsave(listing_id) {
     setSavedListings((prev) => prev.filter((l) => l._id !== listing_id));
+    // Close modal if the unsaved listing was open
+    if (detailListing?._id === listing_id) setDetailListing(null);
     fetch(`${API_BASE}/saved/${userId}/${listing_id}`, { method: "DELETE" }).catch(
       () => {
         fetch(API_BASE + "/saved/" + userId)
@@ -163,7 +147,12 @@ export default function Saved({ userId }) {
       {!loading && savedListings.length > 0 && (
         <div className="saved-grid">
           {savedListings.map((listing) => (
-            <div key={listing._id} className="saved-card">
+            <div
+              key={listing._id}
+              className="saved-card"
+              onClick={() => setDetailListing(listing)}
+              style={{ cursor: "pointer" }}
+            >
               <img src={listing.img_url} alt={listing.title} />
               <div className="saved-card-info">
                 <span className="saved-card-title">{listing.title}</span>
@@ -179,13 +168,109 @@ export default function Saved({ userId }) {
               <button
                 className="saved-unsave-btn"
                 type="button"
-                onClick={() => handleUnsave(listing._id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleUnsave(listing._id);
+                }}
               >
                 <BookmarkIcon filled={true} />
                 Unsave
               </button>
             </div>
           ))}
+        </div>
+      )}
+
+      {detailListing && (
+        <div
+          className="upload-overlay"
+          onClick={() => setDetailListing(null)}
+        >
+          <div
+            className="upload shop-detail-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="upload-close"
+              type="button"
+              onClick={() => setDetailListing(null)}
+            >
+              ✕
+            </button>
+
+            <img
+              className="upload-form-imagePreview"
+              src={detailListing.img_url}
+              alt={detailListing.title}
+            />
+
+            <h2 className="shop-detail-title">{detailListing.title}</h2>
+            <p className="shop-detail-price">
+              ${Number(detailListing.price).toFixed(2)}
+            </p>
+
+            <div className="shop-detail-fields">
+              {detailListing.brand && (
+                <div className="shop-detail-row">
+                  <span className="shop-detail-label">Brand</span>
+                  <span>{detailListing.brand}</span>
+                </div>
+              )}
+              {detailListing.category && (
+                <div className="shop-detail-row">
+                  <span className="shop-detail-label">Category</span>
+                  <span>{detailListing.category}</span>
+                </div>
+              )}
+              {detailListing.size && (
+                <div className="shop-detail-row">
+                  <span className="shop-detail-label">Size</span>
+                  <span>{detailListing.size}</span>
+                </div>
+              )}
+              {detailListing.gender && (
+                <div className="shop-detail-row">
+                  <span className="shop-detail-label">Gender</span>
+                  <span>{detailListing.gender}</span>
+                </div>
+              )}
+              {detailListing.color && (
+                <div className="shop-detail-row">
+                  <span className="shop-detail-label">Color</span>
+                  <span>{detailListing.color}</span>
+                </div>
+              )}
+              {detailListing.marketplace && (
+                <div className="shop-detail-row">
+                  <span className="shop-detail-label">Marketplace</span>
+                  <span>{detailListing.marketplace}</span>
+                </div>
+              )}
+              {detailListing.description && (
+                <div className="shop-detail-row">
+                  <span className="shop-detail-label">Description</span>
+                  <span>{detailListing.description}</span>
+                </div>
+              )}
+            </div>
+
+            <a
+              href={detailListing.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="upload-form-submit shop-external-link"
+            >
+              View on {detailListing.marketplace || "Site"} ↗
+            </a>
+
+            <button
+              className="shop-save-detail-btn saved"
+              type="button"
+              onClick={() => handleUnsave(detailListing._id)}
+            >
+              ✓ Saved — click to unsave
+            </button>
+          </div>
         </div>
       )}
     </div>

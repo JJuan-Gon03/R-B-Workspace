@@ -1,147 +1,137 @@
-/* ---- Tags area (matches your modal theme) ---- */
+/* ---- Tags container ---- */
+.tags-container {
+  margin-bottom: 18px;
+}
+
+/* ---- Section labels ("Selected Tags" / "Available Tags") ---- */
+.tags-section {
+  margin-bottom: 10px;
+}
+
+.tags-section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin-bottom: 6px;
+}
+
+/* ---- Tags flex row ---- */
 .tags {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
-
-  margin-top: 6px;
-  padding: 10px 0;
+  gap: 8px;
+  padding: 6px 0;
+  min-height: 38px;
 }
 
-/* wrapper around each tag chip + x */
+/* ---- Pill wrapper (tag text + button) ---- */
 .tags > div {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-}
-
-/* chip */
-.tagName {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  height: 34px;
-  padding: 0 12px;
-
-  border: 1px solid #d6d6d6;
-  border-radius: 10px;
-
-  background: #fff;
-  color: #111;
-
-  font-weight: 700;
-  font-size: 14px;
-
-  cursor: pointer;
-}
-
-/* x button */
-.tagRemove {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 34px;
-  height: 34px;
-
-  border: 1px solid #d6d6d6;
-  border-radius: 10px;
-
-  background: #fff;
-  color: #111;
-
-  font-weight: 800;
-  font-size: 14px;
-
-  cursor: pointer;
-}
-
-/* search input (first child in second .tags) */
-.tag-search {
-  width: 100%;
-  height: 38px;
-  padding: 0 12px;
-  border-radius: 10px;
-  border: 1px solid #cfcfcf;
-  outline: none;
-  font-size: 14px;
-}
-
-.tag-search:focus {
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
-}
-
-/* hover/focus to match the purple accent */
-.tagName:hover,
-.tagRemove:hover {
-  border-color: #4f46e5;
-}
-
-.tags > input[type="text"]:focus {
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
-}
-
-/* optional: make the chips not stretch weirdly */
-.tagName,
-.tagRemove {
-  white-space: nowrap;
-}
-
-/* the pill wrapper (button + x together) */
-.tags > div {
-  display: inline-flex;
-  align-items: center;
-
-  height: 34px;
+  height: 32px;
   padding: 0 6px 0 12px;
-
   border: 1px solid #d6d6d6;
   border-radius: 999px;
-
   background: #fff;
+  transition: border-color 0.15s;
 }
 
-/* tag text */
+.tags > div:hover {
+  border-color: #5d5fef;
+}
+
+/* ---- Selected pill — purple accent ---- */
+.tags > div.selected-pill {
+  border-color: #5d5fef;
+  background: #f0f0ff;
+}
+
+.tags > div.selected-pill .tagName {
+  color: #5d5fef;
+}
+
+/* ---- Tag name button (text inside pill) ---- */
 .tagName {
   background: transparent;
   border: none;
   padding: 0;
-
-  font-weight: 700;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 13px;
   color: #111;
-
   cursor: pointer;
+  white-space: nowrap;
 }
 
-/* x button inside pill */
+/* ---- × Remove button (deselect — inside selected pill) ---- */
 .tagRemove {
-  margin-left: 8px;
-
-  width: 22px;
-  height: 22px;
-
+  margin-left: 6px;
+  width: 20px;
+  height: 20px;
   border: none;
   border-radius: 999px;
-
-  background: #f1f1f1;
-  color: #111;
-
+  background: #e8e4ff;
+  color: #5d5fef;
   font-weight: 800;
   font-size: 13px;
-
   cursor: pointer;
-}
-
-/* hover / focus accents */
-.tags > div:hover {
-  border-color: #4f46e5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  transition: background 0.12s, color 0.12s;
 }
 
 .tagRemove:hover {
-  background: #e5e5e5;
+  background: #5d5fef;
+  color: #fff;
+}
+
+/* ---- 🗑 Delete button (permanently delete — in available section) ---- */
+.tagDelete {
+  margin-left: 4px;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #ccc;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.12s, background 0.12s;
+}
+
+.tagDelete:hover {
+  color: #d32f2f;
+  background: #fff0f0;
+}
+
+/* ---- Search input ---- */
+.tag-search {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid #cfcfcf;
+  outline: none;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.tag-search:focus {
+  border-color: #5d5fef;
+  box-shadow: 0 0 0 3px rgba(93, 95, 239, 0.15);
+}
+
+/* ---- Empty state hint ---- */
+.tags-empty-hint {
+  font-size: 0.8rem;
+  color: #aaa;
+  font-style: italic;
+  margin: 4px 0;
 }

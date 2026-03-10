@@ -42,14 +42,12 @@
   color: #d32f2f;
 }
 
-/* ── Grid ── */
 .saved-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
 }
 
-/* ── Card ── */
 .saved-card {
   background: #111;
   border-radius: 14px;
@@ -115,7 +113,6 @@
   border-color: #5b46d9;
 }
 
-/* ── Empty state ── */
 .saved-empty {
   display: flex;
   flex-direction: column;
@@ -173,4 +170,16 @@
   50% {
     transform: translateY(-12px);
   }
+}
+.saved-page .shop-detail-modal {
+  background: #fff;
+  color: #111;
+}
+
+.saved-page .shop-detail-modal h2,
+.saved-page .shop-detail-modal p,
+.saved-page .shop-detail-modal span,
+.saved-page .shop-detail-modal .shop-detail-row,
+.saved-page .shop-detail-modal .shop-detail-label {
+  color: #111;
 }

@@ -1,24 +1,87 @@
 .addTag {
-  width: 75px;
-  height: 35px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  background: black;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1.5px dashed #5d5fef;
+  background: transparent;
+  color: #5d5fef;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
 }
 
-.spinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid #b3b3b3;
-  border-top-color: #ffffff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+.addTag:hover {
+  background: #5d5fef;
+  color: white;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.addTag-inline {
+  margin-top: 6px;
+}
+
+.addTag-bar {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  width: 100%;
+  border-radius: 999px;
+  border: 1.5px solid #d6d6e8;
+  background: #f5f5f9;
+  padding: 0 6px;
+  gap: 6px;
+
+}
+
+.addTag-input {
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0 14px;
+  font-size: 0.9rem;
+  border-radius: 999px;
+  color: #111;
+}
+
+.addTag-input::placeholder {
+  color: #888;
+}
+
+.addTag-confirm {
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: none;
+  background: #5d5fef;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.addTag-confirm:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.addTag-cancel {
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: #777;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.addTag-cancel:hover {
+  color: #111;
 }

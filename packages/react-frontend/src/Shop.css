@@ -241,25 +241,31 @@
 
 .shop-save-btn {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 10px;
+  right: 10px;
   z-index: 2;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+
+  background: transparent;   
   border: none;
-  background: rgba(0, 0, 0, 0.5);
-  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  transition: background 0.15s ease;
+
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
 }
 
-.shop-save-btn:hover,
-.shop-save-btn.saved {
-  background: rgba(91, 70, 217, 0.35);
+.shop-save-btn:hover {
+  background: rgba(255, 255, 255, 0.85);
+  transform: scale(1.1);
+}
+
+.shop-save-btn.saved svg {
+  fill: #5B46D9;
+  stroke: #5B46D9;
 }
 
 .shop-listing-card:hover img {
