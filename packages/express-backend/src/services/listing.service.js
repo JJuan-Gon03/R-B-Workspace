@@ -13,11 +13,20 @@ function getListingsByUser(user_id) {
 }
 
 function updateListing(id, data) {
-  return Listing.findByIdAndUpdate(id, data, { new: true, runValidators: true });
+  return Listing.findByIdAndUpdate(id, data, {
+    new: true,
+    runValidators: true,
+  });
 }
 
 function deleteListing(id) {
   return Listing.findByIdAndDelete(id);
 }
 
-export { getListings, addListing, getListingsByUser, updateListing, deleteListing };
+export {
+  getListings,
+  addListing,
+  getListingsByUser,
+  updateListing,
+  deleteListing,
+};

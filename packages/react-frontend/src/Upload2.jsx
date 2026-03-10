@@ -241,9 +241,7 @@ export default function Upload({ setClothes, userId }) {
             </p>
           )}
 
-          {error && (
-            <p className="upload-form-validation-error">{error}</p>
-          )}
+          {error && <p className="upload-form-validation-error">{error}</p>}
 
           <button
             type="button"
@@ -255,11 +253,7 @@ export default function Upload({ setClothes, userId }) {
             Clear All
           </button>
 
-          <button
-            className="upload-form-submit"
-            type="submit"
-            disabled={busy}
-          >
+          <button className="upload-form-submit" type="submit" disabled={busy}>
             {busy ? <span className="spinner" /> : "Upload"}
           </button>
         </form>

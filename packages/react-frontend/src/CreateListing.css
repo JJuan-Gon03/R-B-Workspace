@@ -20,7 +20,9 @@
   cursor: pointer;
   border: 2px solid transparent;
   outline: 1px solid rgba(0, 0, 0, 0.15);
-  transition: transform 0.12s ease, border-color 0.12s ease;
+  transition:
+    transform 0.12s ease,
+    border-color 0.12s ease;
 }
 
 .color-swatch:hover {

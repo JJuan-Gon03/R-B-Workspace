@@ -32,7 +32,13 @@ const COLOR_HEX = {
   Purple: "#8b3bd4",
 };
 
-export default function CreateListing({ onClose, onSuccess, userId, initialData, listingId }) {
+export default function CreateListing({
+  onClose,
+  onSuccess,
+  userId,
+  initialData,
+  listingId,
+}) {
   const navigate = useNavigate();
   const isEdit = Boolean(listingId);
 
@@ -44,14 +50,18 @@ export default function CreateListing({ onClose, onSuccess, userId, initialData,
 
   const [title, setTitle] = useState(initialData?.title || "");
   const [price, setPrice] = useState(initialData?.price ?? "");
-  const [marketplace, setMarketplace] = useState(initialData?.marketplace || "");
+  const [marketplace, setMarketplace] = useState(
+    initialData?.marketplace || ""
+  );
   const [url, setUrl] = useState(initialData?.url || "");
   const [brand, setBrand] = useState(initialData?.brand || "");
   const [category, setCategory] = useState(initialData?.category || "");
   const [size, setSize] = useState(initialData?.size || "");
   const [gender, setGender] = useState(initialData?.gender || "");
   const [color, setColor] = useState(initialData?.color || "");
-  const [description, setDescription] = useState(initialData?.description || "");
+  const [description, setDescription] = useState(
+    initialData?.description || ""
+  );
 
   const fileInputRef = useRef(null);
 
@@ -123,9 +133,7 @@ export default function CreateListing({ onClose, onSuccess, userId, initialData,
       if (description) body.description = description;
 
       const res = await fetch(
-        isEdit
-          ? `${API_BASE}/listings/${listingId}`
-          : `${API_BASE}/listings`,
+        isEdit ? `${API_BASE}/listings/${listingId}` : `${API_BASE}/listings`,
         {
           method: isEdit ? "PATCH" : "POST",
           headers: { "Content-Type": "application/json" },
@@ -135,7 +143,9 @@ export default function CreateListing({ onClose, onSuccess, userId, initialData,
 
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err?.message || `Failed to ${isEdit ? "update" : "create"} listing.`);
+        throw new Error(
+          err?.message || `Failed to ${isEdit ? "update" : "create"} listing.`
+        );
       }
 
       const result = await res.json();
@@ -170,7 +180,6 @@ export default function CreateListing({ onClose, onSuccess, userId, initialData,
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g. Nike Air Max 90"
           />
-
 
           <label className="upload-form-label" htmlFor="cl-price">
             Price ($) *
@@ -368,12 +377,14 @@ export default function CreateListing({ onClose, onSuccess, userId, initialData,
             Clear All
           </button>
 
-          <button
-            className="upload-form-submit"
-            type="submit"
-            disabled={busy}
-          >
-            {busy ? <span className="spinner" /> : isEdit ? "Save Changes" : "List Item"}
+          <button className="upload-form-submit" type="submit" disabled={busy}>
+            {busy ? (
+              <span className="spinner" />
+            ) : isEdit ? (
+              "Save Changes"
+            ) : (
+              "List Item"
+            )}
           </button>
         </form>
       </div>

@@ -35,16 +35,29 @@ const hoodie_url =
 
 test("parse_cloth()", async () => {
   const expectedText = "description of a hoodie";
+  const fakeImageBytes = Buffer.from("fake-image-data");
+
+  global.fetch = jest.fn().mockResolvedValue({
+    arrayBuffer: jest.fn().mockResolvedValue(fakeImageBytes.buffer),
+    headers: { get: jest.fn().mockReturnValue("image/jpeg") },
+  });
 
   mockGenerateContent.mockResolvedValue({ text: expectedText });
   const result = await parse_cloth(hoodie_url);
 
   expect(result).toEqual(expectedText);
+  expect(global.fetch).toHaveBeenCalledWith(hoodie_url);
 
   expect(mockGenerateContent).toHaveBeenCalledTimes(1);
   expect(mockGenerateContent).toHaveBeenCalledWith(
     expect.objectContaining({
-      contents: expect.stringContaining(hoodie_url),
+      contents: expect.arrayContaining([
+        expect.objectContaining({
+          parts: expect.arrayContaining([
+            expect.objectContaining({ inlineData: expect.anything() }),
+          ]),
+        }),
+      ]),
     })
   );
 });

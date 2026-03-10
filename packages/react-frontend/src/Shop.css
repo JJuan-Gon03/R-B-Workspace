@@ -119,7 +119,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
 }
 
 .shop-filter-option input:checked + .shop-filter-check {
@@ -200,7 +202,9 @@
   cursor: pointer;
   border: 2px solid transparent;
   outline: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform 0.12s ease, outline-color 0.12s ease;
+  transition:
+    transform 0.12s ease,
+    outline-color 0.12s ease;
 }
 
 .shop-color-swatch:hover {
@@ -245,7 +249,7 @@
   right: 10px;
   z-index: 2;
 
-  background: transparent;   
+  background: transparent;
   border: none;
   padding: 6px;
   border-radius: 50%;
@@ -255,7 +259,9 @@
   justify-content: center;
 
   cursor: pointer;
-  transition: transform 0.15s ease, background 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
 }
 
 .shop-save-btn:hover {
@@ -264,8 +270,8 @@
 }
 
 .shop-save-btn.saved svg {
-  fill: #5B46D9;
-  stroke: #5B46D9;
+  fill: #5b46d9;
+  stroke: #5b46d9;
 }
 
 .shop-listing-card:hover img {
@@ -326,7 +332,9 @@
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .shop-empty-state button:hover {
@@ -354,7 +362,9 @@
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .shop-save-detail-btn.saved,
@@ -420,7 +430,9 @@
   font-size: 1rem;
   cursor: pointer;
   box-shadow: 0 6px 18px rgba(93, 95, 239, 0.4);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
   z-index: 100;
 }
 

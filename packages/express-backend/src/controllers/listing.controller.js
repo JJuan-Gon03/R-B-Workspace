@@ -64,4 +64,10 @@ const deleteListingCtrl = async (req, res) => {
   }
 };
 
-export { getListings, postListing, getUserListings, patchListing, deleteListingCtrl };
+export {
+  getListings,
+  postListing,
+  getUserListings,
+  patchListing,
+  deleteListingCtrl,
+};

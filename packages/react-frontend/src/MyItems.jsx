@@ -26,13 +26,13 @@ export default function MyItems({ userId }) {
 
   function handleDelete(id) {
     setListings((prev) => prev.filter((l) => l._id !== id));
-    fetch(`${API_BASE}/listings/${id}?user_id=${userId}`, { method: "DELETE" }).catch(
-      () => {
-        fetch(API_BASE + "/listings/user/" + userId)
-          .then((r) => r.json())
-          .then(setListings);
-      }
-    );
+    fetch(`${API_BASE}/listings/${id}?user_id=${userId}`, {
+      method: "DELETE",
+    }).catch(() => {
+      fetch(API_BASE + "/listings/user/" + userId)
+        .then((r) => r.json())
+        .then(setListings);
+    });
   }
 
   return (

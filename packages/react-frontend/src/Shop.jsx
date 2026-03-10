@@ -89,7 +89,15 @@ export default function Shop({ userId }) {
   const [sortBy, setSortBy] = useState("Newest");
 
   const [openSections, setOpenSections] = useState(
-    new Set(["Marketplace", "Brand", "Size", "Gender", "Price", "Color", "Sort"])
+    new Set([
+      "Marketplace",
+      "Brand",
+      "Size",
+      "Gender",
+      "Price",
+      "Color",
+      "Sort",
+    ])
   );
 
   const [detailListing, setDetailListing] = useState(null);
@@ -248,7 +256,6 @@ export default function Shop({ userId }) {
 
   return (
     <div className="shop-layout">
-
       <aside className="shop-sidebar">
         <div className="sidebar-search-wrap">
           <input
@@ -260,207 +267,247 @@ export default function Shop({ userId }) {
         </div>
 
         <div className="shop-sidebar-scroll">
-
-        <div className="shop-filter-section">
-          <button
-            type="button"
-            className="shop-filter-header"
-            onClick={() => toggleSection("Marketplace")}
-          >
-            <span>Marketplace</span>
-            <span className={`shop-filter-chevron ${openSections.has("Marketplace") ? "open" : ""}`}>›</span>
-          </button>
-          <div className={`shop-filter-body ${openSections.has("Marketplace") ? "open" : ""}`}>
-            {MARKETPLACES.map((m) => (
-              <label key={m} className="shop-filter-option">
-                <input
-                  type="checkbox"
-                  checked={selectedMarketplaces.includes(m)}
-                  onChange={() =>
-                    setSelectedMarketplaces((prev) => toggleItem(prev, m))
-                  }
-                />
-                <span className="shop-filter-check" />
-                <span>{m}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        <div className="shop-filter-section">
-          <button
-            type="button"
-            className="shop-filter-header"
-            onClick={() => toggleSection("Brand")}
-          >
-            <span>Brand</span>
-            <span className={`shop-filter-chevron ${openSections.has("Brand") ? "open" : ""}`}>›</span>
-          </button>
-          <div className={`shop-filter-body ${openSections.has("Brand") ? "open" : ""}`}>
-            {BRANDS.map((b) => (
-              <label key={b} className="shop-filter-option">
-                <input
-                  type="checkbox"
-                  checked={selectedBrands.includes(b)}
-                  onChange={() =>
-                    setSelectedBrands((prev) => toggleItem(prev, b))
-                  }
-                />
-                <span className="shop-filter-check" />
-                <span>{b}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        <div className="shop-filter-section">
-          <button
-            type="button"
-            className="shop-filter-header"
-            onClick={() => toggleSection("Size")}
-          >
-            <span>Size</span>
-            <span className={`shop-filter-chevron ${openSections.has("Size") ? "open" : ""}`}>›</span>
-          </button>
-          <div className={`shop-filter-body ${openSections.has("Size") ? "open" : ""}`}>
-            {SIZES.map((s) => (
-              <label key={s} className="shop-filter-option">
-                <input
-                  type="checkbox"
-                  checked={selectedSizes.includes(s)}
-                  onChange={() =>
-                    setSelectedSizes((prev) => toggleItem(prev, s))
-                  }
-                />
-                <span className="shop-filter-check" />
-                <span>{s}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        <div className="shop-filter-section">
-          <button
-            type="button"
-            className="shop-filter-header"
-            onClick={() => toggleSection("Gender")}
-          >
-            <span>Gender</span>
-            <span className={`shop-filter-chevron ${openSections.has("Gender") ? "open" : ""}`}>›</span>
-          </button>
-          <div className={`shop-filter-body ${openSections.has("Gender") ? "open" : ""}`}>
-            {GENDERS.map((g) => (
-              <label key={g} className="shop-filter-option">
-                <input
-                  type="checkbox"
-                  checked={selectedGenders.includes(g)}
-                  onChange={() =>
-                    setSelectedGenders((prev) => toggleItem(prev, g))
-                  }
-                />
-                <span className="shop-filter-check" />
-                <span>{g}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        <div className="shop-filter-section">
-          <button
-            type="button"
-            className="shop-filter-header"
-            onClick={() => toggleSection("Price")}
-          >
-            <span>Price</span>
-            <span className={`shop-filter-chevron ${openSections.has("Price") ? "open" : ""}`}>›</span>
-          </button>
-          <div className={`shop-filter-body ${openSections.has("Price") ? "open" : ""}`}>
-            <div className="shop-price-inputs">
-              <input
-                type="number"
-                className="shop-price-input"
-                placeholder="Min $"
-                min="0"
-                value={minPrice}
-                onChange={(e) => setMinPrice(e.target.value)}
-              />
-              <span>–</span>
-              <input
-                type="number"
-                className="shop-price-input"
-                placeholder="Max $"
-                min="0"
-                value={maxPrice}
-                onChange={(e) => setMaxPrice(e.target.value)}
-              />
-            </div>
-            <input
-              type="range"
-              className="shop-price-slider"
-              min="0"
-              max="1000"
-              step="5"
-              value={maxPrice === "" ? 1000 : Number(maxPrice)}
-              onChange={(e) =>
-                setMaxPrice(e.target.value === "1000" ? "" : e.target.value)
-              }
-            />
-          </div>
-        </div>
-
-        <div className="shop-filter-section">
-          <button
-            type="button"
-            className="shop-filter-header"
-            onClick={() => toggleSection("Color")}
-          >
-            <span>Color</span>
-            <span className={`shop-filter-chevron ${openSections.has("Color") ? "open" : ""}`}>›</span>
-          </button>
-          <div className={`shop-filter-body ${openSections.has("Color") ? "open" : ""}`}>
-            <div className="shop-color-swatches">
-              {COLORS.map((c) => (
-                <button
-                  key={c}
-                  type="button"
-                  title={c}
-                  className={`shop-color-swatch ${selectedColors.includes(c) ? "selected" : ""}`}
-                  style={{ background: COLOR_HEX[c] }}
-                  onClick={() =>
-                    setSelectedColors((prev) => toggleItem(prev, c))
-                  }
-                />
+          <div className="shop-filter-section">
+            <button
+              type="button"
+              className="shop-filter-header"
+              onClick={() => toggleSection("Marketplace")}
+            >
+              <span>Marketplace</span>
+              <span
+                className={`shop-filter-chevron ${openSections.has("Marketplace") ? "open" : ""}`}
+              >
+                ›
+              </span>
+            </button>
+            <div
+              className={`shop-filter-body ${openSections.has("Marketplace") ? "open" : ""}`}
+            >
+              {MARKETPLACES.map((m) => (
+                <label key={m} className="shop-filter-option">
+                  <input
+                    type="checkbox"
+                    checked={selectedMarketplaces.includes(m)}
+                    onChange={() =>
+                      setSelectedMarketplaces((prev) => toggleItem(prev, m))
+                    }
+                  />
+                  <span className="shop-filter-check" />
+                  <span>{m}</span>
+                </label>
               ))}
             </div>
           </div>
-        </div>
 
-        <div className="shop-filter-section">
-          <button
-            type="button"
-            className="shop-filter-header"
-            onClick={() => toggleSection("Sort")}
-          >
-            <span>Sort</span>
-            <span className={`shop-filter-chevron ${openSections.has("Sort") ? "open" : ""}`}>›</span>
-          </button>
-          <div className={`shop-filter-body ${openSections.has("Sort") ? "open" : ""}`}>
-            <div className="shop-sort-wrap">
-              <select
-                className="shop-sort-select"
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+          <div className="shop-filter-section">
+            <button
+              type="button"
+              className="shop-filter-header"
+              onClick={() => toggleSection("Brand")}
+            >
+              <span>Brand</span>
+              <span
+                className={`shop-filter-chevron ${openSections.has("Brand") ? "open" : ""}`}
               >
-                {SORT_OPTIONS.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                ))}
-              </select>
+                ›
+              </span>
+            </button>
+            <div
+              className={`shop-filter-body ${openSections.has("Brand") ? "open" : ""}`}
+            >
+              {BRANDS.map((b) => (
+                <label key={b} className="shop-filter-option">
+                  <input
+                    type="checkbox"
+                    checked={selectedBrands.includes(b)}
+                    onChange={() =>
+                      setSelectedBrands((prev) => toggleItem(prev, b))
+                    }
+                  />
+                  <span className="shop-filter-check" />
+                  <span>{b}</span>
+                </label>
+              ))}
             </div>
           </div>
-        </div>
 
+          <div className="shop-filter-section">
+            <button
+              type="button"
+              className="shop-filter-header"
+              onClick={() => toggleSection("Size")}
+            >
+              <span>Size</span>
+              <span
+                className={`shop-filter-chevron ${openSections.has("Size") ? "open" : ""}`}
+              >
+                ›
+              </span>
+            </button>
+            <div
+              className={`shop-filter-body ${openSections.has("Size") ? "open" : ""}`}
+            >
+              {SIZES.map((s) => (
+                <label key={s} className="shop-filter-option">
+                  <input
+                    type="checkbox"
+                    checked={selectedSizes.includes(s)}
+                    onChange={() =>
+                      setSelectedSizes((prev) => toggleItem(prev, s))
+                    }
+                  />
+                  <span className="shop-filter-check" />
+                  <span>{s}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div className="shop-filter-section">
+            <button
+              type="button"
+              className="shop-filter-header"
+              onClick={() => toggleSection("Gender")}
+            >
+              <span>Gender</span>
+              <span
+                className={`shop-filter-chevron ${openSections.has("Gender") ? "open" : ""}`}
+              >
+                ›
+              </span>
+            </button>
+            <div
+              className={`shop-filter-body ${openSections.has("Gender") ? "open" : ""}`}
+            >
+              {GENDERS.map((g) => (
+                <label key={g} className="shop-filter-option">
+                  <input
+                    type="checkbox"
+                    checked={selectedGenders.includes(g)}
+                    onChange={() =>
+                      setSelectedGenders((prev) => toggleItem(prev, g))
+                    }
+                  />
+                  <span className="shop-filter-check" />
+                  <span>{g}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div className="shop-filter-section">
+            <button
+              type="button"
+              className="shop-filter-header"
+              onClick={() => toggleSection("Price")}
+            >
+              <span>Price</span>
+              <span
+                className={`shop-filter-chevron ${openSections.has("Price") ? "open" : ""}`}
+              >
+                ›
+              </span>
+            </button>
+            <div
+              className={`shop-filter-body ${openSections.has("Price") ? "open" : ""}`}
+            >
+              <div className="shop-price-inputs">
+                <input
+                  type="number"
+                  className="shop-price-input"
+                  placeholder="Min $"
+                  min="0"
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(e.target.value)}
+                />
+                <span>–</span>
+                <input
+                  type="number"
+                  className="shop-price-input"
+                  placeholder="Max $"
+                  min="0"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                />
+              </div>
+              <input
+                type="range"
+                className="shop-price-slider"
+                min="0"
+                max="1000"
+                step="5"
+                value={maxPrice === "" ? 1000 : Number(maxPrice)}
+                onChange={(e) =>
+                  setMaxPrice(e.target.value === "1000" ? "" : e.target.value)
+                }
+              />
+            </div>
+          </div>
+
+          <div className="shop-filter-section">
+            <button
+              type="button"
+              className="shop-filter-header"
+              onClick={() => toggleSection("Color")}
+            >
+              <span>Color</span>
+              <span
+                className={`shop-filter-chevron ${openSections.has("Color") ? "open" : ""}`}
+              >
+                ›
+              </span>
+            </button>
+            <div
+              className={`shop-filter-body ${openSections.has("Color") ? "open" : ""}`}
+            >
+              <div className="shop-color-swatches">
+                {COLORS.map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    title={c}
+                    className={`shop-color-swatch ${selectedColors.includes(c) ? "selected" : ""}`}
+                    style={{ background: COLOR_HEX[c] }}
+                    onClick={() =>
+                      setSelectedColors((prev) => toggleItem(prev, c))
+                    }
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="shop-filter-section">
+            <button
+              type="button"
+              className="shop-filter-header"
+              onClick={() => toggleSection("Sort")}
+            >
+              <span>Sort</span>
+              <span
+                className={`shop-filter-chevron ${openSections.has("Sort") ? "open" : ""}`}
+              >
+                ›
+              </span>
+            </button>
+            <div
+              className={`shop-filter-body ${openSections.has("Sort") ? "open" : ""}`}
+            >
+              <div className="shop-sort-wrap">
+                <select
+                  className="shop-sort-select"
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                >
+                  {SORT_OPTIONS.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
 
         <button className="shop-reset-btn" type="button" onClick={handleReset}>
@@ -491,7 +538,9 @@ export default function Shop({ userId }) {
         </div>
 
         {loading && <p className="shop-status-msg">Loading listings…</p>}
-        {fetchError && <p className="shop-status-msg shop-error-msg">{fetchError}</p>}
+        {fetchError && (
+          <p className="shop-status-msg shop-error-msg">{fetchError}</p>
+        )}
 
         <div className="wardrobe-grid">
           {filteredListings.map((listing) => (
@@ -527,16 +576,15 @@ export default function Shop({ userId }) {
         {!loading && filteredListings.length === 0 && (
           <div className="shop-empty-state">
             <p>No listings match your filters.</p>
-            <button type="button" onClick={handleReset}>Clear filters</button>
+            <button type="button" onClick={handleReset}>
+              Clear filters
+            </button>
           </div>
         )}
       </main>
 
       {detailListing && (
-        <div
-          className="upload-overlay"
-          onClick={() => setDetailListing(null)}
-        >
+        <div className="upload-overlay" onClick={() => setDetailListing(null)}>
           <div
             className="upload shop-detail-modal"
             onClick={(e) => e.stopPropagation()}

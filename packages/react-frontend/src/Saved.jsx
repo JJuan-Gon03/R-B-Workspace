@@ -71,8 +71,25 @@ function EmptyState() {
             fill="rgba(91,70,217,0.08)"
           />
           <circle cx="50" cy="58" r="2.5" fill="#5B46D9" />
-          <line x1="44" y1="70" x2="56" y2="70" stroke="#5B46D9" strokeWidth="2" strokeLinecap="round" />
-          <line x1="44" y1="77" x2="56" y2="77" stroke="#5B46D9" strokeWidth="2" strokeLinecap="round" opacity="0.5" />
+          <line
+            x1="44"
+            y1="70"
+            x2="56"
+            y2="70"
+            stroke="#5B46D9"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+          <line
+            x1="44"
+            y1="77"
+            x2="56"
+            y2="77"
+            stroke="#5B46D9"
+            strokeWidth="2"
+            strokeLinecap="round"
+            opacity="0.5"
+          />
         </svg>
       </div>
       <h2 className="saved-empty-heading">Nothing saved yet</h2>
@@ -115,17 +132,17 @@ export default function Saved({ userId }) {
     setSavedListings((prev) => prev.filter((l) => l._id !== listing_id));
     // Close modal if the unsaved listing was open
     if (detailListing?._id === listing_id) setDetailListing(null);
-    fetch(`${API_BASE}/saved/${userId}/${listing_id}`, { method: "DELETE" }).catch(
-      () => {
-        fetch(API_BASE + "/saved/" + userId)
-          .then((r) => r.json())
-          .then((data) =>
-            setSavedListings(
-              data.filter((s) => s.listing_id).map((s) => s.listing_id)
-            )
-          );
-      }
-    );
+    fetch(`${API_BASE}/saved/${userId}/${listing_id}`, {
+      method: "DELETE",
+    }).catch(() => {
+      fetch(API_BASE + "/saved/" + userId)
+        .then((r) => r.json())
+        .then((data) =>
+          setSavedListings(
+            data.filter((s) => s.listing_id).map((s) => s.listing_id)
+          )
+        );
+    });
   }
 
   return (
@@ -182,10 +199,7 @@ export default function Saved({ userId }) {
       )}
 
       {detailListing && (
-        <div
-          className="upload-overlay"
-          onClick={() => setDetailListing(null)}
-        >
+        <div className="upload-overlay" onClick={() => setDetailListing(null)}>
           <div
             className="upload shop-detail-modal"
             onClick={(e) => e.stopPropagation()}

@@ -1,5 +1,9 @@
 import express from "express";
-import { getSaved, postSaved, deleteSaved } from "../controllers/saved.controller.js";
+import {
+  getSaved,
+  postSaved,
+  deleteSaved,
+} from "../controllers/saved.controller.js";
 
 const router = express.Router();
 

@@ -40,11 +40,14 @@
   user-select: none;
   cursor: pointer;
 
-  transition: color 0.25s ease, text-shadow 0.25s ease, transform 0.2s ease;
+  transition:
+    color 0.25s ease,
+    text-shadow 0.25s ease,
+    transform 0.2s ease;
 }
 
 .topbar-brand:hover {
-  color: #5B46D9; /* purple fill */
+  color: #5b46d9; /* purple fill */
   text-shadow: 0 6px 18px rgba(91, 70, 217, 0.6);
   transform: scale(1.05);
 }
