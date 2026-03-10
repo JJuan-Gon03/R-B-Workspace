@@ -36,15 +36,30 @@ async function main(prompt, user_id) {
 }
 
 async function parse_cloth(img_url) {
+  const imageResponse = await fetch(img_url);
+  const imageBuffer = await imageResponse.arrayBuffer();
+  const base64Data = Buffer.from(imageBuffer).toString("base64");
+  const mimeType = imageResponse.headers.get("content-type") || "image/jpeg";
+
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
-    contents: `Generate a description of the clothing item at this url ${img_url}.
+    contents: [
+      {
+        parts: [
+          {
+            text: `Generate a description of the clothing item in this image.
                Only respond with the description of the clothing item.
-               IMPORTANT: If there is no url or there is anything else except a SINGLE CLOTHING/CLOTHING ACCESSORY item (NO HUMANS ALLOWED), return this text EXACTLY: INVALID`,
-    config: { tools: [{ urlContext: {} }] },
+               IMPORTANT: If there is anything else except a SINGLE CLOTHING/CLOTHING ACCESSORY item (NO HUMANS ALLOWED), return this text EXACTLY: INVALID`,
+          },
+          {
+            inlineData: { mimeType, data: base64Data },
+          },
+        ],
+      },
+    ],
   });
 
-  return response.text;
+  return response.text.trim();
 }
 
 export { main, parse_cloth };
