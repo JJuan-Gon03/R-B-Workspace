@@ -1,10 +1,4 @@
-import {
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-  within,
-} from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import TagBox from "../src/tags/TagsBox";
 import { vi } from "vitest";
 
@@ -25,10 +19,8 @@ test("renders correctly", async () => {
     <TagBox selectedTags={[]} setSelectedTags={vi.fn()} refreshTrigger={[]} />
   );
 
-  const bottomSection = screen.getByRole("separator").nextSibling;
-
-  const tag1 = await within(bottomSection).findByText("tag1");
-  const tag2 = await within(bottomSection).findByText("tag2");
+  const tag1 = await screen.findByText("tag1");
+  const tag2 = await screen.findByText("tag2");
 
   expect(tag1).toBeInTheDocument();
   expect(tag2).toBeInTheDocument();
@@ -49,7 +41,7 @@ test("remove from unselected tags", async () => {
     <TagBox selectedTags={[]} setSelectedTags={vi.fn()} refreshTrigger={[]} />
   );
 
-  fireEvent.click(await screen.findByText("x"));
+  fireEvent.click(await screen.findByTitle("Delete tag permanently"));
 
   await waitFor(() => {
     expect(screen.queryByText("tag1")).toBeNull();
@@ -79,8 +71,7 @@ test("add to selected tags", async () => {
     />
   );
 
-  const bottomSection = screen.getByRole("separator").nextSibling;
-  const tag1 = await within(bottomSection).findByText("tag1");
+  const tag1 = await screen.findByText("tag1");
   fireEvent.click(tag1);
 
   await waitFor(() => {

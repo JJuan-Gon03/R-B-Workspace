@@ -37,6 +37,9 @@ export default function AddTagButton({
       setNewTag("");
       setSearchPrefix("");
       setIsOpen(false);
+    } catch (err) {
+      setNewTag("");
+      setIsOpen(false);
     } finally {
       setIsSubmitting(false);
     }
