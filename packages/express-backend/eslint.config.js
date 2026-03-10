@@ -1,5 +1,6 @@
 import js from "@eslint/js";
 import { defineConfig } from "eslint/config";
+import globals from "globals";
 
 export default defineConfig([
   {
@@ -7,12 +8,11 @@ export default defineConfig([
     files: ["**/*.js"],
     extends: [js.configs.recommended],
     rules: {
-      "no-unused-vars": "warn",
+      "no-unused-vars": ["warn", { ignoreRestSiblings: true }],
     },
     languageOptions: {
       globals: {
-        console: "readonly",
-        process: "readonly",
+        ...globals.node,
       },
     },
   },
