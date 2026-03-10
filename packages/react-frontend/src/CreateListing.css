@@ -2,6 +2,10 @@
   content: "Create Listing";
 }
 
+.edit-listing-modal.upload::before {
+  content: "Edit Listing";
+}
+
 .color-swatch-row {
   display: flex;
   flex-wrap: wrap;

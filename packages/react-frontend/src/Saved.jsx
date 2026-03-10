@@ -109,13 +109,13 @@ function EmptyState() {
   );
 }
 
-export default function Saved() {
+export default function Saved({ userId }) {
   const [savedListings, setSavedListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch(API_BASE + "/saved/1")
+    fetch(API_BASE + "/saved/" + userId)
       .then((r) => {
         if (!r.ok) throw new Error("Failed to load saved items.");
         return r.json();
@@ -127,13 +127,13 @@ export default function Saved() {
       })
       .catch((err) => setError(err?.message || "Something went wrong."))
       .finally(() => setLoading(false));
-  }, []);
+  }, [userId]);
 
   function handleUnsave(listing_id) {
     setSavedListings((prev) => prev.filter((l) => l._id !== listing_id));
-    fetch(`${API_BASE}/saved/1/${listing_id}`, { method: "DELETE" }).catch(
+    fetch(`${API_BASE}/saved/${userId}/${listing_id}`, { method: "DELETE" }).catch(
       () => {
-        fetch(API_BASE + "/saved/1")
+        fetch(API_BASE + "/saved/" + userId)
           .then((r) => r.json())
           .then((data) =>
             setSavedListings(

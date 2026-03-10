@@ -13,7 +13,7 @@ const ListingSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["Tops", "Bottoms", "Jackets", "Shoes", "Accessories"],
+      enum: ["Tops", "Bottoms", "Jackets", "Dresses", "Outerwear", "Shoes", "Accessories"],
     },
     size: { type: String, maxlength: 10 },
     gender: { type: String, enum: ["Men", "Women", "Unisex"] },

@@ -13,6 +13,8 @@ const CATEGORIES = [
   "Tops",
   "Bottoms",
   "Jackets",
+  "Dresses",
+  "Outerwear",
   "Shoes",
   "Accessories",
 ];
@@ -101,7 +103,7 @@ export default function Shop({ userId }) {
         if (!r.ok) throw new Error("Failed to load listings.");
         return r.json();
       }),
-      fetch(API_BASE + "/saved/1").then((r) => (r.ok ? r.json() : [])),
+      fetch(API_BASE + "/saved/" + userId).then((r) => (r.ok ? r.json() : [])),
     ])
       .then(([listingsData, savedData]) => {
         setListings(listingsData);
@@ -140,11 +142,11 @@ export default function Shop({ userId }) {
     setSavingIds((prev) => new Set([...prev, listing_id]));
 
     const req = isSaved
-      ? fetch(`${API_BASE}/saved/1/${listing_id}`, { method: "DELETE" })
+      ? fetch(`${API_BASE}/saved/${userId}/${listing_id}`, { method: "DELETE" })
       : fetch(`${API_BASE}/saved`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_id: 1, listing_id }),
+          body: JSON.stringify({ user_id: userId, listing_id }),
         });
 
     req
@@ -259,7 +261,6 @@ export default function Shop({ userId }) {
 
         <div className="shop-sidebar-scroll">
 
-        {/* Marketplace */}
         <div className="shop-filter-section">
           <button
             type="button"
@@ -460,7 +461,7 @@ export default function Shop({ userId }) {
           </div>
         </div>
 
-        </div>{/* end shop-sidebar-scroll */}
+        </div>
 
         <button className="shop-reset-btn" type="button" onClick={handleReset}>
           Reset Filters

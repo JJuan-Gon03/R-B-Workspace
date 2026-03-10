@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const SavedSchema = new mongoose.Schema(
   {
-    user_id: { type: Number, required: true },
+    user_id: { type: mongoose.Schema.Types.ObjectId, required: true },
     listing_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Listing",

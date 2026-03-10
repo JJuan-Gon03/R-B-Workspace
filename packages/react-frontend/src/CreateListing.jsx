@@ -32,32 +32,33 @@ const COLOR_HEX = {
   Purple: "#8b3bd4",
 };
 
-export default function CreateListing({ onClose, onSuccess, userId }) {
+export default function CreateListing({ onClose, onSuccess, userId, initialData, listingId }) {
   const navigate = useNavigate();
+  const isEdit = Boolean(listingId);
 
   const [busy, setBusy] = useState(false);
   const [dragActive, setDragActive] = useState(false);
-  const [preview, setPreview] = useState("");
+  const [preview, setPreview] = useState(initialData?.img_url || "");
   const [img, setImg] = useState(null);
   const [error, setError] = useState("");
 
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
-  const [marketplace, setMarketplace] = useState("");
-  const [url, setUrl] = useState("");
-  const [brand, setBrand] = useState("");
-  const [category, setCategory] = useState("");
-  const [size, setSize] = useState("");
-  const [gender, setGender] = useState("");
-  const [color, setColor] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState(initialData?.title || "");
+  const [price, setPrice] = useState(initialData?.price ?? "");
+  const [marketplace, setMarketplace] = useState(initialData?.marketplace || "");
+  const [url, setUrl] = useState(initialData?.url || "");
+  const [brand, setBrand] = useState(initialData?.brand || "");
+  const [category, setCategory] = useState(initialData?.category || "");
+  const [size, setSize] = useState(initialData?.size || "");
+  const [gender, setGender] = useState(initialData?.gender || "");
+  const [color, setColor] = useState(initialData?.color || "");
+  const [description, setDescription] = useState(initialData?.description || "");
 
   const fileInputRef = useRef(null);
 
   const handleClose = onClose ?? (() => navigate("/shop"));
-  const handleSuccess = (newListing) => {
+  const handleSuccess = (result) => {
     if (onSuccess) {
-      onSuccess(newListing);
+      onSuccess(result);
     } else {
       navigate("/shop");
     }
@@ -99,7 +100,7 @@ export default function CreateListing({ onClose, onSuccess, userId }) {
     setError("");
 
     try {
-      let img_url = "/vite.svg";
+      let img_url = initialData?.img_url || "/vite.svg";
 
       if (img) {
         const result = await cloudinary.getImgURL(img);
@@ -121,19 +122,24 @@ export default function CreateListing({ onClose, onSuccess, userId }) {
       if (color) body.color = color;
       if (description) body.description = description;
 
-      const res = await fetch(API_BASE + "/listings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      const res = await fetch(
+        isEdit
+          ? `${API_BASE}/listings/${listingId}`
+          : `${API_BASE}/listings`,
+        {
+          method: isEdit ? "PATCH" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        }
+      );
 
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err?.message || "Failed to create listing.");
+        throw new Error(err?.message || `Failed to ${isEdit ? "update" : "create"} listing.`);
       }
 
-      const newListing = await res.json();
-      handleSuccess(newListing);
+      const result = await res.json();
+      handleSuccess(result);
     } catch (err) {
       setError(err?.message || "Something went wrong.");
     }
@@ -144,7 +150,7 @@ export default function CreateListing({ onClose, onSuccess, userId }) {
   return (
     <div className="upload-overlay" onClick={handleClose}>
       <div
-        className="upload create-listing-modal"
+        className={`upload create-listing-modal${isEdit ? " edit-listing-modal" : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
         <button className="upload-close" type="button" onClick={handleClose}>
@@ -152,7 +158,6 @@ export default function CreateListing({ onClose, onSuccess, userId }) {
         </button>
 
         <form className="upload-form" onSubmit={onSubmit}>
-          {/* TITLE */}
           <label className="upload-form-label" htmlFor="cl-title">
             Title *
           </label>
@@ -166,7 +171,7 @@ export default function CreateListing({ onClose, onSuccess, userId }) {
             placeholder="e.g. Nike Air Max 90"
           />
 
-          {/* PRICE */}
+
           <label className="upload-form-label" htmlFor="cl-price">
             Price ($) *
           </label>
@@ -182,7 +187,6 @@ export default function CreateListing({ onClose, onSuccess, userId }) {
             placeholder="0.00"
           />
 
-          {/* URL */}
           <label className="upload-form-label" htmlFor="cl-url">
             Listing URL *
           </label>
@@ -195,7 +199,6 @@ export default function CreateListing({ onClose, onSuccess, userId }) {
             placeholder="https://..."
           />
 
-          {/* MARKETPLACE */}
           <label className="upload-form-label" htmlFor="cl-marketplace">
             Marketplace
           </label>
@@ -210,7 +213,6 @@ export default function CreateListing({ onClose, onSuccess, userId }) {
             <option value="Grailed">Grailed</option>
           </select>
 
-          {/* BRAND */}
           <label className="upload-form-label" htmlFor="cl-brand">
             Brand
           </label>
@@ -228,7 +230,6 @@ export default function CreateListing({ onClose, onSuccess, userId }) {
             <option value="Other">Other</option>
           </select>
 
-          {/* CATEGORY */}
           <label className="upload-form-label" htmlFor="cl-category">
             Category
           </label>
@@ -242,11 +243,12 @@ export default function CreateListing({ onClose, onSuccess, userId }) {
             <option value="Tops">Tops</option>
             <option value="Bottoms">Bottoms</option>
             <option value="Jackets">Jackets</option>
+            <option value="Dresses">Dresses</option>
+            <option value="Outerwear">Outerwear</option>
             <option value="Shoes">Shoes</option>
             <option value="Accessories">Accessories</option>
           </select>
 
-          {/* SIZE */}
           <label className="upload-form-label" htmlFor="cl-size">
             Size
           </label>
@@ -259,7 +261,6 @@ export default function CreateListing({ onClose, onSuccess, userId }) {
             placeholder="e.g. M, 10, 32x30"
           />
 
-          {/* GENDER */}
           <label className="upload-form-label" htmlFor="cl-gender">
             Gender
           </label>
@@ -275,7 +276,6 @@ export default function CreateListing({ onClose, onSuccess, userId }) {
             <option value="Unisex">Unisex</option>
           </select>
 
-          {/* COLOR */}
           <label className="upload-form-label">Color</label>
           <div className="color-swatch-row">
             {COLORS.map((c) => (
@@ -290,7 +290,6 @@ export default function CreateListing({ onClose, onSuccess, userId }) {
             ))}
           </div>
 
-          {/* DESCRIPTION */}
           <label className="upload-form-label" htmlFor="cl-description">
             Description
           </label>
@@ -305,7 +304,6 @@ export default function CreateListing({ onClose, onSuccess, userId }) {
             style={{ resize: "none" }}
           />
 
-          {/* IMAGE */}
           <label className="upload-form-label">Item Image</label>
 
           {!preview && (
@@ -375,7 +373,7 @@ export default function CreateListing({ onClose, onSuccess, userId }) {
             type="submit"
             disabled={busy}
           >
-            {busy ? <span className="spinner" /> : "List Item"}
+            {busy ? <span className="spinner" /> : isEdit ? "Save Changes" : "List Item"}
           </button>
         </form>
       </div>
