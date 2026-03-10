@@ -127,7 +127,7 @@ export default function Shop({ userId }) {
     return () => {
       document.body.classList.remove("shop-page");
     };
-  }, []);
+  }, [userId]);
 
   function toggleSection(name) {
     setOpenSections((prev) => {
