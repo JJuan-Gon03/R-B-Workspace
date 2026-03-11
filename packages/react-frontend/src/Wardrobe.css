@@ -12,7 +12,7 @@
 
 .upload-error-text {
   margin: 0;
-  color: #4b5563; /* gray text */
+  color: #4b5563; 
   font-size: 14px;
   line-height: 1.4;
 }
@@ -20,10 +20,10 @@
 .wardrobe-layout {
   width: 100vw;
   margin-top: -28px;
-  margin-left: calc(50% - 50vw); /* far left */
+  margin-left: calc(50% - 50vw); 
   display: flex;
   align-items: flex-start;
-  min-height: calc(100vh - 100px); /* 100vh - navbar height */
+  min-height: calc(100vh - 100px); 
 }
 
 .wardrobe-sidebar {
@@ -36,10 +36,11 @@
   flex-direction: column;
   box-sizing: border-box;
   position: sticky;
-  top: 100px; /* navbar height */
+  top: 100px; 
   height: calc(100vh - 100px);
   overflow-y: auto;
   align-self: flex-start;
+  z-index: 1;
 }
 
 .sidebar-search-wrap {
@@ -216,7 +217,6 @@
     transform 0.1s ease;
 }
 
-/* make animations better later on */
 .del-button:active {
   transform: translateY(2px);
 }
@@ -230,7 +230,6 @@
   cursor: not-allowed;
 }
 
-/* Spinner */
 .spinner {
   width: 16px;
   height: 16px;
