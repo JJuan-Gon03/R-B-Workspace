@@ -39,7 +39,8 @@ async function parse_cloth(img_url) {
   const imageResponse = await fetch(img_url);
   const imageBuffer = await imageResponse.arrayBuffer();
   const base64Data = Buffer.from(imageBuffer).toString("base64");
-  const mimeType = imageResponse.headers.get("content-type") || "image/jpeg";
+  const rawType = imageResponse.headers.get("content-type") || "image/jpeg";
+  const mimeType = rawType.split(";")[0].trim();
 
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",

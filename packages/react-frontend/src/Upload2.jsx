@@ -7,6 +7,8 @@ const API_BASE =
   import.meta.env.VITE_API_BASE ||
   "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
 
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
 export default function Upload({ setClothes, userId }) {
   const [busy, setBusy] = useState(false);
   const [open, setOpen] = useState(false);
@@ -29,6 +31,7 @@ export default function Upload({ setClothes, userId }) {
   const fileInputRef = useRef(null);
 
   function resetData() {
+    if (preview) URL.revokeObjectURL(preview);
     setImg(null);
     setPreview("");
     setSelectedTags([]);
@@ -43,12 +46,14 @@ export default function Upload({ setClothes, userId }) {
 
   // Clears only the image, not the rest of the form
   function clearImage() {
+    if (preview) URL.revokeObjectURL(preview);
     setImg(null);
     setPreview("");
     if (fileInputRef.current) fileInputRef.current.value = "";
   }
 
   function onClose() {
+    resetData();
     setOpen(false);
   }
 
@@ -96,6 +101,10 @@ export default function Upload({ setClothes, userId }) {
 
   function handleFile(file) {
     if (!file) return;
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      setError("Please upload a JPEG, PNG, or WebP image.");
+      return;
+    }
     if (file.size > 2 * 1024 * 1024) {
       setError("Image must be under 2MB.");
       return;
@@ -213,7 +222,7 @@ export default function Upload({ setClothes, userId }) {
           <input
             ref={fileInputRef}
             type="file"
-            accept="image/*"
+            accept="image/jpeg,image/png,image/webp"
             style={{ display: "none" }}
             onChange={(e) => handleFile(e.target.files?.[0])}
           />
