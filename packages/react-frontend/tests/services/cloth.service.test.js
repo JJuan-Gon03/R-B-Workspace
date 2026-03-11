@@ -22,3 +22,12 @@ test("delete error", async () => {
 
   await expect(deleteCloth(123)).rejects.toThrow("an error has occured");
 });
+
+test("delete error with no message falls back to default", async () => {
+  vi.spyOn(global, "fetch").mockResolvedValueOnce({
+    ok: false,
+    json: async () => ({}),
+  });
+
+  await expect(deleteCloth(123)).rejects.toThrow("Cloth Delete Failed");
+});
