@@ -93,7 +93,6 @@ test("main()", async () => {
   expect(mockGenerateContent).toHaveBeenCalledTimes(1);
 });
 
-
 test("parse_cloth() falls back to image/jpeg when content-type header is null", async () => {
   const fakeImageBytes = Buffer.from("fake-image-data");
 
@@ -157,7 +156,6 @@ test("parse_cloth() propagates error when generateContent throws", async () => {
   mockGenerateContent.mockRejectedValue(new Error("Gemini API error"));
   await expect(parse_cloth(hoodie_url)).rejects.toThrow("Gemini API error");
 });
-
 
 test("main() propagates error when getClothesByUserId throws", async () => {
   mockGetClothesByUserId.mockRejectedValue(new Error("DB error"));

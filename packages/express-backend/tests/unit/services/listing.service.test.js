@@ -12,13 +12,11 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-
 function mockFind(value) {
   const sortMock = jest.fn().mockResolvedValue(value);
   jest.spyOn(Listing, "find").mockReturnValue({ sort: sortMock });
   return { sortMock };
 }
-
 
 describe("getListings()", () => {
   test("returns array of listings sorted newest first", async () => {
@@ -44,7 +42,6 @@ describe("getListings()", () => {
   });
 });
 
-
 describe("addListing()", () => {
   test("creates and returns new listing", async () => {
     const newListing = { _id: "x", title: "Test Hoodie", price: 50 };
@@ -65,7 +62,6 @@ describe("addListing()", () => {
     await expect(addListing({})).rejects.toThrow("Validation failed");
   });
 });
-
 
 describe("getListingsByUser()", () => {
   test("returns listings for specified user", async () => {
@@ -91,7 +87,6 @@ describe("getListingsByUser()", () => {
     await expect(getListingsByUser("user1")).rejects.toThrow("DB error");
   });
 });
-
 
 describe("updateListing()", () => {
   test("returns updated listing when found", async () => {
@@ -124,7 +119,6 @@ describe("updateListing()", () => {
     );
   });
 });
-
 
 describe("deleteListing()", () => {
   test("returns deleted listing when found", async () => {

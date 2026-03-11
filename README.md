@@ -47,6 +47,7 @@ npm run dev
 ```
 
 Backend runs on:
+
 ```
 http://localhost:PORT
 ```
@@ -60,6 +61,7 @@ npm run dev
 ```
 
 Frontend runs on:
+
 ```
 http://localhost:5173
 ```
@@ -91,11 +93,13 @@ PORT=5000
 ## Lint
 
 Backend:
+
 ```bash
 npm run -w express-backend lint
 ```
 
 Frontend:
+
 ```bash
 npm run -w react-frontend lint
 ```
@@ -103,11 +107,13 @@ npm run -w react-frontend lint
 ## Format
 
 Format everything:
+
 ```bash
 npm run format
 ```
 
 Check formatting:
+
 ```bash
 npm run format:check
 ```
@@ -179,6 +185,7 @@ Backend Coverage Screenshot:
 # Contribution Workflow
 
 1. Create a new branch:
+
 ```bash
 git checkout -b feature/your-feature
 ```
@@ -190,6 +197,7 @@ git checkout -b feature/your-feature
    - Format check passes
 
 4. Commit and push:
+
 ```bash
 git add .
 git commit -m "Describe your changes"

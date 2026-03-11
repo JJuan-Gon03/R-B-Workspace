@@ -10,7 +10,6 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-
 function mockFindChain(resolvedValue) {
   const sortMock = jest.fn().mockResolvedValue(resolvedValue);
   const populateMock = jest.fn().mockReturnValue({ sort: sortMock });
@@ -18,10 +17,11 @@ function mockFindChain(resolvedValue) {
   return { populateMock, sortMock };
 }
 
-
 describe("getSaved()", () => {
   test("returns populated saved listings sorted by savedAt desc", async () => {
-    const expected = [{ _id: "s1", listing_id: { _id: "l1", title: "Hoodie" } }];
+    const expected = [
+      { _id: "s1", listing_id: { _id: "l1", title: "Hoodie" } },
+    ];
     const findSpy = jest.spyOn(Saved, "find");
     const { populateMock, sortMock } = mockFindChain(expected);
 
@@ -46,7 +46,6 @@ describe("getSaved()", () => {
     await expect(getSaved("user1")).rejects.toThrow("DB error");
   });
 });
-
 
 describe("saveListing()", () => {
   test("creates and returns saved document", async () => {
@@ -75,7 +74,6 @@ describe("saveListing()", () => {
     await expect(saveListing("user1", "l1")).rejects.toThrow("DB error");
   });
 });
-
 
 describe("unsaveListing()", () => {
   test("returns deleted document when save record exists", async () => {

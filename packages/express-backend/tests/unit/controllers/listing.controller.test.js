@@ -151,7 +151,9 @@ test("patchListing -> success (200)", async () => {
   const res = makeRes();
   await patchListing(req, res);
 
-  expect(mockUpdateListing).toHaveBeenCalledWith("1", { title: "Updated Hoodie" });
+  expect(mockUpdateListing).toHaveBeenCalledWith("1", {
+    title: "Updated Hoodie",
+  });
   expect(res.status).toHaveBeenCalledWith(200);
   expect(res.send).toHaveBeenCalledWith(updated);
 });
