@@ -92,3 +92,116 @@ test("main()", async () => {
 
   expect(mockGenerateContent).toHaveBeenCalledTimes(1);
 });
+
+
+test("parse_cloth() falls back to image/jpeg when content-type header is null", async () => {
+  const fakeImageBytes = Buffer.from("fake-image-data");
+
+  global.fetch = jest.fn().mockResolvedValue({
+    arrayBuffer: jest.fn().mockResolvedValue(fakeImageBytes.buffer),
+    headers: { get: jest.fn().mockReturnValue(null) },
+  });
+
+  mockGenerateContent.mockResolvedValue({ text: "a plain jacket" });
+
+  const result = await parse_cloth(hoodie_url);
+  expect(result).toBe("a plain jacket");
+});
+
+test("parse_cloth() strips charset from content-type (e.g. image/png; charset=utf-8)", async () => {
+  const fakeImageBytes = Buffer.from("fake-image-data");
+
+  global.fetch = jest.fn().mockResolvedValue({
+    arrayBuffer: jest.fn().mockResolvedValue(fakeImageBytes.buffer),
+    headers: { get: jest.fn().mockReturnValue("image/png; charset=utf-8") },
+  });
+
+  mockGenerateContent.mockResolvedValue({ text: "a blue jacket" });
+
+  const result = await parse_cloth(hoodie_url);
+  expect(result).toBe("a blue jacket");
+
+  // Verify the inlineData sent to Gemini uses the stripped mime type
+  const callArgs = mockGenerateContent.mock.calls[0][0];
+  const inlinePart = callArgs.contents[0].parts[1];
+  expect(inlinePart.inlineData.mimeType).toBe("image/png");
+});
+
+test("parse_cloth() trims whitespace from response text", async () => {
+  const fakeImageBytes = Buffer.from("fake-image-data");
+
+  global.fetch = jest.fn().mockResolvedValue({
+    arrayBuffer: jest.fn().mockResolvedValue(fakeImageBytes.buffer),
+    headers: { get: jest.fn().mockReturnValue("image/jpeg") },
+  });
+
+  mockGenerateContent.mockResolvedValue({ text: "  INVALID  " });
+
+  const result = await parse_cloth(hoodie_url);
+  expect(result).toBe("INVALID");
+});
+
+test("parse_cloth() propagates error when fetch fails", async () => {
+  global.fetch = jest.fn().mockRejectedValue(new Error("Network error"));
+  await expect(parse_cloth(hoodie_url)).rejects.toThrow("Network error");
+});
+
+test("parse_cloth() propagates error when generateContent throws", async () => {
+  const fakeImageBytes = Buffer.from("fake-image-data");
+
+  global.fetch = jest.fn().mockResolvedValue({
+    arrayBuffer: jest.fn().mockResolvedValue(fakeImageBytes.buffer),
+    headers: { get: jest.fn().mockReturnValue("image/jpeg") },
+  });
+
+  mockGenerateContent.mockRejectedValue(new Error("Gemini API error"));
+  await expect(parse_cloth(hoodie_url)).rejects.toThrow("Gemini API error");
+});
+
+
+test("main() propagates error when getClothesByUserId throws", async () => {
+  mockGetClothesByUserId.mockRejectedValue(new Error("DB error"));
+  mockGetTags.mockResolvedValue([]);
+  await expect(main("any prompt", 1)).rejects.toThrow("DB error");
+});
+
+test("main() propagates error when getTags throws", async () => {
+  mockGetClothesByUserId.mockResolvedValue([]);
+  mockGetTags.mockRejectedValue(new Error("Tags DB error"));
+  await expect(main("any prompt", 1)).rejects.toThrow("Tags DB error");
+});
+
+test("main() propagates error when generateContent throws", async () => {
+  mockGetClothesByUserId.mockResolvedValue([]);
+  mockGetTags.mockResolvedValue([]);
+  mockGenerateContent.mockRejectedValue(new Error("Gemini API error"));
+  await expect(main("any prompt", 1)).rejects.toThrow("Gemini API error");
+});
+
+test("main() throws when response.text is not valid JSON", async () => {
+  mockGetClothesByUserId.mockResolvedValue([]);
+  mockGetTags.mockResolvedValue([]);
+  mockGenerateContent.mockResolvedValue({ text: "not-valid-json{{" });
+  await expect(main("any prompt", 1)).rejects.toThrow();
+});
+
+test("main() throws when response JSON does not match reply schema", async () => {
+  mockGetClothesByUserId.mockResolvedValue([]);
+  mockGetTags.mockResolvedValue([]);
+  // Valid JSON but missing required "text" field → Zod parse fails
+  mockGenerateContent.mockResolvedValue({
+    text: JSON.stringify({ imgs: [] }),
+  });
+  await expect(main("any prompt", 1)).rejects.toThrow();
+});
+
+test("main() returns reply without imgs when only text is present", async () => {
+  mockGetClothesByUserId.mockResolvedValue([]);
+  mockGetTags.mockResolvedValue([]);
+  mockGenerateContent.mockResolvedValue({
+    text: JSON.stringify({ text: "wear something warm" }),
+  });
+
+  const result = await main("what should I wear?", 1);
+  expect(result).toEqual({ text: "wear something warm" });
+});

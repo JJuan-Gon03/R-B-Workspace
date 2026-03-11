@@ -4,13 +4,14 @@ const mockGetClothesByUserId = jest.fn().mockResolvedValue();
 const mockAddCloth = jest.fn();
 const mockRemoveClothById = jest.fn();
 const mockGetPublicId = jest.fn();
+const mockFindClothByIdAndUpdate = jest.fn();
 
 jest.unstable_mockModule("../../../src/services/cloth.service.js", () => ({
   getClothesByUserId: mockGetClothesByUserId,
   addCloth: mockAddCloth,
   removeClothById: mockRemoveClothById,
   getPublicId: mockGetPublicId,
-  findClothByIdAndUpdate: jest.fn(),
+  findClothByIdAndUpdate: mockFindClothByIdAndUpdate,
 }));
 
 const mockHandleMongoDBError = jest.fn();
@@ -30,7 +31,7 @@ jest.unstable_mockModule("../../../src/services/cloudinary.service.js", () => ({
   delete_image_from_cloudinary: mockDeleteImageFromCloudinary,
 }));
 
-const { postCloth, getClothes, deleteCloth } = await import(
+const { postCloth, getClothes, deleteCloth, updateCloth } = await import(
   "../../../src/controllers/cloth.controller.js"
 );
 
@@ -200,4 +201,35 @@ test("deleteCloth -> success", async () => {
   expect(mockRemoveClothById).toHaveBeenCalledWith(req.params.clothId);
   expect(res.status).toHaveBeenCalledWith(200);
   expect(res.send).toHaveBeenCalled();
+});
+
+test("updateCloth -> findClothByIdAndUpdate error -> handleMongoDBError", async () => {
+  const error = new Error("db error");
+  mockFindClothByIdAndUpdate.mockRejectedValueOnce(error);
+
+  const req = { params: { clothId: "123" }, body: { color: "blue" } };
+  const res = makeRes();
+
+  await updateCloth(req, res);
+
+  expect(mockFindClothByIdAndUpdate).toHaveBeenCalledWith("123", {
+    color: "blue",
+  });
+  expect(mockHandleMongoDBError).toHaveBeenCalledWith(res, error);
+});
+
+test("updateCloth -> success (200)", async () => {
+  const updated = { _id: "123", color: "blue" };
+  mockFindClothByIdAndUpdate.mockResolvedValueOnce(updated);
+
+  const req = { params: { clothId: "123" }, body: { color: "blue" } };
+  const res = makeRes();
+
+  await updateCloth(req, res);
+
+  expect(mockFindClothByIdAndUpdate).toHaveBeenCalledWith("123", {
+    color: "blue",
+  });
+  expect(res.status).toHaveBeenCalledWith(200);
+  expect(res.json).toHaveBeenCalledWith(updated);
 });

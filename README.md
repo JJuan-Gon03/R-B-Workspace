@@ -1,67 +1,203 @@
 # R-B-Workspace
 
+![CI](https://github.com/JJuan-Gon03/R-B-Workspace/actions/workflows/ci.yml/badge.svg)
+
 **Storyboard Link:** https://www.figma.com/design/E5hnluttzqtcKV8THtMqco/R-B?node-id=0-1&p=f&t=OmpvLWKPNUZihtAd-0
 
 **UML Design**: https://drive.google.com/file/d/1EPChNcvHQsLU-triosukWGCwV4YevZjO/view?usp=sharing
 
 **Tech Spec**: https://docs.google.com/document/d/1KV_gmDjXDH_APVD4Cr4z7WUGW1sjlT35H7f8GYYq-uQ/edit?tab=t.0#heading=h.9b0i6jpuww9w
 
+---
+
+## Project Links (Deployed)
+
+**Frontend:** https://jjuan-gon03.github.io/R-B-Workspace/  
+**Backend:** https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/
+
+---
+
 # How to Collaborate
 
-**Installing Packages**
-Run npm install in the root directory
-This will install @google/genai, Express, CORS, Mongoose, and set up the React dependencies.
+## Clone the Repository
 
-Create a new branch with your changes.
+```bash
+git clone https://github.com/JJuan-Gon03/R-B-Workspace.git
+cd R-B-Workspace
+```
 
-Create a pull request.
+## Install All Dependencies (Root)
 
-**Prettier**
-We are using _Prettier_ for formatting.
-If using VS Code, go to extensions and type _Prettier_, click install.
+```bash
+npm install
+```
 
-If using something else, you can format with Prettier from the command line.
+This installs dependencies for both frontend and backend workspaces.
 
-Type `npm install --save-dev --save-exact prettier` to install.
+---
 
-Type `npx prettier . --write` to run.
+# Running the Project Locally
 
-When editing a file enter ctrl + S to format code.
+## Backend
 
-`prettier --write`. is great for formatting everything, but for a big project it might take a little while. You may run `prettier --write app/` to format a certain directory, or `prettier --write app/components/Button.js` to format a certain file. Or use a glob like `prettier --write "app/**/*.test.js"` to format all tests in a directory.
+```bash
+cd packages/express-backend
+npm install
+npm run dev
+```
 
-For more information about using Prettier go to https://prettier.io/docs/install
+Backend runs on:
+```
+http://localhost:PORT
+```
 
-**!!!IMPORTANT!!!**
+## Frontend
 
-For linting: npm run lint in respective frontend/backend workspaces.
-For testing: run npm test in respective frontend/backend workspaces.
-For checking formatting: npm run format:check in root directory.
-For formatting: npm run format in root directory
+```bash
+cd packages/react-frontend
+npm install
+npm run dev
+```
 
-Make sure there are no linting/formatting issues, and all tests pass in your code before attempting a merge.
+Frontend runs on:
+```
+http://localhost:5173
+```
 
-**Environments**
-Frontend ENV:
-VITE_API_BASE //for running local frontend
+---
 
-Backend ENV:
-GEMINI_API_KEY, //for ai assistant/clothing upload, easy to create gemini account
-CLOUDINARY_CLOUD_NAME, //CLOUDINARY only for delete cloths, easy to create a cloudinary account
-CLOUDINARY_API_KEY,
-CLOUDINARY_API_SECRET,
-PORT //for running local backend
+# Environment Variables
 
-npm run dev in respective workspace
+## Frontend (.env in packages/react-frontend)
 
-**Testing**
-Tests on backend via jest
-Tests on frontend via vite
+```
+VITE_API_BASE=http://localhost:PORT
+```
 
-Coverage report:
-<img width="794" height="609" alt="image" src="https://github.com/user-attachments/assets/b9cd7951-bf4e-440a-8a6a-dc8aae416d67" />
+## Backend (.env in packages/express-backend)
 
-**Current Working Link**
-Here is our website's current working link.
-Frontend: https://jjuan-gon03.github.io/R-B-Workspace/
-Backend: https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net/
+```
+GEMINI_API_KEY=your_gemini_key
+CLOUDINARY_CLOUD_NAME=your_cloudinary_name
+CLOUDINARY_API_KEY=your_cloudinary_key
+CLOUDINARY_API_SECRET=your_cloudinary_secret
+PORT=5000
+```
+
+---
+
+# Linting & Formatting
+
+## Lint
+
+Backend:
+```bash
+npm run -w express-backend lint
+```
+
+Frontend:
+```bash
+npm run -w react-frontend lint
+```
+
+## Format
+
+Format everything:
+```bash
+npm run format
+```
+
+Check formatting:
+```bash
+npm run format:check
+```
+
+---
+
+# Testing
+
+## Backend Tests (Jest)
+
+```bash
+npm run -w express-backend test
+```
+
+## Backend Coverage
+
+```bash
+npm run -w express-backend test -- --coverage
+```
+
+Minimum requirement: 80% branch coverage on business logic (services/models).
+
+## Frontend Tests (Vitest)
+
+```bash
+npm run -w react-frontend test
+```
+
+## Cypress Acceptance Tests
+
+```bash
+npx cypress open
+```
+
+or
+
+```bash
+npx cypress run
+```
+
+---
+
+# Continuous Integration (CI/CD)
+
+This project uses:
+
+- GitHub Actions for CI
+- Azure for backend deployment
+- GitHub Pages for frontend deployment
+
+Every push to main:
+
+- Runs backend tests
+- Runs frontend tests
+- Runs lint checks
+- Runs prettier format check
+- Deploys automatically if build passes
+
+---
+
+# Coverage Report
+
+Backend Coverage Screenshot:
+
+![Coverage Report](https://github.com/user-attachments/assets/b9cd7951-bf4e-440a-8a6a-dc8aae416d67)
+
+---
+
+# Contribution Workflow
+
+1. Create a new branch:
+```bash
+git checkout -b feature/your-feature
+```
+
+2. Make changes.
+3. Ensure:
+   - All tests pass
+   - Lint passes
+   - Format check passes
+
+4. Commit and push:
+```bash
+git add .
+git commit -m "Describe your changes"
+git push
+```
+
+5. Create a Pull Request.
+
+---
+
+Make sure there are no linting/formatting issues and all tests pass before attempting a merge.
