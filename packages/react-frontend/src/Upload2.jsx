@@ -40,11 +40,11 @@ export default function Upload({ setClothes, userId }) {
     setName("");
     setError("");
     setSubmitAttempted(false);
+    setConfirmClear(false);
     setRefreshTrigger((x) => x + 1);
     if (fileInputRef.current) fileInputRef.current.value = "";
   }
 
-  // Clears only the image, not the rest of the form
   function clearImage() {
     if (preview) URL.revokeObjectURL(preview);
     setImg(null);
