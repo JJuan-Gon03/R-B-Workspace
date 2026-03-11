@@ -177,8 +177,18 @@ Every push to main:
 # Coverage Report
 
 Backend Coverage Screenshot:
+## ✅ Backend Test Coverage
 
-![Coverage Report](https://github.com/user-attachments/assets/b9cd7951-bf4e-440a-8a6a-dc8aae416d67)
+All backend services, controllers, models, and routes are fully covered.
+
+**Coverage Summary:**
+- Statements: 100%
+- Branches: 100%
+- Functions: 100%
+- Lines: 100%
+
+<img width="640" alt="Backend Coverage 100%" src="https://github.com/user-attachments/assets/31f91200-7c10-4ef6-831a-438c87533fa2" />
+
 
 ---
 
