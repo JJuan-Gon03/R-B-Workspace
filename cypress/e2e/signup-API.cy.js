@@ -13,7 +13,7 @@ describe("Sign up", () => {
     let user;
     it("GIVEN my user object has a unique username and password", () => {
       user = {
-        username: "superuniqueusernamepleasenoonetakethis",
+        username: "superuniqueusernamepleasenoonetakethis2",
         password: "password",
       };
     });
