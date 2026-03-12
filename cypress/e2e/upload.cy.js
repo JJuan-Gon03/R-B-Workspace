@@ -1,6 +1,7 @@
 describe("Upload Clothing", () => {
   const FRONTEND_URL = "http://localhost:5173";
-  const API_BASE = "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
+  const API_BASE =
+    "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
   const FIXTURE_PATH = "cypress/fixtures/hoodie.jpg";
 
   const username = "jgonz1604";
@@ -20,14 +21,18 @@ describe("Upload Clothing", () => {
 
     cy.get(".modal-overlay", { timeout: 10000 }).should("not.exist");
 
-    cy.contains("a", /^closet$/i, { timeout: 10000 }).should("be.visible").click();
+    cy.contains("a", /^closet$/i, { timeout: 10000 })
+      .should("be.visible")
+      .click();
     cy.contains("My Closet", { timeout: 10000 }).should("be.visible");
   }
 
   context("Scenario #1: Successful upload sends POST /wardrobe", () => {
     beforeEach(() => {
       loginAndGoToCloset();
-      cy.get("button.upload-open", { timeout: 10000 }).should("be.visible").click();
+      cy.get("button.upload-open", { timeout: 10000 })
+        .should("be.visible")
+        .click();
       cy.get("form.upload-form").should("exist");
     });
 
@@ -46,7 +51,8 @@ describe("Upload Clothing", () => {
         req.reply({
           statusCode: 200,
           body: {
-            secure_url: "https://res.cloudinary.com/demo/image/upload/sample.jpg",
+            secure_url:
+              "https://res.cloudinary.com/demo/image/upload/sample.jpg",
             public_id: "sample",
           },
         });
@@ -84,7 +90,9 @@ describe("Upload Clothing", () => {
   context("Scenario #2: Missing fields", () => {
     beforeEach(() => {
       loginAndGoToCloset();
-      cy.get("button.upload-open", { timeout: 10000 }).should("be.visible").click();
+      cy.get("button.upload-open", { timeout: 10000 })
+        .should("be.visible")
+        .click();
       cy.get("form.upload-form").should("exist");
     });
 
@@ -99,7 +107,9 @@ describe("Upload Clothing", () => {
       cy.intercept("POST", `${API_BASE}/wardrobe`).as("postWardrobe");
 
       cy.contains("button.upload-form-submit", "Upload").click();
-      cy.contains("Please fill in all required fields and add an image.").should("be.visible");
+      cy.contains(
+        "Please fill in all required fields and add an image."
+      ).should("be.visible");
 
       cy.wait(300);
       cy.get("@postWardrobe.all").then((calls) => {
