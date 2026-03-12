@@ -1,6 +1,11 @@
 # R-B-Workspace
 
 [![CI Testing](https://github.com/JJuan-Gon03/R-B-Workspace/actions/workflows/ci-testing.yml/badge.svg)](https://github.com/JJuan-Gon03/R-B-Workspace/actions/workflows/ci-testing.yml)
+[![Build and deploy Node.js app to Azure Web App - THRIFTR](https://github.com/JJuan-Gon03/R-B-Workspace/actions/workflows/main_thriftr.yml/badge.svg)](https://github.com/JJuan-Gon03/R-B-Workspace/actions/workflows/main_thriftr.yml)
+[![Deploy react-frontend to GitHub Pages](https://github.com/JJuan-Gon03/R-B-Workspace/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/JJuan-Gon03/R-B-Workspace/actions/workflows/deploy-pages.yml)
+[![pages-build-deployment](https://github.com/JJuan-Gon03/R-B-Workspace/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/JJuan-Gon03/R-B-Workspace/actions/workflows/pages/pages-build-deployment)
+
+
 
 **Storyboard Link:** https://www.figma.com/design/E5hnluttzqtcKV8THtMqco/R-B?node-id=0-1&p=f&t=OmpvLWKPNUZihtAd-0
 
