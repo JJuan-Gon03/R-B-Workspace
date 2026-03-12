@@ -1,6 +1,6 @@
 # R-B-Workspace
 
-![CI](https://github.com/JJuan-Gon03/R-B-Workspace/actions/workflows/ci.yml/badge.svg)
+[![CI Testing](https://github.com/JJuan-Gon03/R-B-Workspace/actions/workflows/ci-testing.yml/badge.svg)](https://github.com/JJuan-Gon03/R-B-Workspace/actions/workflows/ci-testing.yml)
 
 **Storyboard Link:** https://www.figma.com/design/E5hnluttzqtcKV8THtMqco/R-B?node-id=0-1&p=f&t=OmpvLWKPNUZihtAd-0
 
