@@ -35,7 +35,7 @@ const postUser = async (req, res) => {
     return handleMongoDBError(res, err);
   }
 
-  res.status(201).send(user._id);
+  res.status(201).send({ _id: user._id, username: user.username });
 };
 
 const login = async (req, res) => {
@@ -68,7 +68,7 @@ const login = async (req, res) => {
     });
   }
 
-  return res.status(200).send(user._id);
+  return res.status(200).send({ _id: user._id, username: user.username });
 };
 
 export { postUser, login };

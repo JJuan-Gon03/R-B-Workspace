@@ -15,23 +15,35 @@ import { Routes, Route } from "react-router-dom";
 function App() {
   const [wardrobeImages, setWardrobeImages] = useState([]);
   const [userId, setUserId] = useState("");
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     const savedUser = localStorage.getItem("userId");
-    if (savedUser) {
-      setUserId(savedUser);
-    }
+    const savedUsername = localStorage.getItem("username");
+    if (savedUser) setUserId(savedUser);
+    if (savedUsername) setUsername(savedUsername);
   }, []);
 
   return (
     <div className="app">
-      <Navbar setUserId={setUserId} userId={userId} />
+      <Navbar
+        setUserId={setUserId}
+        userId={userId}
+        username={username}
+        setUsername={setUsername}
+      />
       {userId && <Assistant userId={userId} />}
       <main className="page-wrap">
         <Routes>
           <Route
             path="/"
-            element={<Homepage setUserId={setUserId} userId={userId} />}
+            element={
+              <Homepage
+                setUserId={setUserId}
+                userId={userId}
+                setUsername={setUsername}
+              />
+            }
           />
           <Route
             path="/saved"

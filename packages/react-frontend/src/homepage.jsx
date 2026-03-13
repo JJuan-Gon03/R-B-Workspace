@@ -15,7 +15,7 @@ const FALLBACK_IMAGES = [
   "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300",
 ];
 
-const Homepage = ({ setUserId, userId }) => {
+const Homepage = ({ setUserId, userId, setUsername }) => {
   const navigate = useNavigate();
   const [images, setImages] = useState(FALLBACK_IMAGES);
   const [authOpen, setAuthOpen] = useState(false);
@@ -165,6 +165,7 @@ const Homepage = ({ setUserId, userId }) => {
           variant={authVariant}
           onClose={() => setAuthOpen(false)}
           setUserId={setUserId}
+          setUsername={setUsername}
         />
       )}
     </>

@@ -5,7 +5,12 @@ const API_BASE =
   import.meta.env.VITE_API_BASE ||
   "https://thriftr-affjdacjg4fecuha.westus3-01.azurewebsites.net";
 
-export default function AuthModal({ variant = "signin", onClose, setUserId }) {
+export default function AuthModal({
+  variant = "signin",
+  onClose,
+  setUserId,
+  setUsername: setGlobalUsername,
+}) {
   const isRegister = variant === "register";
 
   const [username, setUsername] = useState("");
@@ -52,12 +57,14 @@ export default function AuthModal({ variant = "signin", onClose, setUserId }) {
         throw new Error(err.message || "Something went wrong");
       }
 
-      const raw = await res.text();
-      const userId =
-        raw.startsWith('"') && raw.endsWith('"') ? raw.slice(1, -1) : raw;
+      const data = await res.json();
+      const newUserId = data._id;
+      const newUsername = data.username;
 
-      setUserId(userId);
-      localStorage.setItem("userId", userId);
+      setUserId(newUserId);
+      setGlobalUsername(newUsername);
+      localStorage.setItem("userId", newUserId);
+      localStorage.setItem("username", newUsername);
 
       onClose?.();
     } catch (err) {

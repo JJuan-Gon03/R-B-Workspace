@@ -3,13 +3,15 @@ import { useState } from "react";
 import "./Navbar.css";
 import AuthModal from "./AuthModal";
 
-export default function Navbar({ setUserId, userId }) {
+export default function Navbar({ setUserId, userId, username, setUsername }) {
   const [authOpen, setAuthOpen] = useState(false);
   const [authVariant, setAuthVariant] = useState("signin");
   const navigate = useNavigate();
 
   function handleLogout() {
     setUserId("");
+    setUsername("");
+    localStorage.removeItem("username");
     navigate("/");
   }
 
@@ -64,7 +66,7 @@ export default function Navbar({ setUserId, userId }) {
           <div className="topbar-actions">
             {userId ? (
               <>
-                <span className="topbar-userid">{userId}</span>
+                <span className="topbar-userid">{username || userId}</span>
                 <button
                   className="topbar-btn topbar-logout"
                   type="button"
@@ -107,6 +109,7 @@ export default function Navbar({ setUserId, userId }) {
           variant={authVariant}
           onClose={() => setAuthOpen(false)}
           setUserId={setUserId}
+          setUsername={setUsername}
         />
       )}
     </>
