@@ -15,8 +15,9 @@ jest.unstable_mockModule("../../../src/db.js", () => ({
   handleMongoDBError: mockHandleMongoDBError,
 }));
 
-const { getSaved, postSaved, deleteSaved } =
-  await import("../../../src/controllers/saved.controller.js");
+const { getSaved, postSaved, deleteSaved } = await import(
+  "../../../src/controllers/saved.controller.js"
+);
 
 function makeRes() {
   return {

@@ -6,8 +6,9 @@ jest.unstable_mockModule("../../../src/services/gemini.service.js", () => ({
   main: mockMain,
 }));
 
-const { getGeminiResponse } =
-  await import("../../../src/controllers/gemini.controller.js");
+const { getGeminiResponse } = await import(
+  "../../../src/controllers/gemini.controller.js"
+);
 
 function makeRes() {
   return {
