@@ -94,7 +94,7 @@ test("postUser -> addUser db error -> handleMongoDBError", async () => {
 
 test("postUser -> success (201)", async () => {
   mockGetByUsername.mockResolvedValueOnce(null);
-  mockAddUser.mockResolvedValueOnce({ _id: "newUserId" });
+  mockAddUser.mockResolvedValueOnce({ _id: "newUserId", username: "user1" });
 
   const req = { body: { username: "user1", password: "pass" } };
   const res = makeRes();
@@ -106,7 +106,10 @@ test("postUser -> success (201)", async () => {
     password: "hashedpassword",
   });
   expect(res.status).toHaveBeenCalledWith(201);
-  expect(res.send).toHaveBeenCalledWith("newUserId");
+  expect(res.send).toHaveBeenCalledWith({
+    _id: "newUserId",
+    username: "user1",
+  });
 });
 
 test("login -> missing password -> 400", async () => {
@@ -154,6 +157,7 @@ test("login -> user not found -> 400", async () => {
 test("login -> wrong password -> 400", async () => {
   mockGetByUsername.mockResolvedValueOnce({
     _id: "userId",
+    username: "user1",
     password: "hashedpass",
   });
   mockBcryptCompare.mockResolvedValueOnce(false);
@@ -171,6 +175,7 @@ test("login -> wrong password -> 400", async () => {
 test("login -> success (200)", async () => {
   mockGetByUsername.mockResolvedValueOnce({
     _id: "userId",
+    username: "user1",
     password: "hashedpass",
   });
   mockBcryptCompare.mockResolvedValueOnce(true);
@@ -180,5 +185,5 @@ test("login -> success (200)", async () => {
   await login(req, res);
 
   expect(res.status).toHaveBeenCalledWith(200);
-  expect(res.send).toHaveBeenCalledWith("userId");
+  expect(res.send).toHaveBeenCalledWith({ _id: "userId", username: "user1" });
 });
