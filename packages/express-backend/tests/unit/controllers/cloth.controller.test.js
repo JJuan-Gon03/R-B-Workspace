@@ -31,9 +31,8 @@ jest.unstable_mockModule("../../../src/services/cloudinary.service.js", () => ({
   delete_image_from_cloudinary: mockDeleteImageFromCloudinary,
 }));
 
-const { postCloth, getClothes, deleteCloth, updateCloth } = await import(
-  "../../../src/controllers/cloth.controller.js"
-);
+const { postCloth, getClothes, deleteCloth, updateCloth } =
+  await import("../../../src/controllers/cloth.controller.js");
 
 function makeRes() {
   return {

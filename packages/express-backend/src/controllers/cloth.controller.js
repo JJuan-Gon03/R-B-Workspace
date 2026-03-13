@@ -10,15 +10,17 @@ import { handleMongoDBError } from "../db.js";
 import { delete_image_from_cloudinary } from "../services/cloudinary.service.js";
 
 const postCloth = async (req, res) => {
-  try {
-    const description = await parse_cloth(req.body.img_url);
-    if (description === "INVALID") {
-      return res.status(400).json({ message: "invalid image for upload" });
+  if (!req.body.description) {
+    try {
+      const description = await parse_cloth(req.body.img_url);
+      if (description === "INVALID") {
+        return res.status(400).json({ message: "invalid image for upload" });
+      }
+      req.body.description = description;
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: "server error" });
     }
-    req.body.description = description;
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: "server error" });
   }
 
   let cloth;

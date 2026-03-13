@@ -13,9 +13,8 @@ jest.unstable_mockModule("cloudinary", () => ({
   },
 }));
 
-const { delete_image_from_cloudinary } = await import(
-  "../../../src/services/cloudinary.service.js"
-);
+const { delete_image_from_cloudinary } =
+  await import("../../../src/services/cloudinary.service.js");
 
 beforeEach(() => {
   mockDestroy.mockReset();

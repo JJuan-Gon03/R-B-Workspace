@@ -20,9 +20,8 @@ jest.unstable_mockModule("../../../src/db.js", () => ({
   handleMongoDBError: mockHandleMongoDBError,
 }));
 
-const { postTag, getTagsForUser, deleteTag } = await import(
-  "../../../src/controllers/tag.controller.js"
-);
+const { postTag, getTagsForUser, deleteTag } =
+  await import("../../../src/controllers/tag.controller.js");
 
 function makeRes() {
   return {

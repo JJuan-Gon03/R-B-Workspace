@@ -20,9 +20,8 @@ jest.unstable_mockModule("@google/genai", () => ({
   },
 }));
 
-const { main, parse_cloth } = await import(
-  "../../../src/services/gemini.service.js"
-);
+const { main, parse_cloth } =
+  await import("../../../src/services/gemini.service.js");
 
 beforeEach(() => {
   mockGenerateContent.mockReset();

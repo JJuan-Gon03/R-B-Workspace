@@ -17,25 +17,34 @@ describe("Delete Clothing Item", () => {
         password: "password",
       }).then((res) => {
         expect(res.status).to.eq(201);
-        userId = res.body.replace(/"/g, "");
+        userId = res.body._id;
+
+        cy.request({
+          method: "POST",
+          url: "http://localhost:8000/wardrobe",
+          body: {
+            user_id: userId,
+            name: "Test Shirt",
+            color: "Blue",
+            type: "Shirts",
+            tags: [],
+            description: "A plain blue test shirt",
+            img_url:
+              "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300",
+            public_id: "test_public_id_" + Date.now(),
+          },
+          failOnStatusCode: false,
+        }).then((clothRes) => {
+          expect(clothRes.status).to.eq(201);
+          clothId = clothRes.body._id;
+          expect(clothId).to.exist;
+        });
       });
     });
 
     it("GIVEN the user has a piece of clothing in their wardrobe", () => {
-      cy.request("POST", "http://localhost:8000/wardrobe", {
-        user_id: userId,
-        name: "Test Shirt",
-        color: "Blue",
-        type: "Shirts",
-        tags: [],
-        img_url:
-          "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300",
-        public_id: "test_public_id_" + Date.now(),
-      }).then((res) => {
-        expect(res.status).to.eq(201);
-        clothId = res.body._id;
-        expect(clothId).to.exist;
-      });
+      expect(userId).to.exist;
+      expect(clothId).to.exist;
     });
 
     it("WHEN a DELETE request is sent to the API for that clothing item", () => {

@@ -22,9 +22,8 @@ jest.unstable_mockModule("bcrypt", () => ({
   },
 }));
 
-const { postUser, login } = await import(
-  "../../../src/controllers/user.controller.js"
-);
+const { postUser, login } =
+  await import("../../../src/controllers/user.controller.js");
 
 function makeRes() {
   return {
